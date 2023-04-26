@@ -1,0 +1,13 @@
+name: testPkgApp
+title: testPkgApp
+username:
+account: mjfrigaard
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 8954882
+bundleId: 7136627
+url: https://mjfrigaard.shinyapps.io/testPkgApp/
+when: 1682481631.41656
+lastSyncTime: 1682481631.41657
+asMultiple: FALSE
+asStatic: FALSE
