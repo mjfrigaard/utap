@@ -19,6 +19,7 @@
 #'   col_var = "critics_rating", alpha = 1 / 3, size = 2
 #' )
 gg_points <- function(df, x_var, y_var, col_var, ...) {
+
   base <- gg_base(
     df = df,
     x_var = x_var,

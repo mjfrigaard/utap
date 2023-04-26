@@ -30,7 +30,28 @@ You don't want to install this package, but you might want to download it as an 
 testPkgApp::runShinyApp()
 ```
 
-# Tests 
+# Unit tests 
+
+
+
+# Shiny server tests 
+
+```
+devtools::test()
+ℹ Testing testPkgApp
+✔ | F W S  OK | Context
+✔ |         1 | gg_base [0.2s]                                      
+✔ |         8 | gg_points [0.3s]                                               
+✔ |         5 | mod_display_plot_server [0.8s]                                 
+✔ |         5 | mod_var_input_server [0.8s]                                     
+══ Results ════════════════════════════════════════════
+Duration: 2.4 s
+
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 19 ]
+```
+
+
+# `shinytest2` tests
 
 
 

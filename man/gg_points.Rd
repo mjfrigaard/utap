@@ -27,7 +27,7 @@ Point plot (ggplot2)
 require(testPkgApp)
 movies <- testPkgApp::movies
 gg_points(
-    df = movies, x_var = "critics_score", y_var = "imdb_rating",
-    col_var = "critics_rating", alpha = 1/3, size = 2
-    )
+  df = movies, x_var = "critics_score", y_var = "imdb_rating",
+  col_var = "critics_rating", alpha = 1 / 3, size = 2
+)
 }

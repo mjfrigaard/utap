@@ -1,19 +1,15 @@
 shiny::testServer(
   mod_display_plot_server,
-  args = list(
-    var_inputs =
-      list(
-        x = "imdb_rating",
-        y = "audience_score",
-        z = "mpaa_rating",
-        alpha = 0.5,
-        size = 2,
-        plot_title = ""
-      )
-  ),
-  {
-    expect_equal(nrow(movies()), 651)
-    expect_equal(ncol(movies()), 34)
+  args = list(var_inputs = reactive(
+                                list(x = "imdb_rating",
+                                     y = "audience_score",
+                                     z = "mpaa_rating",
+                                     alpha = 0.5,
+                                     size = 2,
+                                     plot_title = ""))), {
+    # check movies
+    expect_true(is.data.frame(movies()))
+    expect_equal(object = dim(movies()), expected = c(651L, 34L))
     expect_equal(
       object = colnames(movies()),
       expected = c(
@@ -27,32 +23,11 @@ shiny::testServer(
         "actor5", "imdb_url", "rt_url"
       )
     )
-    expect_equal(
-      object = names(inputs()),
-      expected = list(
-        x = "imdb_rating",
-        y = "audience_score",
-        z = "mpaa_rating",
-        alpha = 0.5,
-        size = 2L,
-        plot_title = ""
-      )
-    )
-    ns <- session$ns
-    expect_true(object = inherits(ns, "function"))
-    expect_true(object = grepl(id, ns("")))
-    expect_true(object = grepl("test", ns("test")))
-
-    # Here are some examples of tests you can
-    # run on your module
-    # - Testing the setting of inputs
-    # session$setInputs(x = 1)
-    # expect_true(input$x == 1)
-    # - If ever your input updates a reactiveValues
-    # - Note that this reactiveValues must be passed
-    # - to the testServer function via args = list()
-    # expect_true(r$x == 1)
-    # - Testing output
-    # expect_true(inherits(output$tbl$html, "html"))
+    # check var_inputs()
+    expect_true(is.list(var_inputs()))
+    # check plot()
+    expect_equal(class(plot()), c("gg", "ggplot"))
+    # # view plot
+    print(plot())
   }
 )

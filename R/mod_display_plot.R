@@ -18,8 +18,6 @@ mod_display_plot_ui <- function(id) {
       width = 4,
       shiny::code("names(movies())"),
       shiny::verbatimTextOutput(ns("data")),
-      shiny::code("is.list(inputs())"),
-      shiny::verbatimTextOutput(ns("inputs")),
       shiny::code("class(plot())"),
       shiny::verbatimTextOutput(ns("plot"))
     )
@@ -45,31 +43,20 @@ mod_display_plot_server <- function(id, var_inputs) {
       testPkgApp::movies
     })
 
-    inputs <- shiny::reactive({
-      list(
-        x = var_inputs$x(),
-        y = var_inputs$y(),
-        z = var_inputs$z(),
-        alpha = var_inputs$alpha(),
-        size = var_inputs$size(),
-        plot_title = tools::toTitleCase(var_inputs$plot_title())
-      )
-    })
-
     plot <- shiny::reactive({
       points <- gg_points(
         df = movies(),
-        x_var = inputs()$x,
-        y_var = inputs()$y,
-        col_var = inputs()$z,
-        alpha = inputs()$alpha,
-        size = inputs()$size
+        x_var =  var_inputs()$x,
+        y_var =  var_inputs()$y,
+        col_var =  var_inputs()$z,
+        alpha = var_inputs()$alpha,
+        size = var_inputs()$size
       )
       points +
         ggplot2::labs(
-          title = inputs()$plot_title,
-          x = stringr::str_replace_all(tools::toTitleCase(inputs()$x), "_", " "),
-          y = stringr::str_replace_all(tools::toTitleCase(inputs()$y), "_", " ")
+          title = var_inputs()$plot_title,
+          x = stringr::str_replace_all(tools::toTitleCase(var_inputs()$x), "_", " "),
+          y = stringr::str_replace_all(tools::toTitleCase(var_inputs()$y), "_", " ")
         ) +
         ggplot2::theme_minimal() +
         ggplot2::theme(legend.position = "bottom")
@@ -77,10 +64,6 @@ mod_display_plot_server <- function(id, var_inputs) {
 
     output$data <- shiny::renderPrint({
       print(names(movies()), width = 60, max.levels = NULL)
-    })
-
-    output$inputs <- shiny::renderPrint({
-      is.list(inputs())
     })
 
     output$plot <- shiny::renderPrint({

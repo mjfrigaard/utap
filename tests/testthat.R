@@ -9,4 +9,5 @@
 library(testthat)
 library(testPkgApp)
 # test_check("testPkgApp")
-test_file("tests/testthat/test-mod_var_input_server.R")
+# test_file("tests/testthat/test-mod_var_input_server.R")
+test_file("tests/testthat/test-mod_display_plot_server.R")
