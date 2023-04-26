@@ -1,11 +1,12 @@
-test_that("module ui works", {
+test_that("mod_display_plot_ui works", {
   ui <- mod_display_plot_ui(id = "test")
   # check list
   testthat::expect_type(object = ui, type = "list")
   testthat::expect_true(is(ui, "list"))
   testthat::expect_true(is(ui, "shiny.tag.list"))
   # check structure
-  testthat::expect_equal(object = ui,
+  testthat::expect_equal(
+    object = ui,
     expected = structure(
       list(
         structure(list(
@@ -34,9 +35,11 @@ test_that("module ui works", {
                       ), class = "shiny.tag"),
                       "tutorial"
                     )
-                  ), class = "shiny.tag"
+                  ),
+                  class = "shiny.tag"
                 ))
-              ), class = "shiny.tag"
+              ),
+              class = "shiny.tag"
             ))
           ),
           class = "shiny.tag"
@@ -52,38 +55,11 @@ test_that("module ui works", {
           children = list()
         ), class = "shiny.tag")
       ),
-      names = c("",
-        "", ""),
+      names = c(
+        "",
+        "", ""
+      ),
       class = c("shiny.tag.list", "list")
-    ))
-})
-
-shiny::testServer(
-  mod_display_plot_server,
-  # Add here your module params
-  args = list(
-
-  ), {
-    ns <- session$ns
-    expect_true(
-      inherits(ns, "function")
     )
-    expect_true(
-      grepl(id, ns(""))
-    )
-    expect_true(
-      grepl("test", ns("test"))
-    )
-
-    # Here are some examples of tests you can
-    # run on your module
-    # - Testing the setting of inputs
-    # session$setInputs(x = 1)
-    # expect_true(input$x == 1)
-    # - If ever your input updates a reactiveValues
-    # - Note that this reactiveValues must be passed
-    # - to the testServer function via args = list()
-    # expect_true(r$x == 1)
-    # - Testing output
-    # expect_true(inherits(output$tbl$html, "html"))
+  )
 })

@@ -15,17 +15,18 @@
 #' require(testPkgApp)
 #' movies <- testPkgApp::movies
 #' gg_points(
-#'     df = movies, x_var = "critics_score", y_var = "imdb_rating",
-#'     col_var = "critics_rating", alpha = 1/3, size = 2
-#'     )
+#'   df = movies, x_var = "critics_score", y_var = "imdb_rating",
+#'   col_var = "critics_rating", alpha = 1 / 3, size = 2
+#' )
 gg_points <- function(df, x_var, y_var, col_var, ...) {
+  base <- gg_base(
+    df = df,
+    x_var = x_var,
+    y_var = y_var
+  )
 
-  base <- gg_base(df = df,
-                  x_var = x_var,
-                  y_var = y_var)
-
-    base  +
-      ggplot2::geom_point(
-        ggplot2::aes(color = .data[[col_var]]), ...)
-
+  base +
+    ggplot2::geom_point(
+      ggplot2::aes(color = .data[[col_var]]), ...
+    )
 }

@@ -14,6 +14,8 @@
 #' movies <- testPkgApp::movies
 #' gg_base(df = movies, x_var = "critics_score", y_var = "imdb_rating")
 gg_base <- function(df, x_var, y_var) {
-  ggplot2::ggplot(data = df,
-    mapping = ggplot2::aes(x = .data[[x_var]], y = .data[[y_var]]))
+  ggplot2::ggplot(
+    data = df,
+    mapping = ggplot2::aes(x = .data[[x_var]], y = .data[[y_var]])
+  )
 }

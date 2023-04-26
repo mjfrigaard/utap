@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of `testPkgApp` is to demonstrate how to build and test a shiny application using `devtools` and `usethis`
+The goal of `testPkgApp` is to demonstrate how to build and test a shiny application using `usethis`, `shiny::testServer()`, and `shinytest2`.
 
 ## Installation
 
@@ -27,7 +27,7 @@ You don't want to install this package, but you might want to download it as an 
 ## Run the app
 
 ```{r , eval = FALSE}
-testPkgApp::moviesApp()
+testPkgApp::runShinyApp()
 ```
 
 # Tests 

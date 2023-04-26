@@ -62,7 +62,9 @@ mod_var_input_ui <- function(id) {
       inputId = ns("plot_title"),
       label = "Plot title",
       placeholder = "Enter plot title"
-    )
+    ),
+    shiny::code("return(list())"),
+    shiny::verbatimTextOutput(ns("vals"))
   )
 }
 
@@ -75,8 +77,12 @@ mod_var_input_ui <- function(id) {
 #'
 #' @importFrom shiny NS moduleServer reactive
 mod_var_input_server <- function(id) {
-
   shiny::moduleServer(id, function(input, output, session) {
+    output$vals <- shiny::renderPrint({
+      all_vals <- reactiveValuesToList(x = input, all.names = TRUE)
+      print(all_vals)
+    })
+
     return(
       list(
         "x" = shiny::reactive({

@@ -7,6 +7,8 @@
 # * https://testthat.r-lib.org/reference/test_package.html#special-files
 
 library(testthat)
-library(testPkgApp)
-# test_check("testPkgApp")
-test_file("tests/testthat/test-mod_var_input_server.R")
+source("app.R")
+test_dir(path = "/Users/mjfrigaard/projects/dev/app/tests/testthat/")
+# testthat::test_file("/Users/mjfrigaard/projects/dev/app/tests/testthat/test-app.R")
+testthat::test_file("/Users/mjfrigaard/projects/dev/app/tests/testthat/test-mods.R")
+

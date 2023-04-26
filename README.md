@@ -7,7 +7,7 @@
 <!-- badges: end -->
 
 The goal of `testPkgApp` is to demonstrate how to build and test a shiny
-application using `devtools` and `usethis`
+application using `usethis`, `shiny::testServer()`, and `shinytest2`.
 
 ## Installation
 
@@ -18,7 +18,7 @@ contents).
 ## Run the app
 
 ``` r
-testPkgApp::moviesApp()
+testPkgApp::runShinyApp()
 ```
 
 # Tests
