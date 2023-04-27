@@ -20,14 +20,19 @@
 #' )
 gg_points <- function(df, x_var, y_var, col_var, ...) {
 
-  base <- gg_base(
-    df = df,
-    x_var = x_var,
-    y_var = y_var
-  )
+  base <- gg_base(df = df, x_var = x_var, y_var = y_var)
 
   base +
     ggplot2::geom_point(
       ggplot2::aes(color = .data[[col_var]]), ...
     )
 }
+# this also works,
+# gg_points <- function(df, x_var, y_var, col_var, ...) {
+#
+#   ggplot2::ggplot(data = df,
+#     mapping = ggplot2::aes(x = .data[[x_var]], y = .data[[y_var]])) +
+#
+#     ggplot2::geom_point(ggplot2::aes(color = .data[[col_var]]), ...)
+#
+# }

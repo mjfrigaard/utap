@@ -7,8 +7,16 @@ shiny::testServer(mod_var_input_server, {
         alpha = 0.5,
         size = 2L,
         plot_title = "")
-    # check Shiny App object?
-    expect_false(object = shiny::is.shiny.appobj(session$returned()))
+    # check structure
+    expect_true(object = is.list(session$returned()))
+    # check class
+    expect_equal(
+      object = class(session$returned()),
+      expected = c("list"))
+    # check type
+    expect_equal(
+      object = typeof(session$returned()),
+      expected = c("list"))
     # check names
     expect_equal(object = names(session$returned()),
       expected = c("x", "y", "z", "alpha", "size", "plot_title"))
@@ -22,7 +30,5 @@ shiny::testServer(mod_var_input_server, {
                       alpha = 0.5,
                       size = 2L,
                       plot_title = ""))
-    # check structure
-    expect_true(object = is.list(session$returned()))
   }
 )

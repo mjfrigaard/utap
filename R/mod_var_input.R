@@ -79,20 +79,9 @@ mod_var_input_ui <- function(id) {
 mod_var_input_server <- function(id) {
   shiny::moduleServer(id, function(input, output, session) {
 
-    var_inputs <- shiny::reactive({
-         list("x" = input$x,
-              "y" = input$y,
-              "z" = input$z,
-              "alpha" = input$alpha,
-              "size" = input$size,
-              "plot_title" = input$plot_title
-           )
-        })
-
     output$vals <- shiny::renderPrint({
-      all_vals <- reactiveValuesToList(x = input, all.names = TRUE)
+      all_vals <- shiny::reactiveValuesToList(x = inputs, all.names = TRUE)
       print(all_vals)
-      print(var_inputs())
     })
 
     return(

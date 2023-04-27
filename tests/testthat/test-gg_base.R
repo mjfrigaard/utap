@@ -1,12 +1,19 @@
 library(vdiffr)
 library(testPkgApp)
 testthat::test_that("gg_base works", {
-  x <- "mpg"
-  y <- "cyl"
+  # define inputs
+  set.seed(1234)
+  df_test <- data.frame(
+  'x' = rnorm(n = 100, mean = 5, sd = 2),
+  'y' = rnorm(n = 100, mean = 10, sd = 5),
+  'z' = rep(sample(LETTERS, size = 5, replace = FALSE),
+            each = 5,
+            times = 4))
+  # create base
   ggp_base <- gg_base(
-    df = mtcars,
-    x_var = x,
-    y_var = y
+    df = df_test,
+    x_var = 'x',
+    y_var = 'y'
   )
-  vdiffr::expect_doppelganger("default histogram", ggp_base)
+  vdiffr::expect_doppelganger("default base plot", ggp_base)
 })
