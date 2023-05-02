@@ -11,16 +11,17 @@ mod_display_plot_ui <- function(id) {
   ns <- shiny::NS(id)
   shiny::tagList(
     shiny::column(
-      width = 8,
+      width = 12,
       shiny::plotOutput(outputId = ns("scatterplot"))
     ),
-    shiny::column(
-      width = 4,
-      shiny::code("names(movies())"),
-      shiny::verbatimTextOutput(ns("data")),
-      shiny::code("class(plot())"),
-      shiny::verbatimTextOutput(ns("plot"))
-    )
+    # include these for showing reactive values to include in tests:
+    # shiny::column(
+      # width = 4,
+      # shiny::code("names(movies())"),
+      # shiny::verbatimTextOutput(ns("data"))
+      # shiny::code("class(plot())"),
+      # shiny::verbatimTextOutput(ns("plot"))
+    # )
   )
 }
 
@@ -62,16 +63,18 @@ mod_display_plot_server <- function(id, var_inputs) {
         ggplot2::theme(legend.position = "bottom")
     })
 
-    output$data <- shiny::renderPrint({
-      print(names(movies()), width = 60, max.levels = NULL)
-    })
+    # include these for showing reactive values to include in tests:
+    # output$data <- shiny::renderPrint({
+    #   print(names(movies()), width = 60, max.levels = NULL)
+    # })
 
-    output$plot <- shiny::renderPrint({
-      class(plot())
-    })
+    # output$plot <- shiny::renderPrint({
+    #   class(plot())
+    # })
 
     output$scatterplot <- shiny::renderPlot({
       plot()
     })
+
   })
 }

@@ -1,3 +1,15 @@
+# remotes::install_github("rstudio/chromote", force = TRUE)
+library(chromote)
+Sys.setenv(CHROMOTE_CHROME = "/Applications/Chromium.app/Contents/MacOS/Chromium")
+chromote::find_chrome()
+b <- ChromoteSession$new()
+b$view()
+rm(b)
+
+library(shinytest2)
+# shinytest2::record_test()
+
+
 # gg_points <- function(df, x_var, y_var, col_var, ...) {
 #     ggplot2::ggplot(data = df,
 #       ggplot2::aes(x = .data[[x_var]],

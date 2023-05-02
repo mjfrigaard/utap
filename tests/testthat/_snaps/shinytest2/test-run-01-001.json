@@ -1,0 +1,58 @@
+{
+  "input": {
+    "vars-alpha": 0.2,
+    "vars-plot_title": "New Title",
+    "vars-size": 3,
+    "vars-x": "audience_score",
+    "vars-y": "critics_score",
+    "vars-z": "mpaa_rating"
+  },
+  "output": {
+    "plot-scatterplot": {
+      "src": "[image data hash: 18898b2d1c17fea1ee2522f4918d5ae6]",
+      "width": 710.6640625,
+      "height": 400,
+      "alt": "Plot object",
+      "coordmap": {
+        "panels": [
+          {
+            "panel": 1,
+            "row": 1,
+            "col": 1,
+            "panel_vars": {
+
+            },
+            "log": {
+              "x": null,
+              "y": null
+            },
+            "domain": {
+              "left": 6.7,
+              "right": 101.3,
+              "bottom": -3.95,
+              "top": 104.95
+            },
+            "mapping": {
+              "colour": ".data[[\"mpaa_rating\"]]",
+              "x": ".data[[\"audience_score\"]]",
+              "y": ".data[[\"critics_score\"]]"
+            },
+            "range": {
+              "left": 37.8225599315069,
+              "right": 704.520547945205,
+              "bottom": 312.36866493102,
+              "top": 23.9712263844706
+            }
+          }
+        ],
+        "dims": {
+          "width": 710.6640625,
+          "height": 400
+        }
+      }
+    }
+  },
+  "export": {
+
+  }
+}

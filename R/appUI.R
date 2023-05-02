@@ -8,8 +8,11 @@ appUI <- function() {
     shiny::fluidPage(
       shiny::sidebarLayout(
         shiny::sidebarPanel(
+
+          # inputs
           mod_var_input_ui("vars")
-        ),
+
+          ),
         shiny::mainPanel(
           shiny::tags$br(),
           shiny::tags$blockquote(
@@ -23,7 +26,10 @@ appUI <- function() {
               )
             )
           ),
+
+          # outputs
           mod_display_plot_ui("plot")
+
         )
       )
     )

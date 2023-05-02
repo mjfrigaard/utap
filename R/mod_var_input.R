@@ -63,8 +63,9 @@ mod_var_input_ui <- function(id) {
       label = "Plot title",
       placeholder = "Enter plot title"
     ),
-    shiny::code("return(list())"),
-    shiny::verbatimTextOutput(ns("vals"))
+    # include these for showing reactive values to include in tests:
+    # shiny::code("return(list())"),
+    # shiny::verbatimTextOutput(ns("vals"))
   )
 }
 
@@ -79,10 +80,11 @@ mod_var_input_ui <- function(id) {
 mod_var_input_server <- function(id) {
   shiny::moduleServer(id, function(input, output, session) {
 
-    output$vals <- shiny::renderPrint({
-      all_vals <- shiny::reactiveValuesToList(x = inputs, all.names = TRUE)
-      print(all_vals)
-    })
+    # include these for showing reactive values to include in tests:
+    # output$vals <- shiny::renderPrint({
+    #   all_vals <- shiny::reactiveValuesToList(x = input, all.names = TRUE)
+    #   print(all_vals)
+    # })
 
     return(
       shiny::reactive({
