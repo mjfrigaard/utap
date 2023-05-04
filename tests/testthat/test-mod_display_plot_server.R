@@ -37,6 +37,6 @@ shiny::testServer(
     # check plot()
     expect_equal(class(plot()), c("gg", "ggplot"))
     # view plot
-    print(plot())
+    # print(plot())
   }
 )

@@ -2,13 +2,13 @@
 % Please edit documentation in R/runShinyApp.R
 \name{runShinyApp}
 \alias{runShinyApp}
-\title{runShinyApp (testing)}
+\title{runShinyApp}
 \usage{
-runShinyApp()
+runShinyApp(testing = FALSE)
 }
 \value{
 shiny app
 }
 \description{
-runShinyApp (testing)
+runShinyApp
 }

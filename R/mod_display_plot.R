@@ -10,18 +10,20 @@
 mod_display_plot_ui <- function(id) {
   ns <- shiny::NS(id)
   shiny::tagList(
+    shiny::fluidRow(
     shiny::column(
-      width = 12,
+      width = 8,
       shiny::plotOutput(outputId = ns("scatterplot"))
     ),
     # include these for showing reactive values to include in tests:
-    # shiny::column(
-      # width = 4,
-      # shiny::code("names(movies())"),
-      # shiny::verbatimTextOutput(ns("data"))
-      # shiny::code("class(plot())"),
-      # shiny::verbatimTextOutput(ns("plot"))
-    # )
+    shiny::column(
+    width = 4,
+    shiny::code("names(app_data())"),
+    shiny::verbatimTextOutput(ns("data")),
+    shiny::code("class(plot())"),
+    shiny::verbatimTextOutput(ns("plot"))
+    )
+    )
   )
 }
 
@@ -34,47 +36,67 @@ mod_display_plot_ui <- function(id) {
 #' @export mod_display_plot_server
 #'
 #' @importFrom shiny NS moduleServer reactive
-#' @importFrom tools toTitleCase
 #' @importFrom shiny renderPlot
 #' @importFrom stringr str_replace_all
 #' @importFrom ggplot2 labs theme_minimal theme
 mod_display_plot_server <- function(id, var_inputs) {
+
   shiny::moduleServer(id, function(input, output, session) {
-    movies <- shiny::reactive({
-      testPkgApp::movies
+
+    app_data <- shiny::reactive({
+      palmerpenguins::penguins
     })
 
     plot <- shiny::reactive({
-      points <- gg_points(
-        df = movies(),
-        x_var =  var_inputs()$x,
-        y_var =  var_inputs()$y,
-        col_var =  var_inputs()$z,
+      gg_points(
+        df = app_data(),
+        x_var = var_inputs()$x,
+        y_var = var_inputs()$y,
+        col_var = var_inputs()$z,
         alpha = var_inputs()$alpha,
-        size = var_inputs()$size
-      )
-      points +
-        ggplot2::labs(
-          title = var_inputs()$plot_title,
-          x = stringr::str_replace_all(tools::toTitleCase(var_inputs()$x), "_", " "),
-          y = stringr::str_replace_all(tools::toTitleCase(var_inputs()$y), "_", " ")
-        ) +
-        ggplot2::theme_minimal() +
-        ggplot2::theme(legend.position = "bottom")
+        size = var_inputs()$size)
     })
 
-    # include these for showing reactive values to include in tests:
-    # output$data <- shiny::renderPrint({
-    #   print(names(movies()), width = 60, max.levels = NULL)
-    # })
+      output$scatterplot <- shiny::renderPlot({
+          plot()
+        })
 
-    # output$plot <- shiny::renderPrint({
-    #   class(plot())
-    # })
-
-    output$scatterplot <- shiny::renderPlot({
-      plot()
+    # include these for showing reactive values to include in tests: ----
+    output$data <- shiny::renderPrint({
+      print(names(app_data()), width = 55, max.levels = NULL)
     })
+    output$plot <- shiny::renderPrint({
+      class(plot())
+    })
+
+    # include for exporting values with shinytest2 ----
+    # shiny::exportTestValues(
+    #   app_data = app_data(),
+    #   plot =  plot()
+    # )
+
+    # # safely_export (shinytest2) ----
+    # # https://github.com/rstudio/shiny/issues/3768#issuecomment-1398254569
+    #   safely_export <- function(r) {
+    #     r_quo <- rlang::enquo(r)
+    #     rlang::inject({
+    #       shiny::reactive({
+    #         tryCatch(
+    #           !!r_quo,
+    #           error = function(e) {
+    #             e
+    #           }
+    #         )
+    #       })
+    #     })
+    #   }
+    # # include for safely exporting values with shinytest2 ----
+    # shiny::exportTestValues(
+    #   app_data = safely_export(app_data()),
+    #   plot =  safely_export(plot())
+    # )
+
+
 
   })
 }

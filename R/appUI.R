@@ -8,28 +8,18 @@ appUI <- function() {
     shiny::fluidPage(
       shiny::sidebarLayout(
         shiny::sidebarPanel(
-
           # inputs
-          mod_var_input_ui("vars")
-
+          mod_var_input_ui(id = "vars")
           ),
         shiny::mainPanel(
           shiny::tags$br(),
-          shiny::tags$blockquote(
-            shiny::tags$em(
-              shiny::tags$h6(
-                "The code for this application comes from the ",
-                shiny::tags$a("Building web applications with Shiny",
-                  href = "https://rstudio-education.github.io/shiny-course/"
-                ),
-                "tutorial"
-              )
-            )
-          ),
-
           # outputs
-          mod_display_plot_ui("plot")
-
+          mod_display_plot_ui(id = "plot"),
+          # # include these for showing reactive values to include in tests: ----
+          shiny::fluidRow(
+          shiny::code("reactive values"),
+          shiny::verbatimTextOutput("vals")
+          )
         )
       )
     )
