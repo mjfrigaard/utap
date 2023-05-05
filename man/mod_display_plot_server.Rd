@@ -4,12 +4,14 @@
 \alias{mod_display_plot_server}
 \title{Plot variables Server module}
 \usage{
-mod_display_plot_server(id, var_inputs)
+mod_display_plot_server(id, var_inputs, app_data)
 }
 \arguments{
 \item{id}{module id}
 
 \item{var_inputs}{inputs from mod_var_input}
+
+\item{app_data}{data for application}
 }
 \value{
 shiny server module

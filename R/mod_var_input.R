@@ -1,6 +1,7 @@
 #' Import variables UI module
 #'
 #' @param id module id
+#' @param app_data data for application
 #'
 #' @return shiny UI module
 #' @export mod_var_input_ui
@@ -8,39 +9,29 @@
 #' @importFrom shiny NS tagList selectInput
 #' @importFrom shiny sliderInput textInput
 #'
-mod_var_input_ui <- function(id) {
+mod_var_input_ui <- function(id, app_data) {
   ns <- shiny::NS(id)
-  # get inputs (in console)
-  # get_ui_inputs(app_data = palmerpenguins::penguins)
-  c(is_double, is_integer,
-    is_factor,
-    is_facet_var) %<-% list(is_double = c('bill_length_mm', 'bill_depth_mm'),
-                        is_integer = c('flipper_length_mm',  'body_mass_g', 'year'),
-                        is_factor = c('species', 'island', 'sex'),
-                        is_facet_var = c('species', 'island', 'sex'))
-  # create numeric vars
-  num_vars <- purrr::set_names(c(is_integer, is_double))
 
   shiny::tagList(
     shiny::selectInput(
       inputId = ns("x"),
       label = "X-axis:",
       choices = c(
-        num_vars
+        num_app_inputs(df = app_data)
       ),
-      selected = num_vars[1]
+      selected = num_app_inputs(df = app_data)[1]
     ),
     shiny::selectInput(
       inputId = ns("y"),
       label = "Y-axis:",
-      choices = num_vars,
-      selected = num_vars[2]
+      choices = num_app_inputs(df = app_data),
+      selected = num_app_inputs(df = app_data)[2]
     ),
     shiny::selectInput(
       inputId = ns("z"),
       label = "Color by:",
-      choices = is_facet_var,
-      selected = is_facet_var[1]
+      choices = facet_app_inputs(df = app_data),
+      selected = facet_app_inputs(df = app_data)[1]
     ),
     shiny::sliderInput(
       inputId = ns("alpha"),

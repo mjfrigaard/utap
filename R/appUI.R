@@ -9,7 +9,7 @@ appUI <- function() {
       shiny::sidebarLayout(
         shiny::sidebarPanel(
           # inputs
-          mod_var_input_ui(id = "vars")
+          mod_var_input_ui(id = "vars", app_data = palmerpenguins::penguins)
           ),
         shiny::mainPanel(
           shiny::tags$br(),

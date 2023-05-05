@@ -87,7 +87,32 @@ df_test <- tibble::tibble(
   )
 )
 
-
+# binary_vars <- function(df) {
+#   # first
+#     log_nms <- names(dplyr::select(df, dplyr::where(is.logical)))
+#     chr_nms <- names(dplyr::select(df, dplyr::where(is.character)))
+#     fct_nms <- names(dplyr::select(df, dplyr::where(is.factor)))
+#     all_nms_list <- list(log_nms, chr_nms, fct_nms)
+#     nms_list <- purrr::compact(all_nms_list)
+#
+#     nms <- purrr::set_names(purrr::as_vector(nms_list))
+#     bin_levels <- purrr::map_vec(.x = select(df, dplyr::all_of(nms)),
+#                                   .f = function(x) length(unique(x)))
+#
+#   binary_levels_check <- function(x) {
+#     if (x < 4) {
+#       x < 4
+#     } else {
+#       FALSE
+#     }
+#   }
+#
+#   binary_levels <- purrr::map_vec(bin_levels, binary_levels_check)
+#   binary_set <- nms[binary_levels]
+#   return(binary_set)
+# }
+# str(dplyr::select(NHANES::NHANES,
+#   dplyr::all_of(binary_vars(df = NHANES::NHANES))))
 
 deconstruct(names(mtcars), quotes = FALSE)
 deconstruct(names(mtcars), quotes = FALSE, console = FALSE)

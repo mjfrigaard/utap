@@ -4,10 +4,12 @@
 \alias{mod_var_input_ui}
 \title{Import variables UI module}
 \usage{
-mod_var_input_ui(id)
+mod_var_input_ui(id, app_data)
 }
 \arguments{
 \item{id}{module id}
+
+\item{app_data}{data for application}
 }
 \value{
 shiny UI module

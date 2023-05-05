@@ -1,8 +1,17 @@
 library(testthat)
+# Write a unit test for the cat_app_inputs() R function using testthat:
 
 # run utility function tests ----------------------------------------------
-# testthat::test_file("tests/testthat/test-gg_base.R")
-# testthat::test_file("tests/testthat/test-gg_points.R")
+testthat::test_file("tests/testthat/test-binary_vars.R")
+testthat::test_file("tests/testthat/test-facet_vars.R")
+testthat::test_file("tests/testthat/test-col_type.R")
+testthat::test_file("tests/testthat/test-app_inputs.R")
+
+# run plot function tests ----------------------------------------------
+testthat::test_file("tests/testthat/test-gg_base.R")
+testthat::test_file("tests/testthat/test-gg_points.R")
+testthat::test_file("tests/testthat/test-gg_points-attr.R")
+
 
 # run module function tests -----------------------------------------------
 # testthat::test_file("tests/testthat/test-mod_var_input_server.R")

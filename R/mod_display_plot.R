@@ -11,18 +11,20 @@ mod_display_plot_ui <- function(id) {
   ns <- shiny::NS(id)
   shiny::tagList(
     shiny::fluidRow(
-    shiny::column(
-      width = 8,
-      shiny::plotOutput(outputId = ns("scatterplot"))
-    ),
-    # include these for showing reactive values to include in tests:
-    shiny::column(
-    width = 4,
-    shiny::code("names(app_data())"),
-    shiny::verbatimTextOutput(ns("data")),
-    shiny::code("class(plot())"),
-    shiny::verbatimTextOutput(ns("plot"))
-    )
+      shiny::column(
+        width = 12,
+        shiny::plotOutput(outputId = ns("scatterplot"))
+      ),
+      shiny::fluidRow(
+        # include these for showing reactive values to include in tests:
+        shiny::column(
+          width = 12,
+          shiny::code("names(app_data())"),
+          shiny::verbatimTextOutput(ns("data")),
+          shiny::code("class(plot())"),
+          shiny::verbatimTextOutput(ns("plot"))
+        )
+      )
     )
   )
 }
@@ -31,6 +33,7 @@ mod_display_plot_ui <- function(id) {
 #'
 #' @param id module id
 #' @param var_inputs inputs from mod_var_input
+#' @param app_data data for application
 #'
 #' @return shiny server module
 #' @export mod_display_plot_server
@@ -39,13 +42,9 @@ mod_display_plot_ui <- function(id) {
 #' @importFrom shiny renderPlot
 #' @importFrom stringr str_replace_all
 #' @importFrom ggplot2 labs theme_minimal theme
-mod_display_plot_server <- function(id, var_inputs) {
+mod_display_plot_server <- function(id, var_inputs, app_data) {
 
   shiny::moduleServer(id, function(input, output, session) {
-
-    app_data <- shiny::reactive({
-      palmerpenguins::penguins
-    })
 
     plot <- shiny::reactive({
       gg_points(
@@ -54,19 +53,19 @@ mod_display_plot_server <- function(id, var_inputs) {
         y_var = var_inputs()$y,
         col_var = var_inputs()$z,
         alpha = var_inputs()$alpha,
-        size = var_inputs()$size)
-    })
+        size = var_inputs()$size)})
 
-      output$scatterplot <- shiny::renderPlot({
-          plot()
-        })
+      output$scatterplot <- shiny::renderPlot({plot()})
 
     # include these for showing reactive values to include in tests: ----
     output$data <- shiny::renderPrint({
-      print(names(app_data()), width = 55, max.levels = NULL)
+      print(names(app_data()),
+        width = 80, max.levels = NULL)
     })
+
     output$plot <- shiny::renderPrint({
-      class(plot())
+      print(class(plot()),
+        width = 80, max.levels = NULL)
     })
 
     # include for exporting values with shinytest2 ----
