@@ -65,6 +65,6 @@ testthat::test_that("col_type returns expected output", {
 
   testthat::expect_equal(
     object = col_type(col_type_test, "facet"),
-    expected = c(c = "c", f = "f", g = "g"))
+    expected = c(f = "f", g = "g"))
 })
 

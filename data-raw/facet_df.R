@@ -1,6 +1,6 @@
-## code to prepare `df_test` dataset goes here
+## code to prepare `facet_df` dataset goes here
 require(tibble)
-df_test <- tibble::tibble(
+facet_df <- tibble::tibble(
   # logical (missing)
   log_var = sample(c(TRUE, FALSE, NA),
                    size = 10, replace = TRUE),
@@ -39,4 +39,4 @@ df_test <- tibble::tibble(
                       levels = c("group x", "group y",
                                  "group z"))
   )
-usethis::use_data(df_test, overwrite = TRUE)
+usethis::use_data(facet_df, overwrite = TRUE)

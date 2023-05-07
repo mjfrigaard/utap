@@ -28,8 +28,14 @@ mod_var_input_ui <- function(id, app_data) {
       selected = num_app_inputs(df = app_data)[2]
     ),
     shiny::selectInput(
-      inputId = ns("z"),
+      inputId = ns("col"),
       label = "Color by:",
+      choices = binary_app_inputs(df = app_data),
+      selected = binary_app_inputs(df = app_data)[1]
+    ),
+    shiny::selectInput(
+      inputId = ns("facet"),
+      label = "Facet by:",
       choices = facet_app_inputs(df = app_data),
       selected = facet_app_inputs(df = app_data)[1]
     ),
@@ -75,12 +81,13 @@ mod_var_input_server <- function(id) {
       shiny::reactive({
          list("x" = input$x,
               "y" = input$y,
-              "z" = input$z,
+              "col" = input$col,
+              "facet" = input$facet,
               "alpha" = input$alpha,
               "size" = input$size,
               "plot_title" = make_plot_title(x = input$x,
                                              y = input$y,
-                                             color = input$z)
+                                             color = input$col)
            )
         })
     )

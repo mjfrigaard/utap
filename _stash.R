@@ -1,45 +1,98 @@
-# remotes::install_github("rstudio/chromote", force = TRUE)
-library(chromote)
-Sys.setenv(CHROMOTE_CHROME = "/Applications/Chromium.app/Contents/MacOS/Chromium")
-chromote::find_chrome()
-b <- ChromoteSession$new()
-b$view()
-rm(b)
+# require(dplyr)
+# make_ui_inputs(dplyr::starwars)
 
-library(shinytest2)
-# shinytest2::record_test()
+# @importFrom ggplot2 ggplot aes vars facet_wrap geom_point labs
+# @importFrom rlang .data
+penguins <- palmerpenguins::penguins
+gg_points(
+ df = penguins,
+ x_var = "bill_length_mm",
+ y_var = "flipper_length_mm",
+ col_var = "island",
+ facet_var = "species",
+ alpha = 1 / 3, size = 2
+)
 
-# test_that("{shinytest2} recording: test-run-01", {
-#   app <- AppDriver$new(name = "test-run-01", height = 556, width = 937)
-#   app$set_inputs(`vars-y` = "critics_score")
-#   app$set_inputs(`vars-x` = "audience_score")
-#   app$set_inputs(`vars-alpha` = 0.3)
-#   app$set_inputs(`vars-alpha` = 0.2)
-#   app$set_inputs(`vars-size` = 3)
-#   app$set_inputs(`vars-plot_title` = "New")
-#   app$set_inputs(`vars-plot_title` = "New Title")
-#   app$expect_values()
-# })
-
-
-# gg_points <- function(df, x_var, y_var, col_var, ...) {
-#     ggplot2::ggplot(data = df,
-#       ggplot2::aes(x = .data[[x_var]],
-#           y = .data[[y_var]],
-#           color = .data[[col_var]])) +
-#       ggplot2::geom_point(...)
+# mpg_base <- function(df, x_var, y_var) {
+#     ggplot2::ggplot(
+#     data = df,
+#     mapping = ggplot2::aes(x = .data[[x_var]], y = .data[[y_var]]))
 # }
+# mpg_base(df = ggplot2::mpg, x_var = "displ", y_var = "hwy")
 
-#' @examples
-#' require(testPkgApp)
-#' movies <- testPkgApp::movies
-#' gg_points(df = movies,
-#'   x_var = "critics_score",
-#'   y_var = "imdb_rating",
-#'   col_var = "critics_rating",
-#'   alpha = 1/3,
-#'   size = 2)
-#'
+
+gg_points_facet(
+ df = palmerpenguins::penguins,
+ x_var = "bill_length_mm",
+ y_var = "flipper_length_mm",
+ col_var = "island",
+ facet_var = "species",
+ alpha = 1 / 3, size = 2
+)
+
+gg_points_facet(
+ df = penguins,
+ x_var = "bill_length_mm",
+ y_var = "flipper_length_mm",
+ col_var = "island",
+ facet_var = NULL,
+ alpha = 1 / 3, size = 2
+)
+
+gg_points_facet(
+ df = penguins,
+ x_var = "bill_length_mm",
+ y_var = "flipper_length_mm",
+ col_var = NULL,
+ facet_var = NULL,
+ alpha = 1 / 3, size = 2
+)
+
+binary_checker <- function(df, type) {
+  if (ncol(df) < 1) {
+    return(purrr::set_names(vector(mode = "character")))
+  } else {
+    nms <- names(df)
+    # set names in names
+    dm_nms <- purrr::set_names(nms)
+    bin_set <- purrr::map_vec(.x = df, .f = binary_checks, type = type)
+    if (sum(bin_set) < 1) {
+      # cli::cli_alert_info("No values of that type!")
+      bins <- purrr::set_names(vector(mode = "character"))
+    } else {
+      # cli::cli_alert_success("Values of that type!")
+      bins <- purrr::set_names(dm_nms[bin_set])
+    }
+  }
+  return(bins)
+}
+
+binary_col_list <- function(df) {
+  # logical
+  log_bins <- get_col_type(df, "log") |>
+              binary_checker("log")
+  # integer
+  int_bins <- get_col_type(df, "int") |>
+              binary_checker("int")
+  # character
+  chr_bins <- get_col_type(df, "chr") |>
+              binary_checker("chr")
+  # factors
+  fct_bins <- get_col_type(df, "fct") |>
+              binary_checker("fct")
+  # assemble
+  all_bins <- list(log_bins, int_bins, chr_bins, fct_bins)
+  # reduce
+  bins_list <- purrr::compact(all_bins)
+  # vector
+  bins <- purrr::list_c(bins_list)
+  return(bins)
+}
+binary_col_list(df = palmerpenguins::penguins)
+
+
+
+
 
 # this also works,
 # gg_points <- function(df, x_var, y_var, col_var, ...) {
@@ -50,15 +103,6 @@ library(shinytest2)
 #     ggplot2::geom_point(ggplot2::aes(color = .data[[col_var]]), ...)
 #
 # }
-
- # list("x" = "imdb_rating",
- #      "y" = "audience_score",
- #      "z" = "mpaa_rating",
- #      "alpha" = 0.5,
- #      "size" = 2,
- #      "plot_title" = make_plot_title(x = "imdb_rating", y = "audience_score",
- #                                    color = "mpaa_rating")
- #   )
 
 library(palmerpenguins)
 # devtools::install_github("nteetor/zeallot")
@@ -87,56 +131,7 @@ df_test <- tibble::tibble(
   )
 )
 
-# binary_vars <- function(df) {
-#   # first
-#     log_nms <- names(dplyr::select(df, dplyr::where(is.logical)))
-#     chr_nms <- names(dplyr::select(df, dplyr::where(is.character)))
-#     fct_nms <- names(dplyr::select(df, dplyr::where(is.factor)))
-#     all_nms_list <- list(log_nms, chr_nms, fct_nms)
-#     nms_list <- purrr::compact(all_nms_list)
-#
-#     nms <- purrr::set_names(purrr::as_vector(nms_list))
-#     bin_levels <- purrr::map_vec(.x = select(df, dplyr::all_of(nms)),
-#                                   .f = function(x) length(unique(x)))
-#
-#   binary_levels_check <- function(x) {
-#     if (x < 4) {
-#       x < 4
-#     } else {
-#       FALSE
-#     }
-#   }
-#
-#   binary_levels <- purrr::map_vec(bin_levels, binary_levels_check)
-#   binary_set <- nms[binary_levels]
-#   return(binary_set)
-# }
-# str(dplyr::select(NHANES::NHANES,
-#   dplyr::all_of(binary_vars(df = NHANES::NHANES))))
-
-deconstruct(names(mtcars), quotes = FALSE)
-deconstruct(names(mtcars), quotes = FALSE, console = FALSE)
-deconstruct(x = names(mtcars), quotes = TRUE, console = TRUE)
-
-get_var_types(df = palmerpenguins::penguins)
 
 
-get_ui_inputs(dplyr::starwars)
 
-c(is_double, is_integer, is_character, is_facet_var, is_list) %<-% list(
-  is_double = c('mass', 'birth_year'),
-  is_integer = 'height',
-  is_character = c(
-    'name',
-    'hair_color',
-    'skin_color',
-    'eye_color',
-    'sex',
-    'gender',
-    'homeworld',
-    'species'
-  ),
-  is_facet_var = c('sex', 'gender'),
-  is_list = c('films', 'vehicles', 'starships')
-)
 

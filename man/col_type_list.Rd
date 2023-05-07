@@ -10,23 +10,31 @@ col_type_list(df)
 \item{df}{a data frame or tibble}
 }
 \value{
-list of vectors by type (\code{is_logical}, \code{is_double}, \code{is_integer},
-\code{is_character}, \code{is_factor}, \code{is_facet_var}, \code{is_date}, \code{is_POSIXct},
-\code{is_POSIXlt})
+list of vectors by type:
+\itemize{
+\item \code{logical_vars}
+\item \code{double_vars}
+\item \code{integer_vars}
+\item \code{character_vars}
+\item \code{factor_vars}
+\item \code{date_vars}
+\item \code{posixct_vars}
+\item \code{posixlt_vars}
+\item \code{posixt_vars}
+\item \code{list_vars}
+}
 }
 \description{
 Get data variable types (as list)
 }
 \examples{
-require(dplyr)
-col_type_list(dplyr::starwars)
-col_type_list(dplyr::storms)
+require(palmerpenguins)
+col_type_list(palmerpenguins::penguins)
 # great with zealott!
 require(zeallot)
 c(dbl_vars, int_vars,
-  fct_vars, facet_vars) \%<-\% col_type_list(penguins)
+  fct_vars) \%<-\% col_type_list(penguins)
 dbl_vars
 int_vars
 fct_vars
-facet_vars
 }

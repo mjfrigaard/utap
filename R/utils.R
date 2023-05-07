@@ -1,3 +1,120 @@
+#' Get column types (helper)
+#'
+#' @param df a `data.frame` or `tibble`
+#' @param type type of column to return.
+#'
+#' @return columns of `type`
+#' @export get_col_type_df
+#'
+#' @examples
+#' require(dplyr)
+#' get_col_type_df(dplyr::starwars, type = "chr")
+#' get_col_type_df(dplyr::starwars, type = "list")
+get_col_type_df <- function(df, type) {
+  df_cols <- switch(type,
+    log = dplyr::select(tibble::as_tibble(df), dplyr::where(is.logical)),
+    int = dplyr::select(tibble::as_tibble(df), dplyr::where(is.integer)),
+    chr = dplyr::select(tibble::as_tibble(df), dplyr::where(is.character)),
+    fct = dplyr::select(tibble::as_tibble(df), dplyr::where(is.factor)),
+    list = dplyr::select(tibble::as_tibble(df), dplyr::where(is.list))
+    )
+  if (ncol(df_cols) < 1 ) {
+    df_cols <- structure(list(),
+      class = c("tbl_df", "tbl", "data.frame"),
+      row.names = integer(0),
+      names = character(0))
+    # cli::cli_alert_info("No columns of that type...")
+    return(df_cols)
+  } else {
+    return(df_cols)
+  }
+}
+
+#' Binary checks (vectors)
+#'
+#' @param x a vector
+#' @param type type of column to return.
+#'
+#' @return TRUE/FALSE if binary
+#' @export vec_binary_checks
+#'
+#' @examples
+#' require(palmerpenguins)
+#' vec_binary_checks(palmerpenguins::penguins$sex, type = "fct")
+vec_binary_checks <- function(x, type) {
+    check_log_binary <- function(x) { all(na.omit(x) %in% TRUE:FALSE) }
+    check_int_binary <- function(x) { all(na.omit(x) %in% 0:1) }
+    check_chr_binary <- function(x) { length(unique(na.omit(x))) == 2 }
+    check_fct_binary <- function(x) { length(levels(na.omit(x))) == 2 }
+  switch(type,
+    log = check_log_binary(x),
+    int = check_int_binary(x),
+    chr = check_chr_binary(x),
+    fct = check_fct_binary(x))
+}
+
+#' Check for binary columns (helper)
+#'
+#' @param df  a `data.frame` or `tibble`
+#' @param type type of column to return
+#'
+#' @return vector of binary columns
+#' @export df_binary_checks
+#'
+#' @examples
+#' require(palmerpenguins)
+#' df_binary_checks(palmerpenguins::penguins, type = "fct")
+df_binary_checks <- function(df, type) {
+  if (ncol(df) < 1) {
+    return(purrr::set_names(vector(mode = "character")))
+  } else {
+    nms <- names(df)
+    # set names in names
+    dm_nms <- purrr::set_names(nms)
+    bin_set <- purrr::map_vec(.x = df, .f = vec_binary_checks, type = type)
+    if (sum(bin_set) < 1) {
+      # cli::cli_alert_info("No values of that type!")
+      bins <- purrr::set_names(vector(mode = "character"))
+    } else {
+      # cli::cli_alert_success("Values of that type!")
+      bins <- purrr::set_names(dm_nms[bin_set])
+    }
+  }
+  return(bins)
+}
+
+#' Get binary columns from data
+#'
+#' @param df a `data.frame` or `tibble`
+#'
+#' @return vector of binary column names
+#' @export get_binary_cols
+#'
+#' @examples
+#' require(dplyr)
+#' get_binary_cols(dplyr::starwars)
+get_binary_cols <- function(df) {
+  # logical
+  log_bins <- get_col_type_df(df, "log") |>
+              df_binary_checks("log")
+  # integer
+  int_bins <- get_col_type_df(df, "int") |>
+              df_binary_checks("int")
+  # character
+  chr_bins <- get_col_type_df(df, "chr") |>
+              df_binary_checks("chr")
+  # factors
+  fct_bins <- get_col_type_df(df, "fct") |>
+              df_binary_checks("fct")
+  # assemble
+  all_bins <- list(log_bins, int_bins, chr_bins, fct_bins)
+  # reduce
+  bins_list <- purrr::compact(all_bins)
+  # vector
+  bins <- purrr::list_c(bins_list)
+  return(bins)
+}
+
 #' Facet variables (as vector)
 #'
 #' @section Variables to use for facets:
@@ -11,154 +128,37 @@
 #' @return a vector of factor or character column names with less than six
 #'   unique levels
 #'
-#' @export facet_vars
+#' @export get_facet_cols
 #'
 #' @importFrom purrr set_names
 #'
 #' @examples
 #' require(dplyr)
 #' require(NHANES)
-#' facet_vars(df = dplyr::starwars)
-#' facet_vars(df = NHANES::NHANES)
+#' get_facet_cols(df = dplyr::starwars)
+#' get_facet_cols(df = NHANES::NHANES)
 #'
 #' str(dplyr::select(dplyr::starwars,
-#'   dplyr::all_of(facet_vars(df = dplyr::starwars))))
+#'   dplyr::all_of(get_facet_cols(df = dplyr::starwars))))
 #' str(dplyr::select(NHANES::NHANES,
-#'   dplyr::all_of(facet_vars(df = NHANES::NHANES))))
-facet_vars <- function(df) {
-  # remove missing
-  complete_df <- sapply(df, na.omit)
-  # get names
-  nms <- names(complete_df)
-  # set names in names
-  df_nms <- purrr::set_names(nms)
-  # check for binary variables
-  check_levels <- function(x) {
-    length(unique(x)) < 6
-  }
-  # get TRUE/FALSE facets
-  facet_log <- sapply(complete_df, check_levels)
-  # subset names with facet vars
-  df_nms[facet_log]
-}
-
-#' Non-factor binary variables
-#'
-#' @param df a `data.frame` or `tibble`
-#'
-#' @return a vector of character or logical column names with two unique values
-#'
-#' @importFrom dplyr select where
-#' @importFrom purrr set_names
-#' @importFrom tidyr drop_na
-#' @importFrom tibble as_tibble
-#'
-#' @export non_fct_binary_vars
-#'
-non_fct_binary_vars <- function(df) {
-  no_fct_df <- dplyr::select(tibble::as_tibble(df),
-                  !dplyr::where(is.factor))
-  # remove missing
-  complete_df <- tidyr::drop_na(no_fct_df)
-  # # get names
-  nms <- names(complete_df)
-  # # # set names in names
-  df_nms <- purrr::set_names(nms)
-  # check for binary variables
-  check_binary <- function(x) {
-    length(unique(x)) == 2
-  }
-  # get TRUE/FALSE binaries
-  bin_log <- sapply(complete_df, check_binary)
-  # # subset names with binaries
-  df_nms[bin_log]
-}
-
-#' Factor binary variables
-#'
-#' @param df a `data.frame` or `tibble`
-#'
-#' @return a vector of factor column names with two unique levels
-#'
-#' @importFrom dplyr select where
-#' @importFrom purrr set_names
-#' @importFrom tibble as_tibble
-#' @importFrom tidyr drop_na
-#'
-#' @export fct_binary_vars
-#'
-fct_binary_vars <- function(df) {
-  fct_df <- dplyr::select(tibble::as_tibble(df), # convert to tibble
-                          dplyr::where(is.factor))
-  # remove missing
-  complete_df <- tidyr::drop_na(fct_df)
-  # get names
-  nms <- names(complete_df)
-  # set names in names
-  df_nms <- purrr::set_names(nms)
-  # check levels
-  check_levels <- function(x) {
-    length(levels(x)) == 2
-  }
-  bin_log <- sapply(complete_df, check_levels)
-  # subset factor names with binaries
-  df_nms[bin_log]
-}
-
-#' Binary variables (as vector)
-#'
-#' @section Variables with binary (two levels):
-#'
-#' This function is designed to quickly determine which variables have two
-#' categorical levels. This is helpful for using `ggplot2::facet_wrap()`
-#' or `ggplot2::facet_grid()`
-#'
-#' @param df a `data.frame` or `tibble`
-#'
-#' @return a vector of factor or character column names with two unique levels
-#'
-#' @export binary_vars
-#'
-#' @importFrom purrr set_names
-#' @importFrom tibble as_tibble
-#' @importFrom dplyr select where
-#'
-#' @examples
-#' require(NHANES)
-#' require(palmerpenguins)
-#' binary_vars(df = NHANES::NHANES)
-#' binary_vars(df = palmerpenguins::penguins)
-#' # verify with str()
-#' str(dplyr::select(NHANES::NHANES,
-#'   dplyr::all_of(binary_vars(df = NHANES::NHANES))))
-#' str(dplyr::select(palmerpenguins::penguins,
-#'   dplyr::all_of(binary_vars(df = palmerpenguins::penguins))))
-binary_vars <- function(df) {
-  # non factors
-  non_fct_cols <- ncol(dplyr::select(tibble::as_tibble(df),
-                       !dplyr::where(is.factor)))
-  # factors
-  fct_cols <- ncol(dplyr::select(tibble::as_tibble(df),
-                        dplyr::where(is.factor)))
-
-  # if both column types exist
-  if (non_fct_cols > 1 & fct_cols > 1) {
-    non_fcts <- non_fct_binary_vars(df = df)
-    fcts <- fct_binary_vars(df = df)
-    bin_vars <- c(non_fcts, fcts)
-    # if only non-factor columns exist
-    return(bin_vars)
-  } else if (non_fct_cols > 1 & fct_cols == 0) {
-    bin_vars <- non_fct_binary_vars(df = df)
-    return(bin_vars)
-    # if only factor columns exist
-  } else if (non_fct_cols == 0 & fct_cols > 1) {
-    bin_vars <- fct_binary_vars(df = df)
-    return(bin_vars)
-    # some other kind of column (list?)
-  } else {
-    cli::cli_abort("Variables can't be converted to binary:
-      (i.e., logical, character, factor)")
+#'   dplyr::all_of(get_facet_cols(df = NHANES::NHANES))))
+get_facet_cols <- function(df) {
+  chr_nms <- names(dplyr::select(df, dplyr::where(is.character)))
+  fct_nms <- names(dplyr::select(df, dplyr::where(is.factor)))
+  cat_df <- dplyr::select(df, dplyr::all_of(c(chr_nms, fct_nms)))
+  if (length(cat_df) > 0) {
+    # get names
+    nms <- names(cat_df)
+    # set names in names
+    df_nms <- purrr::set_names(nms)
+    # check for facet variables
+    check_facet_levels <- function(x) {
+      length(unique(na.omit(x))) < 6
+    }
+    # get TRUE/FALSE facets
+    facets <- sapply(cat_df, check_facet_levels)
+    # subset names with facet vars
+    df_nms[facets]
   }
 }
 
@@ -181,15 +181,14 @@ binary_vars <- function(df) {
 #'   * "binary": binary variables (two levels)
 #'
 #' @return vector of names from df matching `type`
-#' @export col_type
+#' @export get_col_types
 #'
 #' @examples
 #' require(palmerpenguins)
 #' require(dplyr)
-#' col_type(df = palmerpenguins::penguins, type = 'dbl')
-#' col_type(df = palmerpenguins::penguins, type = 'int')
-#' col_type(df = dplyr::starwars, type = 'facet')
-col_type <- function(df, type) {
+#' get_col_types(df = palmerpenguins::penguins, type = 'dbl')
+#' get_col_types(df = palmerpenguins::penguins, type = 'int')
+get_col_types <- function(df, type) {
   nms <- switch(type,
     log = names(dplyr::select(df, dplyr::where(is.logical))),
     dbl = names(dplyr::select(df, dplyr::where(is.double))),
@@ -201,8 +200,8 @@ col_type <- function(df, type) {
     posixct = names(dplyr::select(df, dplyr::where(lubridate::is.POSIXct))),
     posixlt = names(dplyr::select(df, dplyr::where(lubridate::is.POSIXlt))),
     posix = names(dplyr::select(df, dplyr::where(lubridate::is.POSIXt))),
-    facet = facet_vars(df),
-    binary = binary_vars(df),
+    facet = get_facet_cols(df = df),
+    binary = get_binary_cols(df)
   )
   named_nms <- purrr::set_names(nms)
   return(named_nms)
@@ -221,8 +220,8 @@ col_type <- function(df, type) {
 #' num_app_inputs(palmerpenguins::penguins)
 #' num_app_inputs(dplyr::starwars)
 num_app_inputs <- function(df) {
-  dbls <- col_type(df = df, type = 'dbl')
-  ints <- col_type(df = df, type = 'int')
+  dbls <- get_col_types(df = df, type = 'dbl')
+  ints <- get_col_types(df = df, type = 'int')
   nums <- c(dbls, ints)
   return(nums)
 }
@@ -240,8 +239,8 @@ num_app_inputs <- function(df) {
 #' cat_app_inputs(palmerpenguins::penguins)
 #' cat_app_inputs(dplyr::starwars)
 cat_app_inputs <- function(df) {
-  chrs <- col_type(df = df, type = 'chr')
-  fcts <- col_type(df = df, type = 'fct')
+  chrs <- get_col_types(df = df, type = 'chr')
+  fcts <- get_col_types(df = df, type = 'fct')
   cats <- c(chrs, fcts)
   return(cats)
 }
@@ -259,7 +258,7 @@ cat_app_inputs <- function(df) {
 #' facet_app_inputs(palmerpenguins::penguins)
 #' facet_app_inputs(dplyr::starwars)
 facet_app_inputs <- function(df) {
-  facets <- col_type(df = df, type = 'facet')
+  facets <- get_col_types(df = df, type = 'facet')
   return(facets)
 }
 
@@ -276,7 +275,7 @@ facet_app_inputs <- function(df) {
 #' binary_app_inputs(palmerpenguins::penguins)
 #' binary_app_inputs(dplyr::starwars)
 binary_app_inputs <- function(df) {
-  bins <- col_type(df = df, type = 'binary')
+  bins <- get_col_types(df = df, type = 'binary')
   return(bins)
 }
 
@@ -290,22 +289,26 @@ binary_app_inputs <- function(df) {
 #' @return Deparsed object
 #' @export deconstruct
 #'
+#'
 #' @examples
-#' deconstruct(names(mtcars), quotes = FALSE)
-#' deconstruct(names(mtcars), quotes = FALSE, console = FALSE)
-#' deconstruct(x = names(mtcars), quotes = TRUE, console = TRUE)
-deconstruct <- function(x, quotes = TRUE, console = TRUE) {
-  if (isFALSE(quotes)) {
-    raw_obj <- capture.output(dput(x, control = "all"))
-    obj <- gsub(pattern = '"', replacement = "", x = raw_obj)
+#' x <- deconstruct(names(mtcars), return = TRUE)
+#' x
+#' deconstruct(names(mtcars))
+deconstruct <- function(x, return = FALSE, quote = TRUE) {
+  raw_obj <- capture.output(dput(x, control = "all"))
+  if (isFALSE(quote)) {
+    obj_noquote <- gsub(pattern = '"', replacement = "", x = raw_obj)
+    decon_noquote <- paste0(obj_noquote, collapse = "")
+    decon_obj <- gsub("\\s+"," ", decon_noquote)
   } else {
-    raw_obj <- capture.output(dput(x, control = "all"))
-    obj <- gsub(pattern = '"', replacement = "'", x = raw_obj)
+    obj_quote <- gsub(pattern = '"', replacement = "'", x = raw_obj)
+    decon_quote <- paste0(obj_quote, collapse = "")
+    decon_obj <- gsub("\\s+"," ", decon_quote)
   }
-  if (isFALSE(console)) {
-    return(base::noquote(obj))
+  if (isFALSE(return)) {
+    base::cat(decon_obj)
   } else {
-    cat(base::noquote(obj))
+    return(noquote(decon_obj))
   }
 }
 
@@ -323,83 +326,87 @@ deconstruct <- function(x, quotes = TRUE, console = TRUE) {
 #' @export make_ui_inputs
 #'
 #' @examples
-#' require(dplyr)
-#' make_ui_inputs(dplyr::starwars)
+#' require(palmerpenguins)
+#' make_ui_inputs(palmerpenguins::penguins)
 make_ui_inputs <- function(app_data) {
   ui_inputs <- names(col_type_list(df = app_data))
-  input_vector <- deconstruct(x = ui_inputs,
-                          quotes = FALSE, console = FALSE)
-  var_list <- deconstruct(x = col_type_list(df = app_data),
-    quotes = TRUE, console = FALSE)
-  cat(input_vector, "%<-%", var_list)
+  lhs_out <- deconstruct(x = ui_inputs, return = TRUE, quote = FALSE)
+  zeallot_operator <- deconstruct(x = "%<-%", return = TRUE, quote = FALSE)
+  rhs_out <- deconstruct(x = col_type_list(df = app_data), return = TRUE)
+  cat(lhs_out, zeallot_operator, rhs_out)
 }
+
 
 #' Get data variable types (as list)
 #'
 #' @param df a data frame or tibble
 #'
-#' @return list of vectors by type (`is_logical`, `is_double`, `is_integer`,
-#'   `is_character`, `is_factor`, `is_facet_var`, `is_date`, `is_POSIXct`,
-#'   `is_POSIXlt`)
+#' @return list of vectors by type:
+#'  * `logical_vars`
+#'  * `double_vars`
+#'  * `integer_vars`
+#'  * `character_vars`
+#'  * `factor_vars`
+#'  * `date_vars`
+#'  * `posixct_vars`
+#'  * `posixlt_vars`
+#'  * `posixt_vars`
+#'  * `list_vars`
 #'
 #' @export col_type_list
 #'
+#' @importFrom dplyr select where
+#' @importFrom lubridate is.Date is.POSIXct is.POSIXlt is.POSIXt
+#' @importFrom purrr compact
+#'
 #' @examples
-#' require(dplyr)
-#' col_type_list(dplyr::starwars)
-#' col_type_list(dplyr::storms)
+#' require(palmerpenguins)
+#' col_type_list(palmerpenguins::penguins)
 #' # great with zealott!
 #' require(zeallot)
 #' c(dbl_vars, int_vars,
-#'   fct_vars, facet_vars) %<-% col_type_list(penguins)
+#'   fct_vars) %<-% col_type_list(penguins)
 #' dbl_vars
 #' int_vars
 #' fct_vars
-#' facet_vars
 col_type_list <- function(df) {
   # atomic
-  log_names <- names(dplyr::select(df,
+    log_vars <- names(dplyr::select(df,
                     dplyr::where(is.logical)))
-    dbl_names <- names(dplyr::select(df,
+    dbl_vars <- names(dplyr::select(df,
                     dplyr::where(is.double)))
-    int_names <- names(dplyr::select(df,
+    int_vars <- names(dplyr::select(df,
                     dplyr::where(is.integer)))
-    chr_names <- names(dplyr::select(df,
+    chr_vars <- names(dplyr::select(df,
                     dplyr::where(is.character)))
 
     # s3
-    fct_names <- names(dplyr::select(df,
+    fct_vars <- names(dplyr::select(df,
                     dplyr::where(is.factor)))
-    date_names <- names(dplyr::select(df,
+    date_vars <- names(dplyr::select(df,
                     dplyr::where(lubridate::is.Date)))
-    posixct_names <- names(dplyr::select(df,
+    posixct_vars <- names(dplyr::select(df,
                     dplyr::where(lubridate::is.POSIXct)))
-    posixlt_names <- names(dplyr::select(df,
+    posixlt_vars <- names(dplyr::select(df,
                     dplyr::where(lubridate::is.POSIXlt)))
-    posix_names <- names(dplyr::select(df,
+    posix_vars <- names(dplyr::select(df,
                     dplyr::where(lubridate::is.POSIXt)))
-    list_names <- names(dplyr::select(df,
+    list_vars <- names(dplyr::select(df,
                     dplyr::where(is.list)))
-    # special
-    facet_vars <- facet_vars(df)
-    binary_vars <- binary_vars(df)
     # assemble
     all_vars_list <- list(
-      "logical_vars" = log_names,
-      "double_vars" = dbl_names,
-      "integer_vars" = int_names,
-      "character_vars" = chr_names,
-      "factor_vars" = fct_names,
-      "binary_vars" = bin_names,
-      "facet_vars" = facet_vars,
-      "date_vars" = date_names,
-      "posixct_vars" = posixct_names,
-      "posixlt_vars" = posixlt_names,
-      "posixt_vars" = posix_names,
-      "list_vars" = list_names)
+      "logical_vars" = log_vars,
+      "double_vars" = dbl_vars,
+      "integer_vars" = int_vars,
+      "character_vars" = chr_vars,
+      "factor_vars" = fct_vars,
+      "date_vars" = date_vars,
+      "posixct_vars" = posixct_vars,
+      "posixlt_vars" = posixlt_vars,
+      "posixt_vars" = posix_vars,
+      "list_vars" = list_vars)
       # reduce
-      vars_list <- purrr::compact(all_vars_list)
-
-  return(vars_list)
+      types <- purrr::compact(all_vars_list)
+  return(types)
 
 }

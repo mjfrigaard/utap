@@ -43,6 +43,6 @@ test_that("num_app_inputs returns expected output", {
     expected = c(b = "b", f = "f", g = "g"))
   # facet_app_inputs test cases
   expect_equal(object = facet_app_inputs(app_input_test),
-    expected = c(c = "c", f = "f", g = "g"))
+    expected = c(f = "f", g = "g"))
 
 })

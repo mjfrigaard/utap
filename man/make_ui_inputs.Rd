@@ -18,6 +18,6 @@ This is meant to be used in the console--it generates the code for assigning
 the elements from a list into a collection of vectors.
 }
 \examples{
-require(dplyr)
-make_ui_inputs(dplyr::starwars)
+require(palmerpenguins)
+make_ui_inputs(palmerpenguins::penguins)
 }

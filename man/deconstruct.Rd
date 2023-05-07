@@ -4,7 +4,7 @@
 \alias{deconstruct}
 \title{Deconstruct R objects}
 \usage{
-deconstruct(x, quotes = TRUE, console = TRUE)
+deconstruct(x, return = FALSE, quote = TRUE)
 }
 \arguments{
 \item{x}{R object passed to \code{dput()}}
@@ -21,7 +21,7 @@ Deparsed object
 Deconstruct R objects
 }
 \examples{
-deconstruct(names(mtcars), quotes = FALSE)
-deconstruct(names(mtcars), quotes = FALSE, console = FALSE)
-deconstruct(x = names(mtcars), quotes = TRUE, console = TRUE)
+x <- deconstruct(names(mtcars), return = TRUE)
+x
+deconstruct(names(mtcars))
 }

@@ -13,19 +13,20 @@ mod_display_plot_ui <- function(id) {
     shiny::fluidRow(
       shiny::column(
         width = 12,
-        shiny::plotOutput(outputId = ns("scatterplot"))
+        shiny::plotOutput(outputId = ns("scatterplot")))
       ),
       shiny::fluidRow(
         # include these for showing reactive values to include in tests:
         shiny::column(
-          width = 12,
+          width = 6,
           shiny::code("names(app_data())"),
-          shiny::verbatimTextOutput(ns("data")),
+          shiny::verbatimTextOutput(ns("data"))),
+        shiny::column(
+          width = 6,
           shiny::code("class(plot())"),
           shiny::verbatimTextOutput(ns("plot"))
         )
       )
-    )
   )
 }
 
@@ -47,11 +48,12 @@ mod_display_plot_server <- function(id, var_inputs, app_data) {
   shiny::moduleServer(id, function(input, output, session) {
 
     plot <- shiny::reactive({
-      gg_points(
+      gg_points_facet(
         df = app_data(),
         x_var = var_inputs()$x,
         y_var = var_inputs()$y,
-        col_var = var_inputs()$z,
+        col_var = var_inputs()$col,
+        facet_var = var_inputs()$facet,
         alpha = var_inputs()$alpha,
         size = var_inputs()$size)})
 
@@ -60,12 +62,12 @@ mod_display_plot_server <- function(id, var_inputs, app_data) {
     # include these for showing reactive values to include in tests: ----
     output$data <- shiny::renderPrint({
       print(names(app_data()),
-        width = 80, max.levels = NULL)
+        width = 60, max.levels = NULL)
     })
 
     output$plot <- shiny::renderPrint({
       print(class(plot()),
-        width = 80, max.levels = NULL)
+        width = 40, max.levels = NULL)
     })
 
     # include for exporting values with shinytest2 ----

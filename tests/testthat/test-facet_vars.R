@@ -35,7 +35,7 @@ test_that("facet_vars() works", {
       # test
       expect_equal(object = facets,
         expected = c(ord_05 = "ord_05"))
-  # # test with factor data ----------------------------
+  # test with factor data ----------------------------
   fct_vars_test <- tibble::tibble(
         # five level factor (with missing)
         fct_05 = factor(sample(x = c("group a", "group b", "group c",
