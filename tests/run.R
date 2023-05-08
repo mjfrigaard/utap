@@ -1,5 +1,9 @@
+library(testthat)
+library(testPkgApp)
 # run utility function tests ----------------------------------------------
-testthat::test_file("tests/testthat/test-binary_vars.R")
+testthat::test_file(path = "tests/testthat/test-binary_vars.R")
+testthat::test_file(path = "tests/testthat/test-get_col_type_df.R")
+
 testthat::test_file("tests/testthat/test-facet_vars.R")
 testthat::test_file("tests/testthat/test-col_type.R")
 testthat::test_file("tests/testthat/test-col_type_list.R")

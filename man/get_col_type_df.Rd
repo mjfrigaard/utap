@@ -9,13 +9,23 @@ get_col_type_df(df, type)
 \arguments{
 \item{df}{a \code{data.frame} or \code{tibble}}
 
-\item{type}{type of column to return.}
+\item{type}{type of column to return.
+One of:
+\itemize{
+\item \code{"log"}: logical
+\item \code{"dbl"}: double
+\item \code{"int"}: integer
+\item \code{"chr"}: character
+\item \code{"fct"}: factor
+\item \code{"list"}: list
+}}
 }
 \value{
-columns of \code{type}
+columns of \code{type} (empty \code{tibble} is no columns of specified type
+exist)
 }
 \description{
-Get column types (helper)
+Return column in data by types
 }
 \examples{
 require(dplyr)

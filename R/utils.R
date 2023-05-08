@@ -1,9 +1,20 @@
 #' Get column types (helper)
 #'
+#' @description
+#' Return column in data by types
+#'
 #' @param df a `data.frame` or `tibble`
 #' @param type type of column to return.
+#'  One of:
+#'   * `"log"`: logical
+#'   * `"dbl"`: double
+#'   * `"int"`: integer
+#'   * `"chr"`: character
+#'   * `"fct"`: factor
+#'   * `"list"`: list
 #'
-#' @return columns of `type`
+#' @return columns of `type` (empty `tibble` is no columns of specified type
+#' exist)
 #' @export get_col_type_df
 #'
 #' @examples
@@ -14,6 +25,7 @@ get_col_type_df <- function(df, type) {
   df_cols <- switch(type,
     log = dplyr::select(tibble::as_tibble(df), dplyr::where(is.logical)),
     int = dplyr::select(tibble::as_tibble(df), dplyr::where(is.integer)),
+    dbl = dplyr::select(tibble::as_tibble(df), dplyr::where(is.double)),
     chr = dplyr::select(tibble::as_tibble(df), dplyr::where(is.character)),
     fct = dplyr::select(tibble::as_tibble(df), dplyr::where(is.factor)),
     list = dplyr::select(tibble::as_tibble(df), dplyr::where(is.list))

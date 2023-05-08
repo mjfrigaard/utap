@@ -1,102 +1,43 @@
 library(testthat)
+library(testPkgApp)
+testthat::test_that("binary_vars() works", {
 
-testthat::test_that("get_col_type_df() works", {
+  set.seed(1234)
+  # test with logical data ----------------------------
+  log_bin_df <- tibble::tibble(bin_na = c(TRUE, FALSE, NA, TRUE),
+                         bin = c(TRUE, FALSE, FALSE, TRUE),
+                         # non binary columns
+                         no_bin_chr = c("A", "B", NA_character_, "D"),
+                         no_bin_int = c(0L, 1L, NA_integer_, 2L),
+                         no_bin_dbl = c(0.1, 1.1, NA_real_, 0.2))
 
-    binary_df <- tibble::tibble(
-      log_na_bin = c(TRUE, FALSE, NA, TRUE),
-      log_bin = c(TRUE, FALSE, FALSE, TRUE),
-      int_bin = c(0L, 1L, NA_integer_, 1L),
-      chr_bin = c("A", "B", NA_character_, "B"),
-      bin_ord = factor(x = c("high", "low",
-                             NA_character_, "high"),
-                       levels = c("low", "high"),
-                       ordered = TRUE),
-      bin_fct = factor(x = c("hot", "cold",
-                             NA_character_, "cold"),
-                       levels = c("hot", "cold")),
-      no_bin_chr = c("A", "B", NA_character_, "D"),
-      no_bin_int = c(0L, 1L, NA_integer_, 2L),
-      no_bin_dbl = c(0.5, 1.2, NA_real_, 0.001),
-      no_bin_ord = factor(x = c("high", "low",
-                                NA_character_, "med"),
-                          levels = c("low", "high",
-                                     "med"),
-                          ordered = TRUE),
-      no_bin_fct = factor(x = c("left", "right",
-                                NA_character_, "center"),
-                          levels = c("left", "right",
-                                     "center")))
-
-    get_col_type_df <- function(df, type) {
-      df_cols <- switch(type,
-        log = dplyr::select(tibble::as_tibble(df),
-                            dplyr::where(is.logical)),
-        int = dplyr::select(tibble::as_tibble(df),
-                            dplyr::where(is.integer)),
-        chr = dplyr::select(tibble::as_tibble(df),
-                            dplyr::where(is.character)),
-        fct = dplyr::select(tibble::as_tibble(df),
-                            dplyr::where(is.factor)),
-        list = dplyr::select(tibble::as_tibble(df),
-                            dplyr::where(is.list))
-        )
-      if (ncol(df_cols) < 1 ) {
-        df_cols <- structure(list(),
-          class = c("tbl_df", "tbl", "data.frame"),
-          row.names = integer(0),
-          names = character(0))
-        cli::cli_alert_info("No columns of that type...")
-        return(df_cols)
-      } else {
-        return(df_cols)
+    binary_vars <- function(df) {
+      log_df <- dplyr::select(tibble::as_tibble(df),
+                              dplyr::where(is.logical))
+      if (ncol(log_df) > 0) {
+        # get names
+        nms <- names(log_df)
+        # set names in names
+        df_nms <- purrr::set_names(nms)
+        check_log_binary <- function(x) {
+            all(na.omit(x) %in% TRUE:FALSE)
+          }
+        bins <- sapply(log_df, check_log_binary)
+        return(df_nms[bins])
       }
     }
 
-    # test logical class
-    col_types_class <- class(get_col_type_df(binary_df, type = "log"))
+    # create object
+    bins <- binary_vars(log_bin_df)
+    # test
     testthat::expect_equal(
-      object = col_types_class,
-      expected = c("tbl_df", "tbl", "data.frame"))
-    # test logical names
-    col_types_names <- names(get_col_type_df(binary_df, type = "log"))
-      testthat::expect_equal(
-        object = col_types_names,
-        expected = c("log_na_bin", "log_bin"))
+      object = bins,
+      expected = c(bin_na = "bin_na",
+                   bin = "bin"))
 
-    # test integer class
-    col_types_class <- class(get_col_type_df(binary_df, type = "int"))
-    testthat::expect_equal(
-      object = col_types_class,
-      expected = c("tbl_df", "tbl", "data.frame"))
-      # test integer names
-    col_types_names <- names(get_col_type_df(binary_df, type = "int"))
-    testthat::expect_equal(
-      object = col_types_names,
-      expected = c("int_bin", "no_bin_int"))
+})
 
-    # test character class
-    col_types_class <- class(get_col_type_df(binary_df, type = "chr"))
-    testthat::expect_equal(
-      object = col_types_class,
-      expected = c("tbl_df", "tbl", "data.frame"))
-    # test character names
-    col_types_names <- names(get_col_type_df(binary_df, type = "chr"))
-    testthat::expect_equal(
-      object = col_types_names,
-      expected = c("chr_bin", "no_bin_chr"))
-
-    # test factor class
-    col_types_class <- class(get_col_type_df(binary_df, type = "fct"))
-    testthat::expect_equal(
-      object = col_types_class,
-      expected = c("tbl_df", "tbl", "data.frame"))
-    # test character names
-    col_types_names <- names(get_col_type_df(binary_df, type = "fct"))
-    testthat::expect_equal(
-      object = col_types_names,
-      expected = c("bin_ord", "bin_fct", "no_bin_ord", "no_bin_fct"))
-
-  # # test with character data ----------------------------
+# # test with character data ----------------------------
   # chr_vars_test <- tibble::tibble(
   #       # character 2 unique (with missing values)
   #       chr_02 = sample(x = c("YES", "NO",
@@ -172,4 +113,3 @@ testthat::test_that("get_col_type_df() works", {
   #     testthat::expect_equal(
   #       object = binary_vars(list_cols_test),
   #       expected = NULL)
-})
