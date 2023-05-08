@@ -90,3 +90,12 @@
         "fct_10l_na")
       )
   })
+  # test error type
+  testthat::test_that("get_col_type_df() type error", {    t
+    estdf_app_inputs <- readRDS(test_path("fixtures",
+                                          "testdf_app_inputs.rds"))
+    # test type error
+    testthat::expect_error(
+      object = get_col_type_df(testdf_app_inputs, type = "array")
+    )
+  })
