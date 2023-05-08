@@ -1,3 +1,30 @@
+#' Inverted versions of `%in%`
+#'
+#' @export
+#'
+#' @examples
+#' 1 %nin% 1:10
+#' "A" %nin% 1:10
+`%nin%` <- function(x, table) {
+  match(x, table, nomatch = 0) == 0
+}
+
+#' Inverted versions of is.null
+#'
+#' @export
+#'
+#' @examples
+#' not_null(c(NULL, NA_character_))
+not_null <- Negate(is.null)
+
+#' Inverted versions of is.na
+#'
+#' @export
+#'
+#' @examples
+#' not_na(c(NA_character_, "A"))
+not_na <- Negate(is.na)
+
 #' Get column types (helper)
 #'
 #' @description
@@ -23,25 +50,24 @@
 #' get_col_type_df(dplyr::starwars, type = "list")
 get_col_type_df <- function(df, type) {
 
+  if (type %nin% c("log", "int", "chr", "fct", "list")) {
+    cli::cli_abort("No columns of that type...")
+  }
+
   df_cols <- switch(type,
-    log = dplyr::select(tibble::as_tibble(df),
-                        dplyr::where(is.logical)),
-    int = dplyr::select(tibble::as_tibble(df),
-                        dplyr::where(is.integer)),
-    chr = dplyr::select(tibble::as_tibble(df),
-                        dplyr::where(is.character)),
-    fct = dplyr::select(tibble::as_tibble(df),
-                        dplyr::where(is.factor)),
-    list = dplyr::select(tibble::as_tibble(df),
-                        dplyr::where(is.list)))
+    log = dplyr::select(tibble::as_tibble(df), dplyr::where(is.logical)),
+    int = dplyr::select(tibble::as_tibble(df), dplyr::where(is.integer)),
+    chr = dplyr::select(tibble::as_tibble(df), dplyr::where(is.character)),
+    fct = dplyr::select(tibble::as_tibble(df), dplyr::where(is.factor)),
+    list = dplyr::select(tibble::as_tibble(df), dplyr::where(is.list)))
 
   if (ncol(df_cols) < 1 || nrow(df_cols) < 1 ) {
     df_cols <- structure(list(),
                          class = c("tbl_df", "tbl", "data.frame"),
                          row.names = integer(0),
                          names = character(0))
-    cli::cli_alert_info("No columns of that type...")
     return(df_cols)
+    cli::cli_alert_info("No columns of that type...")
   } else {
     return(df_cols)
   }
