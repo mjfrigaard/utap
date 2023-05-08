@@ -1,5 +1,5 @@
   testthat::test_that("get_col_type_df() logical", {
-    testdf_app_inputs <- testPkgApp::testdf_app_inputs
+    testdf_app_inputs <- readRDS(test_path("fixtures", "testdf_app_inputs.rds"))
     # test logical class
     col_type_log <- get_col_type_df(testdf_app_inputs, type = "log")
     testthat::expect_equal(
@@ -14,7 +14,7 @@
   })
 
   testthat::test_that("get_col_type_df() integer", {
-    testdf_app_inputs <- testPkgApp::testdf_app_inputs
+    testdf_app_inputs <- readRDS(test_path("fixtures", "testdf_app_inputs.rds"))
     # test integer class
     col_types_class <- class(get_col_type_df(testdf_app_inputs, type = "int"))
     testthat::expect_equal(
@@ -30,7 +30,7 @@
   })
 
   testthat::test_that("get_col_type_df() double", {
-    testdf_app_inputs <- testPkgApp::testdf_app_inputs
+    testdf_app_inputs <- readRDS(test_path("fixtures", "testdf_app_inputs.rds"))
     # test double class
     col_types_class <- class(get_col_type_df(testdf_app_inputs, type = "dbl"))
     testthat::expect_equal(
@@ -46,7 +46,7 @@
   })
 
   testthat::test_that("get_col_type_df() character", {
-    testdf_app_inputs <- testPkgApp::testdf_app_inputs
+    testdf_app_inputs <- readRDS(test_path("fixtures", "testdf_app_inputs.rds"))
     # test character class
     col_types_class <- class(get_col_type_df(testdf_app_inputs, type = "chr"))
     testthat::expect_equal(
@@ -65,7 +65,7 @@
   })
 
   testthat::test_that("get_col_type_df() factor", {
-    testdf_app_inputs <- testPkgApp::testdf_app_inputs
+    testdf_app_inputs <- readRDS(test_path("fixtures", "testdf_app_inputs.rds"))
     # test factor class
     col_types_class <- class(get_col_type_df(testdf_app_inputs, type = "fct"))
     testthat::expect_equal(

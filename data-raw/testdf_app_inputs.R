@@ -1,5 +1,6 @@
 ## code to prepare `testdf_app_inputs` dataset goes here
 require(tibble)
+require(readr)
 # test data ----------------------------
 testdf_app_inputs <- tibble::tibble(
     # logical binary (with missing)
@@ -82,3 +83,7 @@ testdf_app_inputs <- tibble::tibble(
                           levels = c(LETTERS[1:10])))
 
 usethis::use_data(testdf_app_inputs, overwrite = TRUE)
+# export to tests/testthat/fixtures/
+saveRDS(testdf_app_inputs,
+  file = "tests/testthat/fixtures/testdf_app_inputs.rds")
+

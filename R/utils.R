@@ -22,24 +22,30 @@
 #' get_col_type_df(dplyr::starwars, type = "chr")
 #' get_col_type_df(dplyr::starwars, type = "list")
 get_col_type_df <- function(df, type) {
+
   df_cols <- switch(type,
-    log = dplyr::select(tibble::as_tibble(df), dplyr::where(is.logical)),
-    int = dplyr::select(tibble::as_tibble(df), dplyr::where(is.integer)),
-    dbl = dplyr::select(tibble::as_tibble(df), dplyr::where(is.double)),
-    chr = dplyr::select(tibble::as_tibble(df), dplyr::where(is.character)),
-    fct = dplyr::select(tibble::as_tibble(df), dplyr::where(is.factor)),
-    list = dplyr::select(tibble::as_tibble(df), dplyr::where(is.list))
-    )
-  if (ncol(df_cols) < 1 ) {
+    log = dplyr::select(tibble::as_tibble(df),
+                        dplyr::where(is.logical)),
+    int = dplyr::select(tibble::as_tibble(df),
+                        dplyr::where(is.integer)),
+    chr = dplyr::select(tibble::as_tibble(df),
+                        dplyr::where(is.character)),
+    fct = dplyr::select(tibble::as_tibble(df),
+                        dplyr::where(is.factor)),
+    list = dplyr::select(tibble::as_tibble(df),
+                        dplyr::where(is.list)))
+
+  if (ncol(df_cols) < 1 || nrow(df_cols) < 1 ) {
     df_cols <- structure(list(),
-      class = c("tbl_df", "tbl", "data.frame"),
-      row.names = integer(0),
-      names = character(0))
-    # cli::cli_alert_info("No columns of that type...")
+                         class = c("tbl_df", "tbl", "data.frame"),
+                         row.names = integer(0),
+                         names = character(0))
+    cli::cli_alert_info("No columns of that type...")
     return(df_cols)
   } else {
     return(df_cols)
   }
+
 }
 
 #' Binary checks (vectors)

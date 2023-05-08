@@ -49,6 +49,7 @@
 ~%2Fprojects%2Fapps%2FtestPkgApp%2Ftests%2Ftestthat%2F_snaps%2Fshinytest2%2Ftest-run-01-001.json="AE0E5AF0"
 ~%2Fprojects%2Fapps%2FtestPkgApp%2Ftests%2Ftestthat%2Fsetup-shinytest2.R="5E704329"
 ~%2Fprojects%2Fapps%2FtestPkgApp%2Ftests%2Ftestthat%2Ftest-app_inputs.R="FD42A366"
+~%2Fprojects%2Fapps%2FtestPkgApp%2Ftests%2Ftestthat%2Ftest-binary_app_inputs.R="A54E7D98"
 ~%2Fprojects%2Fapps%2FtestPkgApp%2Ftests%2Ftestthat%2Ftest-binary_vars.R="026E3080"
 ~%2Fprojects%2Fapps%2FtestPkgApp%2Ftests%2Ftestthat%2Ftest-col_type.R="79B33947"
 ~%2Fprojects%2Fapps%2FtestPkgApp%2Ftests%2Ftestthat%2Ftest-col_type_list.R="D8A47C31"
