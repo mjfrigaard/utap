@@ -1,15 +1,14 @@
   testthat::test_that("get_col_type_df() logical", {
     testdf_app_inputs <- testPkgApp::testdf_app_inputs
     # test logical class
-    col_types_class <- class(get_col_type_df(testdf_app_inputs, type = "log"))
+    col_type_log <- get_col_type_df(testdf_app_inputs, type = "log")
     testthat::expect_equal(
-      object = col_types_class,
+      object = class(col_type_log),
       expected = c("tbl_df", "tbl", "data.frame")
     )
     # test logical names
-    col_types_names <- names(get_col_type_df(testdf_app_inputs, type = "log"))
     testthat::expect_equal(
-      object = col_types_names,
+      object = names(col_type_log),
       expected = c("log_na_bin", "log_bin")
     )
   })
@@ -26,7 +25,7 @@
     col_types_names <- names(get_col_type_df(testdf_app_inputs, type = "int"))
     testthat::expect_equal(
       object = col_types_names,
-      expected = c("int_bin", "int_3na")
+      expected = c("int_bin", "int_3l_na")
     )
   })
 
@@ -42,7 +41,7 @@
     col_types_names <- names(get_col_type_df(testdf_app_inputs, type = "dbl"))
     testthat::expect_equal(
       object = col_types_names,
-      expected = c("dbl_3na")
+      expected = c("dbl_3l_na")
     )
   })
 
@@ -59,8 +58,8 @@
     testthat::expect_equal(
       object = col_types_names,
       expected = c(
-        "chr_facet_3na", "chr_facet_4",
-        "no_facet_chr_10", "no_facet_chr_10na"
+        "chr_3l_na_facet", "chr_4l_facet",
+        "chr_10l", "chr_10l_na"
       )
     )
   })
@@ -78,11 +77,16 @@
     testthat::expect_equal(
       object = col_types_names,
       expected = c(
-        "ord_bin", "fct_bin", "ord_3na", "ord_3",
-        "fct_facet_3", "fct_facet_3na",
-        "fct_facet_5naS", "fct_facet_4naS",
-        "no_facet_fct_6na", "no_facet_10fct",
-        "no_facet_fct_10na"
+        "ord_bin",
+        "fct_bin",
+        "ord_3l_na",
+        "ord_3l",
+        "fct_3l_facet",
+        "fct_3l_na_facet",
+        "fct_5lv6rep_na_facet",
+        "fct_4lv3rep_na_facet",
+        "fct_6l_na",
+        "fct_10l",
+        "fct_10l_na")
       )
-    )
   })
