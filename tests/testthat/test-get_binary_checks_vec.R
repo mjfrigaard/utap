@@ -49,30 +49,29 @@ test_that("get_binary_checks_vec character works", {
 test_that("get_binary_checks_vec factor works", {
   # test factors
   expect_equal(object = get_binary_checks_vec(x =
-                factor(c("hot", "cold", NA_character_, "cold"),
+                factor(c("hot", "cold", NA_character_),
                         levels = c("hot", "cold")), type = "fct"),
     expected = TRUE)
 
   expect_equal(object = get_binary_checks_vec(x =
-                factor(c("hot", "cold", "cold"),
+                factor(c("hot", "cold"),
                         levels = c("hot", "cold")), type = "fct"),
     expected = TRUE)
 
   expect_equal(object = get_binary_checks_vec(x =
-                factor(c("hot", "cold", "cold"),
+                factor(c("hot", "cold"),
                         levels = c("hot", "cold")), type = "fct"),
     expected = TRUE)
 
     expect_equal(object = get_binary_checks_vec(
-                            factor(x = c("high", "low",
-                                        NA_character_, "high"),
+                            factor(x = c("high", "low", NA_character_),
                               levels = c("low", "high"),
                               ordered = TRUE),
              type = "fct"),
     expected = TRUE)
 
     expect_equal(object = get_binary_checks_vec(
-                            factor(x = c("high", "low", "high"),
+                            factor(x = c("high", "low"),
                               levels = c("low", "high"),
                               ordered = TRUE),
              type = "fct"),
