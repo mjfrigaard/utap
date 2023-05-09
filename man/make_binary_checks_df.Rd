@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils_app_inputs.R
 \name{make_binary_checks_df}
 \alias{make_binary_checks_df}
-\title{Check for binary columns (helper)}
+\title{Create vector of binary columns from data (helper)}
 \usage{
 make_binary_checks_df(df, type)
 }
@@ -15,7 +15,7 @@ make_binary_checks_df(df, type)
 vector of binary columns
 }
 \description{
-Check for binary columns (helper)
+Create vector of binary columns from data (helper)
 }
 \examples{
 require(palmerpenguins)

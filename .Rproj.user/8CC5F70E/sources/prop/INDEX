@@ -61,6 +61,7 @@
 ~%2Fprojects%2Fapps%2FtestPkgApp%2Ftests%2Ftestthat%2Ftest-facet_vars.R="765CCE9B"
 ~%2Fprojects%2Fapps%2FtestPkgApp%2Ftests%2Ftestthat%2Ftest-get_binary_checks_vec.R="5F62BCCF"
 ~%2Fprojects%2Fapps%2FtestPkgApp%2Ftests%2Ftestthat%2Ftest-get_col_type_df.R="7E9006C9"
+~%2Fprojects%2Fapps%2FtestPkgApp%2Ftests%2Ftestthat%2Ftest-get_facet_checks_vec.R="97F5857B"
 ~%2Fprojects%2Fapps%2FtestPkgApp%2Ftests%2Ftestthat%2Ftest-gg_base.R="1E111A15"
 ~%2Fprojects%2Fapps%2FtestPkgApp%2Ftests%2Ftestthat%2Ftest-gg_base_layer.R="4DD4F61B"
 ~%2Fprojects%2Fapps%2FtestPkgApp%2Ftests%2Ftestthat%2Ftest-gg_points-attr.R="8B63959E"

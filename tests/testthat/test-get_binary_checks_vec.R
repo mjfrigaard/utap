@@ -33,16 +33,32 @@ test_that("get_binary_checks_vec integer works", {
 test_that("get_binary_checks_vec character works", {
   # test characters
   expect_equal(
-    object = get_binary_checks_vec(x = c('TRUE', 'FALSE', NA_character_), type = "chr"),
+    object = get_binary_checks_vec(
+      x = c('TRUE', 'FALSE', NA_character_), type = "chr"),
     expected = TRUE)
   expect_equal(
-    object = get_binary_checks_vec(x = c('TRUE', 'FALSE'), type = "chr"),
-    expected = TRUE)
-  expect_equal(
-    object = get_binary_checks_vec(x = c('TRUE', 'TRUE', NA_character_), type = "chr"),
+    object = get_binary_checks_vec(
+      x = c('TRUE', 'FALSE', "MAYBE", NA_character_), type = "chr"),
     expected = FALSE)
   expect_equal(
-    object = get_binary_checks_vec(x = c('TRUE', 'TRUE'), type = "chr"),
+    object = get_binary_checks_vec(
+      x = c('TRUE', 'FALSE', "MAYBE"), type = "chr"),
+    expected = FALSE)
+  expect_equal(
+    object = get_binary_checks_vec(
+      x = c('TRUE', 'TRUE', NA_character_), type = "chr"),
+    expected = FALSE)
+  expect_equal(
+    object = get_binary_checks_vec(
+      x = c('TRUE', 'FALSE'), type = "chr"),
+    expected = TRUE)
+  expect_equal(
+    object = get_binary_checks_vec(
+      x = c('TRUE', 'TRUE', NA_character_), type = "chr"),
+    expected = FALSE)
+  expect_equal(
+    object = get_binary_checks_vec(
+      x = c('TRUE', 'TRUE'), type = "chr"),
     expected = FALSE)
 })
 
@@ -52,6 +68,21 @@ test_that("get_binary_checks_vec factor works", {
                 factor(c("hot", "cold", NA_character_),
                         levels = c("hot", "cold")), type = "fct"),
     expected = TRUE)
+
+  expect_equal(object = get_binary_checks_vec(x =
+                factor(c("hot", "cold", NA_character_, "warm"),
+                        levels = c("hot", "cold", "warm")), type = "fct"),
+    expected = FALSE)
+
+  expect_equal(object = get_binary_checks_vec(x =
+                factor(c("hot", "cold", "warm"),
+                        levels = c("hot", "cold")), type = "fct"),
+    expected = TRUE)
+
+  expect_equal(object = get_binary_checks_vec(x =
+                factor(c("hot", "cold"),
+                        levels = c("hot", "cold", "warm")), type = "fct"),
+    expected = FALSE)
 
   expect_equal(object = get_binary_checks_vec(x =
                 factor(c("hot", "cold"),

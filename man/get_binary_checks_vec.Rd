@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils_app_inputs.R
 \name{get_binary_checks_vec}
 \alias{get_binary_checks_vec}
-\title{Binary checks (vectors)}
+\title{Binary checks (helper)}
 \usage{
 get_binary_checks_vec(x, type)
 }
@@ -15,9 +15,10 @@ get_binary_checks_vec(x, type)
 TRUE/FALSE if binary
 }
 \description{
-Binary checks (vectors)
+Binary checks (helper)
 }
 \examples{
 require(palmerpenguins)
 get_binary_checks_vec(palmerpenguins::penguins$sex, type = "fct")
+get_binary_checks_vec(palmerpenguins::penguins$species, type = "fct")
 }

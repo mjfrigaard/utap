@@ -49,7 +49,7 @@ get_col_type_df <- function(df, type) {
 
 }
 
-#' Binary checks (vectors)
+#' Binary checks (helper)
 #'
 #' @param x a vector
 #' @param type type of column to return.
@@ -60,6 +60,7 @@ get_col_type_df <- function(df, type) {
 #' @examples
 #' require(palmerpenguins)
 #' get_binary_checks_vec(palmerpenguins::penguins$sex, type = "fct")
+#' get_binary_checks_vec(palmerpenguins::penguins$species, type = "fct")
 get_binary_checks_vec <- function(x, type) {
     check_log_binary <- function(x) { all(na.omit(x) %in% TRUE:FALSE) }
     check_int_binary <- function(x) { all(na.omit(x) %in% 0:1) }
@@ -72,7 +73,32 @@ get_binary_checks_vec <- function(x, type) {
     fct = check_fct_binary(x))
 }
 
-#' Check for binary columns (helper)
+
+#' Facet checks (helper)
+#'
+#' @param x a vector
+#' @param type type of column to return.
+#'
+#' @return TRUE/FALSE if facet variable (< 6 levels)
+#' @export get_facet_checks_vec
+#'
+#' @examples
+#' require(NHANES)
+#' get_facet_checks_vec(NHANES::NHANES$Education, type = "fct")
+#' levels(NHANES::NHANES$Education)
+#' get_facet_checks_vec(NHANES::NHANES$MaritalStatus, type = "fct")
+#' levels(NHANES::NHANES$MaritalStatus)
+get_facet_checks_vec <- function(x, type) {
+      check_chr_facet <- function(x) { length(unique(na.omit(x))) < 6 }
+      check_fct_facet <- function(x) { length(levels(na.omit(x))) < 6 }
+      check_ord_facet <- function(x) { length(levels(na.omit(x))) < 6 }
+        switch(type,
+            chr = check_chr_facet(x),
+            fct = check_fct_facet(x),
+            ord = check_ord_facet(x))
+}
+
+#' Create vector of binary columns from data (helper)
 #'
 #' @param df  a `data.frame` or `tibble`
 #' @param type type of column to return
@@ -92,14 +118,45 @@ make_binary_checks_df <- function(df, type) {
     dm_nms <- purrr::set_names(nms)
     bin_set <- purrr::map_vec(.x = df, .f = get_binary_checks_vec, type = type)
     if (sum(bin_set) < 1) {
-      # cli::cli_alert_info("No values of that type!")
+      cli::cli_alert_info("No values of that type!")
       bins <- purrr::set_names(vector(mode = "character"))
     } else {
-      # cli::cli_alert_success("Values of that type!")
+      cli::cli_alert_success("Values of that type!")
       bins <- purrr::set_names(dm_nms[bin_set])
     }
   }
   return(bins)
+}
+
+#' Create vector of facet columns from data (helper)
+#'
+#' @param df  a `data.frame` or `tibble`
+#' @param type type of column to return
+#'
+#' @return vector of facet columns (< 6 levels)
+#' @export make_facet_checks_df
+#'
+#' @examples
+#' require(NHANES)
+#' make_facet_checks_df(NHANES::NHANES, type = "fct")
+make_facet_checks_df <- function(df, type) {
+  if (ncol(df) < 1) {
+    return(purrr::set_names(vector(mode = "character")))
+  } else {
+    nms <- names(df)
+    # set names in names
+    dm_nms <- purrr::set_names(nms)
+    facet_set <- purrr::map_vec(.x = df, .f = get_facet_checks_vec, type = type)
+    if (sum(facet_set) < 1) {
+      cli::cli_alert_info("No values of that type!")
+      facets <- purrr::set_names(vector(mode = "character"))
+    } else {
+      cli::cli_alert_success("Values of that type!")
+      facets <- purrr::set_names(dm_nms[facet_set])
+    }
+  }
+  return(facets)
+
 }
 
 #' Get binary columns from data
