@@ -2,25 +2,25 @@ library(testthat)
 library(testPkgApp)
 # run utility function tests ----------------------------------------------
 # testthat::test_file(path = "tests/testthat/test-binary_vars.R")
-testthat::test_file(path = "tests/testthat/test-binary_app_inputs.R")
+# testthat::test_file(path = "tests/testthat/test-binary_app_inputs.R")
 
-testthat::test_file(path = "tests/testthat/test-get_col_type_df.R")
+testthat::test_file(path = "tests/testthat/test-get_col_type_tbl.R")
 
-testthat::test_file(path = "tests/testthat/test-get_binary_checks_vec.R")
+testthat::test_file(path = "tests/testthat/test-check_binary_vec.R")
+testthat::test_file(path = "tests/testthat/test-check_facet_vec.R")
 
-testthat::test_file(path = "tests/testthat/test-make_binary_checks_df.R")
+testthat::test_file(path = "tests/testthat/test-make_binary_vec.R")
+testthat::test_file(path = "tests/testthat/test-make_facet_vec.R")
 
-testthat::test_file("tests/testthat/test-facet_vars.R")
-
-testthat::test_file("tests/testthat/test-col_type.R")
-
-testthat::test_file("tests/testthat/test-col_type_list.R")
-
-testthat::test_file("tests/testthat/test-app_inputs.R")
-
-testthat::test_file("tests/testthat/test-deconstruct.R")
-
-testthat::test_file("tests/testthat/test-make_ui_inputs.R")
+# testthat::test_file("tests/testthat/test-facet_vars.R")
+# testthat::test_file("tests/testthat/test-col_type.R")
+# testthat::test_file("tests/testthat/test-col_type_list.R")
+#
+# testthat::test_file("tests/testthat/test-app_inputs.R")
+#
+# testthat::test_file("tests/testthat/test-deconstruct.R")
+#
+# testthat::test_file("tests/testthat/test-make_ui_inputs.R")
 
 # run plot function tests ----------------------------------------------
 testthat::test_file("tests/testthat/test-gg_base.R")

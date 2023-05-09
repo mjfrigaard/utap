@@ -30,11 +30,4 @@ Get data variable types (as list)
 \examples{
 require(palmerpenguins)
 col_type_list(palmerpenguins::penguins)
-# great with zealott!
-require(zeallot)
-c(dbl_vars, int_vars,
-  fct_vars) \%<-\% col_type_list(penguins)
-dbl_vars
-int_vars
-fct_vars
 }

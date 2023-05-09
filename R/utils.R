@@ -25,78 +25,6 @@ not_null <- Negate(is.null)
 #' not_na(c(NA_character_, "A"))
 not_na <- Negate(is.na)
 
-#' Numeric app inputs
-#'
-#' @param df a `data.frame` or `tibble`
-#'
-#' @return integer and double column names
-#' @export num_app_inputs
-#'
-#' @examples
-#' require(palmerpenguins)
-#' require(dplyr)
-#' num_app_inputs(palmerpenguins::penguins)
-#' num_app_inputs(dplyr::starwars)
-num_app_inputs <- function(df) {
-  dbls <- make_col_types_vec(df = df, type = 'dbl')
-  ints <- make_col_types_vec(df = df, type = 'int')
-  nums <- c(dbls, ints)
-  return(nums)
-}
-
-#' Categorical app inputs
-#'
-#' @param df a `data.frame` or `tibble`
-#'
-#' @return character and factor column names
-#' @export cat_app_inputs
-#'
-#' @examples
-#' require(palmerpenguins)
-#' require(dplyr)
-#' cat_app_inputs(palmerpenguins::penguins)
-#' cat_app_inputs(dplyr::starwars)
-cat_app_inputs <- function(df) {
-  chrs <- make_col_types_vec(df = df, type = 'chr')
-  fcts <- make_col_types_vec(df = df, type = 'fct')
-  cats <- c(chrs, fcts)
-  return(cats)
-}
-
-#' Facet app inputs
-#'
-#' @param df a `data.frame` or `tibble`
-#'
-#' @return character and factor column names with less than six levels
-#' @export facet_app_inputs
-#'
-#' @examples
-#' require(palmerpenguins)
-#' require(dplyr)
-#' facet_app_inputs(palmerpenguins::penguins)
-#' facet_app_inputs(dplyr::starwars)
-facet_app_inputs <- function(df) {
-  facets <- make_col_types_vec(df = df, type = 'facet')
-  return(facets)
-}
-
-#' Binary app inputs
-#'
-#' @param df a `data.frame` or `tibble`
-#'
-#' @return logical, character or factor column names with two levels
-#' @export binary_app_inputs
-#'
-#' @examples
-#' require(palmerpenguins)
-#' require(dplyr)
-#' binary_app_inputs(palmerpenguins::penguins)
-#' binary_app_inputs(dplyr::starwars)
-binary_app_inputs <- function(df) {
-  bins <- make_col_types_vec(df = df, type = 'binary')
-  return(bins)
-}
-
 #' Deconstruct R objects
 #'
 #' @param x R object passed to `dput()`
@@ -130,31 +58,6 @@ deconstruct <- function(x, return = FALSE, quote = TRUE) {
   }
 }
 
-#' Make UI inputs
-#'
-#' @description
-#' This is meant to be used in the console--it generates the code for assigning
-#' the elements from a list into a collection of vectors.
-#'
-#' @param app_data dataset for app (`data.frame` or `tibble`)
-#'
-#' @return zeallot assignment (`%<-%`) with input character vector on LHS and
-#'    list of names by type on the RHS
-#'
-#' @export make_ui_inputs
-#'
-#' @examples
-#' require(palmerpenguins)
-#' make_ui_inputs(palmerpenguins::penguins)
-make_ui_inputs <- function(app_data) {
-  ui_inputs <- names(col_type_list(df = app_data))
-  lhs_out <- deconstruct(x = ui_inputs, return = TRUE, quote = FALSE)
-  zeallot_operator <- deconstruct(x = "%<-%", return = TRUE, quote = FALSE)
-  rhs_out <- deconstruct(x = col_type_list(df = app_data), return = TRUE)
-  cat(lhs_out, zeallot_operator, rhs_out)
-}
-
-
 #' Get data variable types (as list)
 #'
 #' @param df a data frame or tibble
@@ -180,13 +83,6 @@ make_ui_inputs <- function(app_data) {
 #' @examples
 #' require(palmerpenguins)
 #' col_type_list(palmerpenguins::penguins)
-#' # great with zealott!
-#' require(zeallot)
-#' c(dbl_vars, int_vars,
-#'   fct_vars) %<-% col_type_list(penguins)
-#' dbl_vars
-#' int_vars
-#' fct_vars
 col_type_list <- function(df) {
   # atomic
     log_vars <- names(dplyr::select(df,
@@ -228,3 +124,37 @@ col_type_list <- function(df) {
   return(types)
 
 }
+
+#' Make UI inputs
+#'
+#' @description
+#' This is meant to be used in the console--it generates the code for assigning
+#' the elements from a list into a collection of vectors.
+#'
+#' @param app_data dataset for app (`data.frame` or `tibble`)
+#'
+#' @return zeallot assignment (`%<-%`) with input character vector on LHS and
+#'    list of names by type on the RHS
+#'
+#' @export make_ui_inputs
+#'
+#' @examples
+#' require(palmerpenguins)
+#' make_ui_inputs(palmerpenguins::penguins)
+#' require(zeallot)
+#' c(double_vars, integer_vars, factor_vars) %<-%
+#'     list(double_vars = c('bill_length_mm', 'bill_depth_mm'),
+#'     integer_vars = c('flipper_length_mm', 'body_mass_g', 'year'),
+#'     factor_vars = c('species', 'island', 'sex'))
+#' double_vars
+#' integer_vars
+#' factor_vars
+make_ui_inputs <- function(app_data) {
+  ui_inputs <- names(col_type_list(df = app_data))
+  lhs_out <- deconstruct(x = ui_inputs, return = TRUE, quote = FALSE)
+  zeallot_operator <- deconstruct(x = "%<-%", return = TRUE, quote = FALSE)
+  rhs_out <- deconstruct(x = col_type_list(df = app_data), return = TRUE)
+  cat(lhs_out, zeallot_operator, rhs_out)
+}
+
+
