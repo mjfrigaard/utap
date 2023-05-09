@@ -38,8 +38,8 @@ not_na <- Negate(is.na)
 #' num_app_inputs(palmerpenguins::penguins)
 #' num_app_inputs(dplyr::starwars)
 num_app_inputs <- function(df) {
-  dbls <- get_col_types(df = df, type = 'dbl')
-  ints <- get_col_types(df = df, type = 'int')
+  dbls <- make_col_types_vec(df = df, type = 'dbl')
+  ints <- make_col_types_vec(df = df, type = 'int')
   nums <- c(dbls, ints)
   return(nums)
 }
@@ -57,8 +57,8 @@ num_app_inputs <- function(df) {
 #' cat_app_inputs(palmerpenguins::penguins)
 #' cat_app_inputs(dplyr::starwars)
 cat_app_inputs <- function(df) {
-  chrs <- get_col_types(df = df, type = 'chr')
-  fcts <- get_col_types(df = df, type = 'fct')
+  chrs <- make_col_types_vec(df = df, type = 'chr')
+  fcts <- make_col_types_vec(df = df, type = 'fct')
   cats <- c(chrs, fcts)
   return(cats)
 }
@@ -76,7 +76,7 @@ cat_app_inputs <- function(df) {
 #' facet_app_inputs(palmerpenguins::penguins)
 #' facet_app_inputs(dplyr::starwars)
 facet_app_inputs <- function(df) {
-  facets <- get_col_types(df = df, type = 'facet')
+  facets <- make_col_types_vec(df = df, type = 'facet')
   return(facets)
 }
 
@@ -93,7 +93,7 @@ facet_app_inputs <- function(df) {
 #' binary_app_inputs(palmerpenguins::penguins)
 #' binary_app_inputs(dplyr::starwars)
 binary_app_inputs <- function(df) {
-  bins <- get_col_types(df = df, type = 'binary')
+  bins <- make_col_types_vec(df = df, type = 'binary')
   return(bins)
 }
 

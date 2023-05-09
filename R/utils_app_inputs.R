@@ -55,12 +55,12 @@ get_col_type_df <- function(df, type) {
 #' @param type type of column to return.
 #'
 #' @return TRUE/FALSE if binary
-#' @export vec_binary_checks
+#' @export get_binary_checks_vec
 #'
 #' @examples
 #' require(palmerpenguins)
-#' vec_binary_checks(palmerpenguins::penguins$sex, type = "fct")
-vec_binary_checks <- function(x, type) {
+#' get_binary_checks_vec(palmerpenguins::penguins$sex, type = "fct")
+get_binary_checks_vec <- function(x, type) {
     check_log_binary <- function(x) { all(na.omit(x) %in% TRUE:FALSE) }
     check_int_binary <- function(x) { all(na.omit(x) %in% 0:1) }
     check_chr_binary <- function(x) { length(unique(na.omit(x))) == 2 }
@@ -78,19 +78,19 @@ vec_binary_checks <- function(x, type) {
 #' @param type type of column to return
 #'
 #' @return vector of binary columns
-#' @export df_binary_checks
+#' @export make_binary_checks_df
 #'
 #' @examples
 #' require(palmerpenguins)
-#' df_binary_checks(palmerpenguins::penguins, type = "fct")
-df_binary_checks <- function(df, type) {
+#' make_binary_checks_df(palmerpenguins::penguins, type = "fct")
+make_binary_checks_df <- function(df, type) {
   if (ncol(df) < 1) {
     return(purrr::set_names(vector(mode = "character")))
   } else {
     nms <- names(df)
     # set names in names
     dm_nms <- purrr::set_names(nms)
-    bin_set <- purrr::map_vec(.x = df, .f = vec_binary_checks, type = type)
+    bin_set <- purrr::map_vec(.x = df, .f = get_binary_checks_vec, type = type)
     if (sum(bin_set) < 1) {
       # cli::cli_alert_info("No values of that type!")
       bins <- purrr::set_names(vector(mode = "character"))
@@ -107,24 +107,24 @@ df_binary_checks <- function(df, type) {
 #' @param df a `data.frame` or `tibble`
 #'
 #' @return vector of binary column names
-#' @export get_binary_cols
+#' @export make_binary_cols_vec
 #'
 #' @examples
 #' require(dplyr)
-#' get_binary_cols(dplyr::starwars)
-get_binary_cols <- function(df) {
+#' make_binary_cols_vec(dplyr::starwars)
+make_binary_cols_vec <- function(df) {
   # logical
   log_bins <- get_col_type_df(df, "log") |>
-              df_binary_checks("log")
+              make_binary_checks_df("log")
   # integer
   int_bins <- get_col_type_df(df, "int") |>
-              df_binary_checks("int")
+              make_binary_checks_df("int")
   # character
   chr_bins <- get_col_type_df(df, "chr") |>
-              df_binary_checks("chr")
+              make_binary_checks_df("chr")
   # factors
   fct_bins <- get_col_type_df(df, "fct") |>
-              df_binary_checks("fct")
+              make_binary_checks_df("fct")
   # assemble
   all_bins <- list(log_bins, int_bins, chr_bins, fct_bins)
   # reduce
@@ -147,21 +147,21 @@ get_binary_cols <- function(df) {
 #' @return a vector of factor or character column names with less than six
 #'   unique levels
 #'
-#' @export get_facet_cols
+#' @export make_facet_cols_vec
 #'
 #' @importFrom purrr set_names
 #'
 #' @examples
 #' require(dplyr)
 #' require(NHANES)
-#' get_facet_cols(df = dplyr::starwars)
-#' get_facet_cols(df = NHANES::NHANES)
+#' make_facet_cols_vec(df = dplyr::starwars)
+#' make_facet_cols_vec(df = NHANES::NHANES)
 #'
 #' str(dplyr::select(dplyr::starwars,
-#'   dplyr::all_of(get_facet_cols(df = dplyr::starwars))))
+#'   dplyr::all_of(make_facet_cols_vec(df = dplyr::starwars))))
 #' str(dplyr::select(NHANES::NHANES,
-#'   dplyr::all_of(get_facet_cols(df = NHANES::NHANES))))
-get_facet_cols <- function(df) {
+#'   dplyr::all_of(make_facet_cols_vec(df = NHANES::NHANES))))
+make_facet_cols_vec <- function(df) {
   chr_nms <- names(dplyr::select(df, dplyr::where(is.character)))
   fct_nms <- names(dplyr::select(df, dplyr::where(is.factor)))
   cat_df <- dplyr::select(df, dplyr::all_of(c(chr_nms, fct_nms)))
@@ -200,14 +200,14 @@ get_facet_cols <- function(df) {
 #'   * "binary": binary variables (two levels)
 #'
 #' @return vector of names from df matching `type`
-#' @export get_col_types
+#' @export make_col_types_vec
 #'
 #' @examples
 #' require(palmerpenguins)
 #' require(dplyr)
-#' get_col_types(df = palmerpenguins::penguins, type = 'dbl')
-#' get_col_types(df = palmerpenguins::penguins, type = 'int')
-get_col_types <- function(df, type) {
+#' make_col_types_vec(df = palmerpenguins::penguins, type = 'dbl')
+#' make_col_types_vec(df = palmerpenguins::penguins, type = 'int')
+make_col_types_vec <- function(df, type) {
   nms <- switch(type,
     log = names(dplyr::select(df, dplyr::where(is.logical))),
     dbl = names(dplyr::select(df, dplyr::where(is.double))),
@@ -219,8 +219,8 @@ get_col_types <- function(df, type) {
     posixct = names(dplyr::select(df, dplyr::where(lubridate::is.POSIXct))),
     posixlt = names(dplyr::select(df, dplyr::where(lubridate::is.POSIXlt))),
     posix = names(dplyr::select(df, dplyr::where(lubridate::is.POSIXt))),
-    facet = get_facet_cols(df = df),
-    binary = get_binary_cols(df)
+    facet = make_facet_cols_vec(df = df),
+    binary = make_binary_cols_vec(df)
   )
   named_nms <- purrr::set_names(nms)
   return(named_nms)

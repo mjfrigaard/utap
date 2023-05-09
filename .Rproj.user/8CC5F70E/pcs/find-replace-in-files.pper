@@ -1,15 +1,15 @@
 {
     "dialog-state": {
-        "query": "gg_base_layer",
+        "query": "get_col_types_vec",
         "path": "",
         "regex": false,
-        "caseSensitive": false,
+        "caseSensitive": true,
         "wholeWord": false,
         "filePatterns": [],
-        "useGitGrep": false,
+        "useGitGrep": true,
         "excludeGitIgnore": true,
         "excludeFilePatterns": [],
-        "resultsCount": 9,
+        "resultsCount": 16,
         "errorCount": 0,
         "replaceErrors": "",
         "projectRelative": true
