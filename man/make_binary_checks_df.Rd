@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils_app_inputs.R
 \name{make_binary_checks_df}
 \alias{make_binary_checks_df}
-\title{Create vector of binary columns from data (helper)}
+\title{Create vector of binary columns from data.frame or tibble (helper)}
 \usage{
 make_binary_checks_df(df, type)
 }
@@ -15,9 +15,14 @@ make_binary_checks_df(df, type)
 vector of binary columns
 }
 \description{
-Create vector of binary columns from data (helper)
+Create vector of binary columns from data.frame or tibble (helper)
 }
 \examples{
 require(palmerpenguins)
-make_binary_checks_df(palmerpenguins::penguins, type = "fct")
+require(dplyr)
+bins <- make_binary_checks_df(
+            df = dplyr::select(palmerpenguins::penguins,
+                          dplyr::where(is.factor)),
+            type = "fct")
+bins
 }

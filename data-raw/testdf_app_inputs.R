@@ -9,8 +9,8 @@ testdf_app_inputs <- tibble::tibble(
     log_bin = sample(x = c(TRUE, FALSE, FALSE, TRUE), 10, TRUE),
     # integer binary (with missing)
     int_bin = sample(x = c(0L, 1L, NA_integer_, 1L), 10, TRUE),
-    # two-level character facet variable (with missing)
-    chr_3l_na_facet = sample(x = c("A", "B", NA_character_, "B"),
+    # character binary variable (2 unique values, missing)
+    chr_3l_na_bin = sample(x = c("A", "B", NA_character_, "B"),
                            10, TRUE),
     # two level ordinal binary factor (with missing)
     ord_bin = factor(x = sample(x = c("high", "low",

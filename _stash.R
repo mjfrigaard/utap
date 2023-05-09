@@ -1,5 +1,48 @@
-# require(dplyr)
-# make_ui_inputs(dplyr::starwars)
+#' Facet variables (as vector)
+#'
+#' @section Variables to use for facets:
+#'
+#' This function is designed to quickly determine which variables have an
+#' appropriate number of categorical levels for using `ggplot2::facet_wrap()`
+#' or `ggplot2::facet_grid()`
+#'
+#' @param df a `data.frame` or `tibble`
+#'
+#' @return a vector of factor or character column names with less than six
+#'   unique levels
+#'
+#'
+#' @importFrom purrr set_names
+#'
+#' @examples
+#' require(dplyr)
+#' require(NHANES)
+#' make_facet_cols_vec(df = dplyr::starwars)
+#' make_facet_cols_vec(df = NHANES::NHANES)
+#'
+#' str(dplyr::select(dplyr::starwars,
+#'   dplyr::all_of(make_facet_cols_vec(df = dplyr::starwars))))
+#' str(dplyr::select(NHANES::NHANES,
+#'   dplyr::all_of(make_facet_cols_vec(df = NHANES::NHANES))))
+make_facet_cols_vec <- function(df) {
+  chr_nms <- names(dplyr::select(df, dplyr::where(is.character)))
+  fct_nms <- names(dplyr::select(df, dplyr::where(is.factor)))
+  cat_df <- dplyr::select(df, dplyr::all_of(c(chr_nms, fct_nms)))
+  if (length(cat_df) > 0) {
+    # get names
+    nms <- names(cat_df)
+    # set names in names
+    df_nms <- purrr::set_names(nms)
+    # check for facet variables
+    check_facet_levels <- function(x) {
+      length(unique(na.omit(x))) < 6
+    }
+    # get TRUE/FALSE facets
+    facets <- sapply(cat_df, check_facet_levels)
+    # subset names with facet vars
+    df_nms[facets]
+  }
+}
 
 # @importFrom ggplot2 ggplot aes vars facet_wrap geom_point labs
 # @importFrom rlang .data

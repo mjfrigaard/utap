@@ -57,10 +57,8 @@
     col_types_names <- names(get_col_type_df(testdf_app_inputs, type = "chr"))
     testthat::expect_equal(
       object = col_types_names,
-      expected = c(
-        "chr_3l_na_facet", "chr_4l_facet",
-        "chr_10l", "chr_10l_na"
-      )
+      expected = c("chr_3l_na_bin", "chr_4l_facet",
+                   "chr_10l", "chr_10l_na")
     )
   })
 

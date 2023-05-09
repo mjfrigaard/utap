@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils_app_inputs.R
 \name{make_facet_cols_vec}
 \alias{make_facet_cols_vec}
-\title{Facet variables (as vector)}
+\title{Get facet columns from data}
 \usage{
 make_facet_cols_vec(df)
 }
@@ -10,11 +10,10 @@ make_facet_cols_vec(df)
 \item{df}{a \code{data.frame} or \code{tibble}}
 }
 \value{
-a vector of factor or character column names with less than six
-unique levels
+a vector of factor or character column names with < 6 unique levels
 }
 \description{
-Facet variables (as vector)
+Get facet columns from data
 }
 \section{Variables to use for facets}{
 

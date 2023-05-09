@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils_app_inputs.R
 \name{make_facet_checks_df}
 \alias{make_facet_checks_df}
-\title{Create vector of facet columns from data (helper)}
+\title{Create vector of facet columns from data.frame or tibble (helper)}
 \usage{
 make_facet_checks_df(df, type)
 }
@@ -15,9 +15,14 @@ make_facet_checks_df(df, type)
 vector of facet columns (< 6 levels)
 }
 \description{
-Create vector of facet columns from data (helper)
+Create vector of facet columns from data.frame or tibble (helper)
 }
 \examples{
 require(NHANES)
-make_facet_checks_df(NHANES::NHANES, type = "fct")
+require(dplyr)
+facets <- make_facet_checks_df(
+            df = dplyr::select(NHANES::NHANES,
+                          dplyr::where(is.factor)),
+            type = "fct")
+facets
 }
