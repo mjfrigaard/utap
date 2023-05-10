@@ -1,5 +1,34 @@
+test_that("check_facet_vec() character", {
+    # test character (5 unique values)
+    chr_test <- check_facet_vec(x =
+                              chr_maker(size = 10, lvls = 5),
+                              type = "chr")
+    expect_equal(object = chr_test,
+                 expected = TRUE)
+    # test character (5 unique values, missing)
+    chr_test <- check_facet_vec(x =
+                              chr_maker(size = 10, lvls = 5,
+                                        missing = TRUE),
+                              type = "chr")
+    expect_equal(object = chr_test,
+                 expected = TRUE)
+    # test character (6 unique values)
+    chr_test <- check_facet_vec(x =
+                              chr_maker(size = 10, lvls = 6),
+                              type = "chr")
+    expect_equal(object = chr_test,
+                 expected = FALSE)
+    # test character (6 unique values, missing)
+    chr_test <- check_facet_vec(x =
+                              chr_maker(size = 10, lvls = 6,
+                                        missing = TRUE),
+                              type = "chr")
+    expect_equal(object = chr_test,
+                 expected = FALSE)
+})
+
 test_that("check_facet_vec() factor", {
-    # test factor (5 levels)
+  # test factor (5 levels)
   fct_test <- fct_maker(size = 10, lvls = 5)
   expect_equal(object = check_facet_vec(
                       x = fct_test,
@@ -94,31 +123,4 @@ test_that("check_facet_vec() ordered", {
   expect_equal(object = ord_test, expected = FALSE)
 })
 
-test_that("check_facet_vec() character", {
-    # test character (5 unique values)
-    chr_test <- check_facet_vec(x =
-                              chr_maker(size = 10, lvls = 5),
-                              type = "chr")
-    expect_equal(object = chr_test,
-                 expected = TRUE)
-    # test character (5 unique values, missing)
-    chr_test <- check_facet_vec(x =
-                              chr_maker(size = 10, lvls = 5,
-                                        missing = TRUE),
-                              type = "chr")
-    expect_equal(object = chr_test,
-                 expected = TRUE)
-    # test character (6 unique values)
-    chr_test <- check_facet_vec(x =
-                              chr_maker(size = 10, lvls = 6),
-                              type = "chr")
-    expect_equal(object = chr_test,
-                 expected = FALSE)
-    # test character (6 unique values, missing)
-    chr_test <- check_facet_vec(x =
-                              chr_maker(size = 10, lvls = 6,
-                                        missing = TRUE),
-                              type = "chr")
-    expect_equal(object = chr_test,
-                 expected = FALSE)
-})
+

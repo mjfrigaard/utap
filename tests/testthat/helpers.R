@@ -165,7 +165,7 @@ bin_maker <- function(type, size, missing = FALSE) {
                    levels = unique(sort(
                             rep(x = c("group A", "group B"),
                               length.out = size)))),
-      ord = factor(rep(x = c("level 1", "level 1"),
+      ord = factor(rep(x = c("level 1", "level 2"),
                               length.out = size),
                    levels = unique(sort(
                             rep(x = c("level 1", "level 2"),

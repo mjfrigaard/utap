@@ -1,12 +1,16 @@
 test_that("check_binary_vec logical works", {
+  # test logical
+  expect_equal(object = check_binary_vec(
+                      x = log_maker(size = 2,
+                                    missing = TRUE),
+                      type = "log"),
+               expected = TRUE)
 
-  # test
-  expect_equal(
-    object = check_binary_vec(x = c(TRUE, FALSE, NA), type = "log"),
-    expected = TRUE)
-  expect_equal(
-    object = check_binary_vec(x = c(TRUE, FALSE), type = "log"),
-    expected = TRUE)
+  expect_equal(object = check_binary_vec(
+                      x = log_maker(size = 2),
+                      type = "log"),
+               expected = TRUE)
+
   expect_equal(
     object = check_binary_vec(x = c(FALSE, FALSE, NA), type = "log"),
     expected = TRUE)

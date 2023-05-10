@@ -20,8 +20,8 @@ test_that("binary_app_inputs works", {
                       bin_na = log_maker(size = 10, missing = TRUE),
                       bin = log_maker(size = 10),
                       # non binary columns
-                      chr_na = chr_maker(10, TRUE),
-                      chr = chr_maker(10))
+                      chr_na = chr_maker(size = 10, lvls = 4, missing = TRUE),
+                      chr = chr_maker(size = 10, lvls = 4))
 
     # create object
     bins <- binary_app_inputs(log_bin_df)

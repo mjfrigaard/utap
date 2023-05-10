@@ -1,15 +1,13 @@
   testthat::test_that("get_col_types() works", {
     col_types_test <- readRDS(testthat::test_path("fixtures", "col_types_test.rds"))
     # test logical class
-    col_types_class <- class(get_col_types(col_types_test, type = "log"))
     testthat::expect_equal(
-      object = col_types_class,
+      object = class(get_col_types(col_types_test, type = "log")),
       expected = c("tbl_df", "tbl", "data.frame")
     )
-    # test logical colums
-    col_types_names <- names(get_col_types(col_types_test, type = "log"))
+    # test logical columns
     testthat::expect_equal(
-      object = col_types_names,
+      object = names(get_col_types(col_types_test, type = "log")),
       expected = c("log_na", "log_var")
     )
     # test logical names
@@ -20,15 +18,13 @@
       expected = purrr::set_names(c("log_na", "log_var"))
     )
     # test integer class
-    col_types_class <- class(get_col_types(col_types_test, type = "int"))
     testthat::expect_equal(
-      object = col_types_class,
+      object = class(get_col_types(col_types_test, type = "int")),
       expected = c("tbl_df", "tbl", "data.frame")
     )
     # test integer columns
-    col_types_names <- names(get_col_types(col_types_test, type = "int"))
     testthat::expect_equal(
-      object = col_types_names,
+      object = names(get_col_types(col_types_test, type = "int")),
       expected = c("int_na", "int_var")
     )
     # test integer names
@@ -41,15 +37,13 @@
                   )
     )
     # test double class
-    col_types_class <- class(get_col_types(col_types_test, type = "dbl"))
     testthat::expect_equal(
-      object = col_types_class,
+      object = class(get_col_types(col_types_test, type = "dbl")),
       expected = c("tbl_df", "tbl", "data.frame")
     )
     # test double columns
-    col_types_names <- names(get_col_types(col_types_test, type = "dbl"))
     testthat::expect_equal(
-      object = col_types_names,
+      object = names(get_col_types(col_types_test, type = "dbl")),
       expected = c("dbl_na", "dbl_var")
     )
     # test integer names
@@ -62,15 +56,13 @@
                   )
     )
     # test character class
-    col_types_class <- class(get_col_types(col_types_test, type = "chr"))
     testthat::expect_equal(
-      object = col_types_class,
+      object = class(get_col_types(col_types_test, type = "chr")),
       expected = c("tbl_df", "tbl", "data.frame")
     )
     # test character columns
-    col_types_names <- names(get_col_types(col_types_test, type = "chr"))
     testthat::expect_equal(
-      object = col_types_names,
+      object = names(get_col_types(col_types_test, type = "chr")),
       expected = c("chr_na", "chr_var")
     )
     # test character names
@@ -83,28 +75,26 @@
                   )
     )
     # test factor class
-    col_types_class <- class(get_col_types(col_types_test, type = "fct"))
     testthat::expect_equal(
-      object = col_types_class,
+      object = class(get_col_types(col_types_test, type = "fct")),
       expected = c("tbl_df", "tbl", "data.frame")
     )
     # test factor columns
-    col_types_names <- names(get_col_types(col_types_test, type = "fct"))
     testthat::expect_equal(
-      object = col_types_names,
-      expected = c(
-        "fct_var", "fct_na",
-        "ord_fct", "ord_na")
-      )
+      object = names(get_col_types(col_types_test,
+                             type = "fct",
+                             return_tbl = TRUE)),
+      expected =  c("fct_na", "fct_var", "ord_na", "ord_fct"))
     # test factor names
     testthat::expect_equal(
       object = get_col_types(df = col_types_test,
                              type = "fct",
                              return_tbl = FALSE),
       expected = purrr::set_names(
-                    c("fct_var", "fct_na",
-                    "ord_fct", "ord_na")
-                  )
+                  c("fct_na",
+                    "fct_var",
+                    "ord_na",
+                    "ord_fct"))
     )
   })
   # test error type
