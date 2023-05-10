@@ -137,7 +137,6 @@ bin_maker <- function(type, size, missing = FALSE) {
     size <- 3
     cli::cli_alert_info("size must be >= 3")
   }
-
   if (isTRUE(missing)) {
     switch(type,
       log = rep(x = c(TRUE, FALSE, NA), length.out = size),

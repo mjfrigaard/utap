@@ -169,11 +169,10 @@ check_facet_vec <- function(x, type) {
 #' @examples
 #' require(palmerpenguins)
 #' require(dplyr)
-#' bins <- make_binary_vec(
-#'             df = dplyr::select(palmerpenguins::penguins,
-#'                           dplyr::where(is.factor)),
+#' make_binary_vec(
+#'   df = dplyr::select(palmerpenguins::penguins,
+#'                      dplyr::where(is.factor)),
 #'             type = "fct")
-#' bins
 make_binary_vec <- function(df, type) {
   if (ncol(df) < 1) {
     return(purrr::set_names(vector(mode = "character")))
@@ -186,10 +185,10 @@ make_binary_vec <- function(df, type) {
                     .f = check_binary_vec,
                     type = type)
     if (sum(bin_set) < 1) {
-      cli::cli_alert_info(glue::glue("No {type} binary values!"))
+      # cli::cli_alert_info(glue::glue("No {type} binary values!"))
       bins <- purrr::set_names(vector(mode = "character"))
     } else {
-      cli::cli_alert_success(glue::glue("{type} binary values!"))
+      # cli::cli_alert_success(glue::glue("{type} binary values!"))
       bins <- purrr::set_names(dm_nms[bin_set])
     }
   }

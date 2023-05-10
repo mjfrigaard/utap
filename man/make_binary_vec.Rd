@@ -20,9 +20,8 @@ Create vector of binary columns by type (helper)
 \examples{
 require(palmerpenguins)
 require(dplyr)
-bins <- make_binary_vec(
-            df = dplyr::select(palmerpenguins::penguins,
-                          dplyr::where(is.factor)),
+make_binary_vec(
+  df = dplyr::select(palmerpenguins::penguins,
+                     dplyr::where(is.factor)),
             type = "fct")
-bins
 }
