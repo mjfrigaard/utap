@@ -4,7 +4,7 @@ library(testPkgApp)
 # testthat::test_file(path = "tests/testthat/test-binary_vars.R")
 # testthat::test_file(path = "tests/testthat/test-binary_app_inputs.R")
 
-testthat::test_file(path = "tests/testthat/test-get_col_type_tbl.R")
+testthat::test_file(path = "tests/testthat/test-get_col_types.R")
 
 testthat::test_file(path = "tests/testthat/test-check_binary_vec.R")
 testthat::test_file(path = "tests/testthat/test-check_facet_vec.R")

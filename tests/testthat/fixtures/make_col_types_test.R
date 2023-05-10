@@ -7,10 +7,11 @@ col_types_test <- tibble::tibble(
                dbl_var = dbl_maker(size = 10),
                chr_na = chr_maker(10, missing = TRUE),
                chr_var = chr_maker(10),
-               fct_var = fct_maker(10),
-               fct_na = fct_maker(10, missing = TRUE),
-               ord_fct = ord_maker(10),
-               ord_na = ord_maker(10, missing = TRUE))
+               fct_na = fct_maker(size = 10, lvls = 5, missing = TRUE),
+               fct_var = fct_maker(size = 10, lvls = 5),
+               ord_na = fct_maker(size = 10, lvls = 5,
+                                  ord = TRUE, missing = TRUE),
+               ord_fct = fct_maker(size = 10, lvls = 5, ord = TRUE))
 # export to tests/testthat/fixtures/
 saveRDS(col_types_test,
   file = "tests/testthat/fixtures/col_types_test.rds")

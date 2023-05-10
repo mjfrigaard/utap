@@ -47,53 +47,54 @@ dbl_maker <- function(size, missing = FALSE) {
 
 chr_maker <- function(size, missing = FALSE) {
   if (isTRUE(missing)) {
-    x <- sample(state.name, size = size, replace = TRUE)
+    x <- sample(paste("group ", LETTERS), size = size, replace = TRUE)
     nas <- rep(NA_character_, times = as.integer(size) - 1)
     chr_raw <- as.vector(c(x, nas), mode = "character")
     chr_vec <- sample(x = chr_raw, size = size, replace = TRUE)
     return(chr_vec)
   } else {
-    chr_raw <- state.name[1:as.integer(size)]
+    chr_raw <- paste("group ", LETTERS)[1:as.integer(size)]
     chr_vec <- sample(x = chr_raw, size = size, replace = TRUE)
     return(chr_vec)
   }
 }
+# chr_maker(10)
+# chr_maker(10, TRUE)
 
-fct_maker <- function(size, missing = FALSE) {
-  if (isTRUE(missing)) {
-    x <- sample(state.name, size = size, replace = TRUE)
+fct_maker <- function(size, lvls, ord = FALSE, missing = FALSE) {
+  if (isTRUE(missing) & isTRUE(ord)) {
+    levs <- paste0("group ", as.integer(1:lvls))
+    x <- sample(levs, size = size, replace = TRUE)
     nas <- rep(NA_character_, times = as.integer(size) - 1)
     chr_raw <- as.vector(c(x, nas), mode = "character")
     chr_vec <- sample(x = chr_raw, size = size, replace = TRUE)
-    fct_vec <- factor(chr_vec, levels = unique(sort(chr_vec)))
-    return(fct_vec)
-  } else {
-    chr_raw <- state.name[1:as.integer(size)]
+    fct_vec <- factor(chr_vec, levels = unique(sort(x)),
+                ordered = TRUE)
+  } else if (isFALSE(missing) & isTRUE(ord)) {
+    levs <- paste0("group ", as.integer(1:lvls))
+    chr_raw <- rep(levs, times = size)
     chr_vec <- sample(x = chr_raw, size = size, replace = TRUE)
-    fct_vec <- factor(chr_vec, levels = unique(sort(chr_vec)))
-    return(fct_vec)
-  }
-}
-
-ord_maker <- function(size, missing = FALSE) {
-  if (isTRUE(missing)) {
-    x <- sample(state.name, size = size, replace = TRUE)
+    ord_levels <-  sort(unique(chr_vec))
+    fct_vec <- factor(chr_vec, levels = ord_levels, ordered = TRUE)
+  } else if (isTRUE(missing) & isFALSE(ord)) {
+    levs <- paste0("group ", as.integer(1:lvls))
+    x <- sample(levs, size = size, replace = TRUE)
     nas <- rep(NA_character_, times = as.integer(size) - 1)
     chr_raw <- as.vector(c(x, nas), mode = "character")
     chr_vec <- sample(x = chr_raw, size = size, replace = TRUE)
-    ord_vec <- factor(chr_vec,
-                      levels = unique(sort(chr_vec)),
-                      ordered = TRUE)
-    return(ord_vec)
+    fct_vec <- factor(chr_vec, levels = unique(sort(x)))
   } else {
-    chr_raw <- state.name[1:as.integer(size)]
+    levs <- paste0("group ", as.integer(1:lvls))
+    chr_raw <- rep(levs, times = size)
     chr_vec <- sample(x = chr_raw, size = size, replace = TRUE)
-    ord_vec <- factor(chr_vec,
-                      levels = unique(sort(chr_vec)),
-                      ordered = TRUE)
-    return(ord_vec)
+    fct_vec <- factor(chr_vec, levels = unique(sort(chr_vec)))
   }
+  return(fct_vec)
 }
+# fct_maker(size = 10, lvls = 5, ord = TRUE, missing = TRUE)
+# fct_maker(size = 10, lvls = 5, ord = TRUE, missing = FALSE)
+# fct_maker(size = 10, lvls = 5, ord = FALSE, missing = TRUE)
+# fct_maker(size = 10, lvls = 5, ord = FALSE, missing = FALSE)
 
 bin_maker <- function(type, size, missing = FALSE) {
   if (isTRUE(missing)) {

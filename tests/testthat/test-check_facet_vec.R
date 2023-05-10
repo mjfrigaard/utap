@@ -1,5 +1,4 @@
 test_that("check_facet_vec() factor", {
-
     # test factor (5 levels)
     test_facet <- check_facet_vec(x =
         factor(c("group 1", "group 2", "group 3",
