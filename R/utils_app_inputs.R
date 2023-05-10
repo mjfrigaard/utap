@@ -148,8 +148,8 @@ check_binary_vec <- function(x, type) {
 #' check_facet_vec(NHANES::NHANES$MaritalStatus, type = "fct")
 #' levels(NHANES::NHANES$MaritalStatus)
 check_facet_vec <- function(x, type) {
-      check_chr_facet <- function(x) { length(unique(na.omit(x))) < 6 }
-      check_fct_facet <- function(x) { length(levels(na.omit(x))) < 6 }
+      check_chr_facet <- function(x) { length(unique(na.omit(x))) <= 5 }
+      check_fct_facet <- function(x) { length(levels(na.omit(x))) <= 5 }
         switch(type,
             chr = check_chr_facet(x),
             fct = check_fct_facet(x))
