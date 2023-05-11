@@ -45,7 +45,7 @@ get_col_type_tbl <- function(df, type) {
     list = dplyr::select(tibble::as_tibble(df), dplyr::where(is.list)))
 
   if (ncol(df_cols) < 1 || nrow(df_cols) < 1 ) {
-    cli::cli_alert_info(glue::glue("No {type} columns"))
+    # cli::cli_alert_info(glue::glue("No {type} columns"))
     df_cols <- structure(list(),
                          class = c("tbl_df", "tbl", "data.frame"),
                          row.names = integer(0),
@@ -149,9 +149,10 @@ check_binary_vec <- function(x, type) {
 #' levels(NHANES::NHANES$MaritalStatus)
 check_facet_vec <- function(x, type) {
       check_chr_facet <- function(x) { length(unique(na.omit(x))) <= 5 }
-      check_fct_facet <- function(x) { length(levels(na.omit(x))) <= 5 }
+      check_fct_facet <- function(x) { length(unique(na.omit(x))) <= 5 }
         switch(type,
             chr = check_chr_facet(x),
+            ord = check_fct_facet(x),
             fct = check_fct_facet(x))
 }
 
@@ -175,6 +176,7 @@ check_facet_vec <- function(x, type) {
 #'             type = "fct")
 make_binary_vec <- function(df, type) {
   if (ncol(df) < 1) {
+    # cli::cli_alert_info(glue::glue("No {type} binary columns!"))
     return(purrr::set_names(vector(mode = "character")))
   } else {
     nms <- names(df)
@@ -216,6 +218,7 @@ make_binary_vec <- function(df, type) {
 #' facets
 make_facet_vec <- function(df, type) {
   if (ncol(df) < 1) {
+    # cli::cli_alert_info(glue::glue("No {type} facet columns!"))
     return(purrr::set_names(vector(mode = "character")))
   } else {
     nms <- names(df)
@@ -226,10 +229,10 @@ make_facet_vec <- function(df, type) {
                       .f = check_facet_vec,
                       type = type)
     if (sum(facet_set) < 1) {
-      cli::cli_alert_info(glue::glue("No {type} facet values!"))
+      # cli::cli_alert_info(glue::glue("No {type} facet values!"))
       facets <- purrr::set_names(vector(mode = "character"))
     } else {
-      cli::cli_alert_success(glue::glue("{type} facet values!"))
+      # cli::cli_alert_success(glue::glue("{type} facet values!"))
       facets <- purrr::set_names(dm_nms[facet_set])
     }
   }

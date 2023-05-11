@@ -127,7 +127,7 @@ fct_maker <- function(size, lvls, ord = FALSE, missing = FALSE) {
   }
   return(fct_vec)
 }
-fct_maker(size = 5, lvls = 6, ord = TRUE, missing = TRUE)
+# fct_maker(size = 5, lvls = 6, ord = TRUE, missing = TRUE)
 # fct_maker(size = 10, lvls = 5, ord = TRUE, missing = FALSE)
 # fct_maker(size = 10, lvls = 5, ord = FALSE, missing = TRUE)
 # fct_maker(size = 10, lvls = 5, ord = FALSE, missing = FALSE)
