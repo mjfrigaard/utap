@@ -22,9 +22,11 @@ require(palmerpenguins)
 make_ui_inputs(palmerpenguins::penguins)
 require(zeallot)
 c(double_vars, integer_vars, factor_vars) \%<-\%
-    list(double_vars = c('bill_length_mm', 'bill_depth_mm'),
-    integer_vars = c('flipper_length_mm', 'body_mass_g', 'year'),
-    factor_vars = c('species', 'island', 'sex'))
+  list(
+    double_vars = c("bill_length_mm", "bill_depth_mm"),
+    integer_vars = c("flipper_length_mm", "body_mass_g", "year"),
+    factor_vars = c("species", "island", "sex")
+  )
 double_vars
 integer_vars
 factor_vars

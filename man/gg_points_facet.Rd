@@ -35,7 +35,7 @@ gg_points_facet(
   facet_var = "species",
   alpha = 1 / 3,
   size = 2
-  )
+)
 gg_points_facet(
   df = palmerpenguins::penguins,
   x_var = "bill_length_mm",
@@ -44,7 +44,7 @@ gg_points_facet(
   facet_var = NULL,
   alpha = 1 / 3,
   size = 2
-  )
+)
 gg_points_facet(
   df = palmerpenguins::penguins,
   x_var = "bill_length_mm",
@@ -53,5 +53,5 @@ gg_points_facet(
   facet_var = NULL,
   alpha = 1 / 3,
   size = 2
-  )
+)
 }

@@ -3,15 +3,16 @@ testthat::test_that("gg_points works", {
   # define inputs
   set.seed(1234)
   df_test <- data.frame(
-  'x' = rnorm(n = 100, mean = 5, sd = 2),
-  'y' = rnorm(n = 100, mean = 10, sd = 5),
-   'col' = sample(LETTERS[1:3], size = 100, replace = TRUE))
+    "x" = rnorm(n = 100, mean = 5, sd = 2),
+    "y" = rnorm(n = 100, mean = 10, sd = 5),
+    "col" = sample(LETTERS[1:3], size = 100, replace = TRUE)
+  )
   # create points
   points <- gg_points(
     df = df_test,
-    x_var = 'x',
-    y_var = 'y',
-    col_var = 'col'
+    x_var = "x",
+    y_var = "y",
+    col_var = "col"
   )
   vdiffr::expect_doppelganger("default points plot", points)
 })
@@ -75,4 +76,3 @@ testthat::test_that("gg_points works", {
 #         object = purrr::map_vec(ggp_pnts$layers, \(x) class(x$geom)[1]),
 #         expected = "GeomPoint")
 # })
-

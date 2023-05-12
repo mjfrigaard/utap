@@ -95,17 +95,25 @@ fct_binary_vars <- function(df) {
 #' binary_vars(df = NHANES::NHANES)
 #' binary_vars(df = palmerpenguins::penguins)
 #' # verify with str()
-#' str(dplyr::select(NHANES::NHANES,
-#'   dplyr::all_of(binary_vars(df = NHANES::NHANES))))
-#' str(dplyr::select(palmerpenguins::penguins,
-#'   dplyr::all_of(binary_vars(df = palmerpenguins::penguins))))
+#' str(dplyr::select(
+#'   NHANES::NHANES,
+#'   dplyr::all_of(binary_vars(df = NHANES::NHANES))
+#' ))
+#' str(dplyr::select(
+#'   palmerpenguins::penguins,
+#'   dplyr::all_of(binary_vars(df = palmerpenguins::penguins))
+#' ))
 binary_vars <- function(df) {
   # non factors
-  non_fct_cols <- ncol(dplyr::select(df,
-                       !dplyr::where(is.factor)))
+  non_fct_cols <- ncol(dplyr::select(
+    df,
+    !dplyr::where(is.factor)
+  ))
   # factors
-  fct_cols <- ncol(dplyr::select(df,
-                        dplyr::where(is.factor)))
+  fct_cols <- ncol(dplyr::select(
+    df,
+    dplyr::where(is.factor)
+  ))
   # if both column types exist
   if (non_fct_cols > 1 & fct_cols > 1) {
     non_fcts <- non_fct_binary_vars(df = df)

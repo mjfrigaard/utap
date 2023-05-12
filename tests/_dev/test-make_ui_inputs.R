@@ -4,7 +4,8 @@ test_that("make_ui_inputs() works", {
     data.frame(
       col_a = c(1, 2, 3),
       col_b = c("A", "B", "C"),
-      col_c = as.factor(c("X", "Y", "Z")))
+      col_c = as.factor(c("X", "Y", "Z"))
+    )
   }
   test_data <- create_test_data()
 

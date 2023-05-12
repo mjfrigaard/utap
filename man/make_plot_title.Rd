@@ -23,5 +23,6 @@ Make plot title
 make_plot_title(
   x = "imdb_rating",
   y = "audience_score",
-  color = "mpaa_rating")
+  color = "mpaa_rating"
+)
 }

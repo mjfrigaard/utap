@@ -24,7 +24,7 @@ int_maker <- function(size, missing = FALSE) {
     int_vec <- as.vector(int_raw, mode = "integer")
     return(int_vec)
   } else if (size >= 3 & isTRUE(missing)) {
-    adj_size <- round(size*0.66, digits = 0)
+    adj_size <- round(size * 0.66, digits = 0)
     int_seq <- seq.int(from = 1, to = as.integer(exp(size)), length.out = adj_size)
     int_raw <- rep(c(int_seq, NA_integer_), length.out = size)
     int_vec <- as.vector(int_raw, mode = "integer")
@@ -48,17 +48,17 @@ dbl_maker <- function(size, missing = FALSE) {
     dbl_vec <- round(as.vector(dbl_raw, mode = "double"), digits = 3)
     return(dbl_vec)
   } else if (size < 3 & isFALSE(missing)) {
-    dbl_raw <- seq.int(from = 0.1, to = as.double(size/2), length.out = size)
+    dbl_raw <- seq.int(from = 0.1, to = as.double(size / 2), length.out = size)
     dbl_vec <- round(as.vector(dbl_raw, mode = "double"), digits = 3)
     return(dbl_vec)
   } else if (size >= 3 & isTRUE(missing)) {
-    adj_size <- round(size*0.33, digits = 0)
-    dbl_seq <- seq.int(from = 0.1, to = as.double(size/2), length.out = adj_size)
+    adj_size <- round(size * 0.33, digits = 0)
+    dbl_seq <- seq.int(from = 0.1, to = as.double(size / 2), length.out = adj_size)
     dbl_raw <- rep(c(dbl_seq, NA_real_), length.out = size)
     dbl_vec <- round(as.vector(dbl_raw, mode = "double"), digits = 3)
     return(dbl_vec)
   } else {
-    dbl_raw <- seq.int(from = 0.1, to = as.double(size/2), length.out = size)
+    dbl_raw <- seq.int(from = 0.1, to = as.double(size / 2), length.out = size)
     dbl_vec <- round(as.vector(dbl_raw, mode = "double"), digits = 3)
     return(dbl_vec)
   }
@@ -76,10 +76,12 @@ chr_maker <- function(size, lvls, missing = FALSE) {
   }
   if (isTRUE(missing) & size < 3) {
     chr_vec <- as.vector(c("item: 1", NA_character_),
-                         mode = "character")
+      mode = "character"
+    )
   } else if (isFALSE(missing) & size < 3) {
     chr_vec <- as.vector(c("item: 1", "item: 2"),
-                         mode = "character")
+      mode = "character"
+    )
   } else if (isTRUE(missing) & size >= 3) {
     adj_size <- size - 1
     levs <- paste0("item:", as.integer(1:lvls))
@@ -107,12 +109,14 @@ fct_maker <- function(size, lvls, ord = FALSE, missing = FALSE) {
     levs <- paste0("level ", as.integer(1:lvls))
     nas <- rep(c(levs, NA_character_), length.out = size)
     chr_raw <- as.vector(c(nas), mode = "character")
-    fct_vec <- factor(chr_raw, levels = unique(sort(chr_raw)),
-                ordered = TRUE)
+    fct_vec <- factor(chr_raw,
+      levels = unique(sort(chr_raw)),
+      ordered = TRUE
+    )
   } else if (isFALSE(missing) & isTRUE(ord)) {
     levs <- paste0("level ", as.integer(1:lvls))
     chr_raw <- rep(levs, length.out = size)
-    ord_levels <-  sort(unique(chr_raw))
+    ord_levels <- sort(unique(chr_raw))
     fct_vec <- factor(chr_raw, levels = ord_levels, ordered = TRUE)
   } else if (isTRUE(missing) & isFALSE(ord)) {
     levs <- paste0("group ", as.integer(1:lvls))
@@ -122,7 +126,7 @@ fct_maker <- function(size, lvls, ord = FALSE, missing = FALSE) {
   } else {
     levs <- paste0("group ", as.integer(1:lvls))
     chr_raw <- rep(levs, length.out = size)
-    fct_levels <-  unique(chr_raw)
+    fct_levels <- unique(chr_raw)
     fct_vec <- factor(chr_raw, levels = fct_levels)
   }
   return(fct_vec)
@@ -140,36 +144,63 @@ bin_maker <- function(type, size, missing = FALSE) {
   if (isTRUE(missing)) {
     switch(type,
       log = rep(x = c(TRUE, FALSE, NA), length.out = size),
-      int = rep(x = c(0L, 1L, NA_integer_),  length.out = size),
-      chr = rep(x = c("item:A", "item:B", NA_character_),
-               length.out = size),
-      fct = factor(rep(x = c("group A", "group B", NA_character_),
-                       length.out = size),
-                   levels = unique(sort(
-                            rep(x = c("group A", "group B", NA_character_),
-                                length.out = size)))),
-      ord = factor(rep(x = c("level 1", "level 2", NA_character_),
-                       length.out = size),
-                   levels = unique(sort(
-                            rep(x = c("level 1", "level 2", NA_character_),
-                                length.out = size))),
-                    ordered = TRUE)
+      int = rep(x = c(0L, 1L, NA_integer_), length.out = size),
+      chr = rep(
+        x = c("item:A", "item:B", NA_character_),
+        length.out = size
+      ),
+      fct = factor(
+        rep(
+          x = c("group A", "group B", NA_character_),
+          length.out = size
+        ),
+        levels = unique(sort(
+          rep(
+            x = c("group A", "group B", NA_character_),
+            length.out = size
+          )
+        ))
+      ),
+      ord = factor(
+        rep(
+          x = c("level 1", "level 2", NA_character_),
+          length.out = size
+        ),
+        levels = unique(sort(
+          rep(
+            x = c("level 1", "level 2", NA_character_),
+            length.out = size
+          )
+        )),
+        ordered = TRUE
       )
+    )
   } else {
     switch(type,
       log = rep(x = c(TRUE, FALSE), length.out = size),
-      int = rep(x = c(0L, 1L),  length.out = size),
+      int = rep(x = c(0L, 1L), length.out = size),
       chr = rep(x = c("item:A", "item:B"), length.out = size),
       fct = factor(rep(x = c("group A", "group B"), length.out = size),
-                   levels = unique(sort(
-                            rep(x = c("group A", "group B"),
-                              length.out = size)))),
-      ord = factor(rep(x = c("level 1", "level 2"),
-                              length.out = size),
-                   levels = unique(sort(
-                            rep(x = c("level 1", "level 2"),
-                              length.out = size))),
-                    ordered = TRUE)
+        levels = unique(sort(
+          rep(
+            x = c("group A", "group B"),
+            length.out = size
+          )
+        ))
+      ),
+      ord = factor(
+        rep(
+          x = c("level 1", "level 2"),
+          length.out = size
+        ),
+        levels = unique(sort(
+          rep(
+            x = c("level 1", "level 2"),
+            length.out = size
+          )
+        )),
+        ordered = TRUE
+      )
     )
   }
 }
@@ -190,7 +221,7 @@ facet_maker <- function(type, size, lvls, missing = FALSE) {
       chr = chr_maker(size = size, lvls = lvls, missing = TRUE),
       fct = fct_maker(size = size, lvls = lvls, missing = TRUE),
       ord = fct_maker(size = size, lvls = lvls, ord = TRUE, missing = TRUE)
-      )
+    )
   } else {
     switch(type,
       chr = chr_maker(size = size, lvls = lvls, missing = FALSE),

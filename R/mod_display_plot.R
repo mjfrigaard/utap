@@ -13,20 +13,22 @@ mod_display_plot_ui <- function(id) {
     shiny::fluidRow(
       shiny::column(
         width = 12,
-        shiny::plotOutput(outputId = ns("scatterplot")))
-      ),
-      shiny::fluidRow(
-        # include these for showing reactive values to include in tests:
-        shiny::column(
-          width = 6,
-          shiny::code("names(app_data())"),
-          shiny::verbatimTextOutput(ns("data"))),
-        shiny::column(
-          width = 6,
-          shiny::code("class(plot())"),
-          shiny::verbatimTextOutput(ns("plot"))
-        )
+        shiny::plotOutput(outputId = ns("scatterplot"))
       )
+    ),
+    shiny::fluidRow(
+      # include these for showing reactive values to include in tests:
+      shiny::column(
+        width = 6,
+        shiny::code("names(app_data())"),
+        shiny::verbatimTextOutput(ns("data"))
+      ),
+      shiny::column(
+        width = 6,
+        shiny::code("class(plot())"),
+        shiny::verbatimTextOutput(ns("plot"))
+      )
+    )
   )
 }
 
@@ -44,9 +46,7 @@ mod_display_plot_ui <- function(id) {
 #' @importFrom stringr str_replace_all
 #' @importFrom ggplot2 labs theme_minimal theme
 mod_display_plot_server <- function(id, var_inputs, app_data) {
-
   shiny::moduleServer(id, function(input, output, session) {
-
     plot <- shiny::reactive({
       gg_points_facet(
         df = app_data(),
@@ -55,19 +55,25 @@ mod_display_plot_server <- function(id, var_inputs, app_data) {
         col_var = var_inputs()$col,
         facet_var = var_inputs()$facet,
         alpha = var_inputs()$alpha,
-        size = var_inputs()$size)})
+        size = var_inputs()$size
+      )
+    })
 
-      output$scatterplot <- shiny::renderPlot({plot()})
+    output$scatterplot <- shiny::renderPlot({
+      plot()
+    })
 
     # include these for showing reactive values to include in tests: ----
     output$data <- shiny::renderPrint({
       print(names(app_data()),
-        width = 60, max.levels = NULL)
+        width = 60, max.levels = NULL
+      )
     })
 
     output$plot <- shiny::renderPrint({
       print(class(plot()),
-        width = 40, max.levels = NULL)
+        width = 40, max.levels = NULL
+      )
     })
 
     # include for exporting values with shinytest2 ----
@@ -96,8 +102,5 @@ mod_display_plot_server <- function(id, var_inputs, app_data) {
     #   app_data = safely_export(app_data()),
     #   plot =  safely_export(plot())
     # )
-
-
-
   })
 }

@@ -45,11 +45,11 @@ deconstruct <- function(x, return = FALSE, quote = TRUE) {
   if (isFALSE(quote)) {
     obj_noquote <- gsub(pattern = '"', replacement = "", x = raw_obj)
     decon_noquote <- paste0(obj_noquote, collapse = "")
-    decon_obj <- gsub("\\s+"," ", decon_noquote)
+    decon_obj <- gsub("\\s+", " ", decon_noquote)
   } else {
     obj_quote <- gsub(pattern = '"', replacement = "'", x = raw_obj)
     decon_quote <- paste0(obj_quote, collapse = "")
-    decon_obj <- gsub("\\s+"," ", decon_quote)
+    decon_obj <- gsub("\\s+", " ", decon_quote)
   }
   if (isFALSE(return)) {
     base::cat(decon_obj)
@@ -85,44 +85,64 @@ deconstruct <- function(x, return = FALSE, quote = TRUE) {
 #' col_type_list(palmerpenguins::penguins)
 col_type_list <- function(df) {
   # atomic
-    log_vars <- names(dplyr::select(df,
-                    dplyr::where(is.logical)))
-    dbl_vars <- names(dplyr::select(df,
-                    dplyr::where(is.double)))
-    int_vars <- names(dplyr::select(df,
-                    dplyr::where(is.integer)))
-    chr_vars <- names(dplyr::select(df,
-                    dplyr::where(is.character)))
+  log_vars <- names(dplyr::select(
+    df,
+    dplyr::where(is.logical)
+  ))
+  dbl_vars <- names(dplyr::select(
+    df,
+    dplyr::where(is.double)
+  ))
+  int_vars <- names(dplyr::select(
+    df,
+    dplyr::where(is.integer)
+  ))
+  chr_vars <- names(dplyr::select(
+    df,
+    dplyr::where(is.character)
+  ))
 
-    # s3
-    fct_vars <- names(dplyr::select(df,
-                    dplyr::where(is.factor)))
-    date_vars <- names(dplyr::select(df,
-                    dplyr::where(lubridate::is.Date)))
-    posixct_vars <- names(dplyr::select(df,
-                    dplyr::where(lubridate::is.POSIXct)))
-    posixlt_vars <- names(dplyr::select(df,
-                    dplyr::where(lubridate::is.POSIXlt)))
-    posix_vars <- names(dplyr::select(df,
-                    dplyr::where(lubridate::is.POSIXt)))
-    list_vars <- names(dplyr::select(df,
-                    dplyr::where(is.list)))
-    # assemble
-    all_vars_list <- list(
-      "logical_vars" = log_vars,
-      "double_vars" = dbl_vars,
-      "integer_vars" = int_vars,
-      "character_vars" = chr_vars,
-      "factor_vars" = fct_vars,
-      "date_vars" = date_vars,
-      "posixct_vars" = posixct_vars,
-      "posixlt_vars" = posixlt_vars,
-      "posixt_vars" = posix_vars,
-      "list_vars" = list_vars)
-      # reduce
-      types <- purrr::compact(all_vars_list)
+  # s3
+  fct_vars <- names(dplyr::select(
+    df,
+    dplyr::where(is.factor)
+  ))
+  date_vars <- names(dplyr::select(
+    df,
+    dplyr::where(lubridate::is.Date)
+  ))
+  posixct_vars <- names(dplyr::select(
+    df,
+    dplyr::where(lubridate::is.POSIXct)
+  ))
+  posixlt_vars <- names(dplyr::select(
+    df,
+    dplyr::where(lubridate::is.POSIXlt)
+  ))
+  posix_vars <- names(dplyr::select(
+    df,
+    dplyr::where(lubridate::is.POSIXt)
+  ))
+  list_vars <- names(dplyr::select(
+    df,
+    dplyr::where(is.list)
+  ))
+  # assemble
+  all_vars_list <- list(
+    "logical_vars" = log_vars,
+    "double_vars" = dbl_vars,
+    "integer_vars" = int_vars,
+    "character_vars" = chr_vars,
+    "factor_vars" = fct_vars,
+    "date_vars" = date_vars,
+    "posixct_vars" = posixct_vars,
+    "posixlt_vars" = posixlt_vars,
+    "posixt_vars" = posix_vars,
+    "list_vars" = list_vars
+  )
+  # reduce
+  types <- purrr::compact(all_vars_list)
   return(types)
-
 }
 
 #' Make UI inputs
@@ -143,9 +163,11 @@ col_type_list <- function(df) {
 #' make_ui_inputs(palmerpenguins::penguins)
 #' require(zeallot)
 #' c(double_vars, integer_vars, factor_vars) %<-%
-#'     list(double_vars = c('bill_length_mm', 'bill_depth_mm'),
-#'     integer_vars = c('flipper_length_mm', 'body_mass_g', 'year'),
-#'     factor_vars = c('species', 'island', 'sex'))
+#'   list(
+#'     double_vars = c("bill_length_mm", "bill_depth_mm"),
+#'     integer_vars = c("flipper_length_mm", "body_mass_g", "year"),
+#'     factor_vars = c("species", "island", "sex")
+#'   )
 #' double_vars
 #' integer_vars
 #' factor_vars
@@ -156,5 +178,3 @@ make_ui_inputs <- function(app_data) {
   rhs_out <- deconstruct(x = col_type_list(df = app_data), return = TRUE)
   cat(lhs_out, zeallot_operator, rhs_out)
 }
-
-

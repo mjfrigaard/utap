@@ -29,8 +29,12 @@ require(NHANES)
 facet_app_inputs(df = dplyr::starwars)
 facet_app_inputs(df = NHANES::NHANES)
 
-str(dplyr::select(dplyr::starwars,
-  dplyr::all_of(facet_app_inputs(df = dplyr::starwars))))
-str(dplyr::select(NHANES::NHANES,
-  dplyr::all_of(facet_app_inputs(df = NHANES::NHANES))))
+str(dplyr::select(
+  dplyr::starwars,
+  dplyr::all_of(facet_app_inputs(df = dplyr::starwars))
+))
+str(dplyr::select(
+  NHANES::NHANES,
+  dplyr::all_of(facet_app_inputs(df = NHANES::NHANES))
+))
 }

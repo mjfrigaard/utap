@@ -11,7 +11,6 @@
 #'
 mod_var_input_ui <- function(id, app_data) {
   ns <- shiny::NS(id)
-
   shiny::tagList(
     shiny::selectInput(
       inputId = ns("x"),
@@ -67,30 +66,32 @@ mod_var_input_ui <- function(id, app_data) {
 #'
 #' @importFrom shiny NS moduleServer reactive
 mod_var_input_server <- function(id) {
-
   shiny::moduleServer(id, function(input, output, session) {
-
     # include these for showing reactive values to include in tests:
     output$vals <- shiny::renderPrint({
-      all_vals <- shiny::reactiveValuesToList(x = input,
-                                              all.names = TRUE)
+      all_vals <- shiny::reactiveValuesToList(
+        x = input,
+        all.names = TRUE
+      )
       print(all_vals)
     })
 
     return(
       shiny::reactive({
-         list("x" = input$x,
-              "y" = input$y,
-              "col" = input$col,
-              "facet" = input$facet,
-              "alpha" = input$alpha,
-              "size" = input$size,
-              "plot_title" = make_plot_title(x = input$x,
-                                             y = input$y,
-                                             color = input$col)
-           )
-        })
+        list(
+          "x" = input$x,
+          "y" = input$y,
+          "col" = input$col,
+          "facet" = input$facet,
+          "alpha" = input$alpha,
+          "size" = input$size,
+          "plot_title" = make_plot_title(
+            x = input$x,
+            y = input$y,
+            color = input$col
+          )
+        )
+      })
     )
   })
-
 }
