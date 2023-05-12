@@ -4,18 +4,18 @@
 #'
 #' @importFrom skimr skim
 #' @importFrom shiny fluidPage sidebarLayout sidebarPanel mainPanel
-#' @importFrom shiny selectInput verbatimTextOutput
+#' @importFrom shiny selectInput verbatimTextOutput h3
 #' @importFrom shiny reactive bindEvent shinyApp
 #' @importFrom purrr compact list_c
 #' @importFrom dplyr select any_of
 #'
 #' @return demo shiny application
-#' @export test_app_inputs
+#' @export demoInputsApp
 #'
 #' @examples
 #' require(testPkgApp)
-#' # test_app_inputs()
-test_app_inputs <- function(data) {
+#' # demoInputsApp()
+demoInputsApp <- function(data) {
   # data
   app_data <- data
   # ui
@@ -50,7 +50,7 @@ test_app_inputs <- function(data) {
         )
       ),
       shiny::mainPanel(
-        h3("Testing app inputs"),
+        shiny::h3("Testing app inputs"),
         shiny::br(),
         shiny::verbatimTextOutput(outputId = "selected")
       )
