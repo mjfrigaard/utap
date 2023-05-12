@@ -7,8 +7,7 @@
 <!-- badges: end -->
 
 The goal of `testPkgApp` is to demonstrate how to perform unit tests for
-utility functions with
-[`usethis`](https://usethis.r-lib.org/index.html).
+shiny utility functions with [`testthat`](https://testthat.r-lib.org/).
 
 ## Installation
 
