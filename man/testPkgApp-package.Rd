@@ -4,7 +4,7 @@
 \name{testPkgApp-package}
 \alias{testPkgApp}
 \alias{testPkgApp-package}
-\title{testPkgApp: Build Your Shiny App Like a Package}
+\title{testPkgApp: Unit Test Your Shiny App Package}
 \description{
 This shiny app was developed as a package using devtools and usethis.
 }

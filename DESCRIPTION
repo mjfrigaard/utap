@@ -1,6 +1,6 @@
 Package: testPkgApp
 Type: Package
-Title: Build Your Shiny App Like a Package
+Title: Unit Test Your Shiny App Package
 Version: 0.1.0
 Author: Martin Frigaard
 Maintainer: Martin Frigaard <mjfrigaard@pm.me>
