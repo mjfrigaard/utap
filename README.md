@@ -1,12 +1,12 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# `testPkgApp`
+# `unitTestAppPkg`
 
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of `testPkgApp` is to demonstrate how to perform unit tests for
+The goal of `unitTestAppPkg` is to demonstrate how to perform unit tests for
 shiny utility functions with [`testthat`](https://testthat.r-lib.org/).
 
 ## Installation
@@ -34,7 +34,7 @@ it’s contents).
 ``` bash
 ==> devtools::test()
 
-ℹ Testing testPkgApp
+ℹ Testing unitTestAppPkg
 ✔ | F W S  OK | Context
 ✔ |         1 | binary_app_inputs [0.1s]      
 ✔ |         1 | cat_app_inputs                   

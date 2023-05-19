@@ -12,7 +12,7 @@
 "htmlwidgets", "httpuv", "httr", "httr2", "ids", "ini", "isoband",
 "janitor", "jquerylib", "jsonlite", "kableExtra", "knitr", "labeling",
 "later", "lattice", "lazyeval", "leprechaun", "lifecycle", "lintr",
-"logger", "lubridate", "magrittr", "markdown", "Matrix", "memoise",
+"logger", "lubridate", "magrittr", "markdown", "memoise",
 "mime", "miniUI", "modelr", "munsell", "nlme", "openssl", "packer",
 "palmerpenguins", "parsedate", "pillar", "pingr", "pkgbuild",
 "pkgconfig", "pkgdown", "pkgload", "png", "praise", "prettyunits",
@@ -30,6 +30,9 @@
 "withr", "xfun", "xml2", "xmlparsedata", "xopen", "xtable", "yaml",
 "zip")
 
- # dput(unique(sort(pkgs)))
+# install.packages("Matrix")
+# https://cran.r-project.org/web/packages/Matrix/index.html
+
+# dput(unique(sort(pkgs)))
 
 renv::install(pkgs)

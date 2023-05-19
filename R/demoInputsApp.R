@@ -13,7 +13,7 @@
 #' @export demoInputsApp
 #'
 #' @examples
-#' require(testPkgApp)
+#' require(unitTestAppPkg)
 #' # demoInputsApp()
 demoInputsApp <- function(data) {
   # data

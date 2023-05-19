@@ -1,4 +1,4 @@
-Package: testPkgApp
+Package: unitTestAppPkg
 Type: Package
 Title: Unit Test Your Shiny App Package
 Version: 0.1.0

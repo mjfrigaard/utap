@@ -1,7 +1,7 @@
 {
     "installOptions": {
         "installFromRepository": true,
-        "libraryPath": "/Users/mjfrigaard/Library/Caches/org.R-project.R/R/renv/library/testPkgApp-d323b47c/R-4.2/x86_64-apple-darwin17.0",
+        "libraryPath": "/Users/mjfrigaard/Library/Caches/org.R-project.R/R/renv/library/unitTestAppPkg-db3101c8/R-4.2/x86_64-apple-darwin17.0",
         "installDependencies": true
     }
 }

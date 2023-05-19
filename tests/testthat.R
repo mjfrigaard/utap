@@ -1,3 +1,3 @@
 library(testthat)
-library(testPkgApp)
-test_check("testPkgApp")
+library(unitTestAppPkg)
+test_check("unitTestAppPkg")

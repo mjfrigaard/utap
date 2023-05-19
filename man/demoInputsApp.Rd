@@ -16,6 +16,6 @@ demo shiny application
 Demo \verb{*app_inputs()} functions
 }
 \examples{
-require(testPkgApp)
+require(unitTestAppPkg)
 # demoInputsApp()
 }

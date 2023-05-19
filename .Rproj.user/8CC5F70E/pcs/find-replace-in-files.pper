@@ -1,6 +1,6 @@
 {
     "dialog-state": {
-        "query": "get_col_type_df",
+        "query": "testPkgApp",
         "path": "",
         "regex": false,
         "caseSensitive": true,
@@ -9,7 +9,7 @@
         "useGitGrep": true,
         "excludeGitIgnore": true,
         "excludeFilePatterns": [],
-        "resultsCount": 35,
+        "resultsCount": 20,
         "errorCount": 0,
         "replaceErrors": "",
         "projectRelative": true
