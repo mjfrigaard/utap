@@ -1,11 +1,11 @@
-testthat::test_that("facet_app_inputs() works", {
-  app_inputs_test <- readRDS(testthat::test_path("fixtures", "app_inputs_test.rds"))
+testthat::test_that("pull_facet_cols() works", {
+  app_inputs_test <- readRDS(testthat::test_path("fixtures", "pull_cols_test.rds"))
   # remove binary columns
   expect_equal(
     object = dplyr::select(
       app_inputs_test,
       !dplyr::contains("bin")
-    ) |> facet_app_inputs(),
+    ) |> pull_facet_cols(),
     expected =
       c(
         chr_facet5 = "chr_facet5",

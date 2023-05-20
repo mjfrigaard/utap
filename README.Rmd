@@ -39,15 +39,15 @@ fs::dir_tree("tests/testthat/", regexp = "^tests/testthat/test-")
 
 ℹ Testing unitTestAppPkg
 ✔ | F W S  OK | Context
-✔ |         1 | binary_app_inputs [0.1s]      
-✔ |         1 | cat_app_inputs                   
+✔ |         1 | pull_binary_cols [0.1s]      
+✔ |         1 | pull_cat_cols                   
 ✔ |        25 | check_binary_vec [0.1s]         
 ✔ |        16 | check_facet_vec                 
-✔ |         1 | facet_app_inputs                
+✔ |         1 | pull_facet_cols                
 ✔ |        16 | get_col_types [0.1s]            
 ✔ |         5 | make_binary_vec                  
 ✔ |         7 | make_facet_vec                   
-✔ |         1 | num_app_inputs                   
+✔ |         1 | pull_numeric_cols                   
 
 ══ Results ════════════════════════════════════════════
 Duration: 0.8 s

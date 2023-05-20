@@ -1,8 +1,8 @@
-testthat::test_that("num_app_inputs() works", {
-  app_inputs_test <- readRDS(testthat::test_path("fixtures", "app_inputs_test.rds"))
+testthat::test_that("pull_numeric_cols() works", {
+  app_inputs_test <- readRDS(testthat::test_path("fixtures", "pull_cols_test.rds"))
   # test numeric columns
   testthat::expect_equal(
-    object = num_app_inputs(app_inputs_test),
+    object = pull_numeric_cols(app_inputs_test),
     expected =
       c(
         dbl_var_na = "dbl_var_na",

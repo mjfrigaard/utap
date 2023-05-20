@@ -3,18 +3,18 @@
 #' @param df a `data.frame` or `tibble`
 #'
 #' @return integer and double column names
-#' @export num_app_inputs
+#' @export pull_numeric_cols
 #'
 #' @importFrom purrr compact list_c set_names
 #'
 #' @examples
 #' require(palmerpenguins)
 #' require(dplyr)
-#' num_app_inputs(palmerpenguins::penguins)
-#' num_app_inputs(dplyr::starwars)
-num_app_inputs <- function(df) {
-  bins <- binary_app_inputs(df = df)
-  facets <- facet_app_inputs(df = df)
+#' pull_numeric_cols(palmerpenguins::penguins)
+#' pull_numeric_cols(dplyr::starwars)
+pull_numeric_cols <- function(df) {
+  bins <- pull_binary_cols(df = df)
+  facets <- pull_facet_cols(df = df)
   # assemble
   all_bins_facets_list <- list(bins, facets)
   # reduce
@@ -43,18 +43,18 @@ num_app_inputs <- function(df) {
 #' @param df a `data.frame` or `tibble`
 #'
 #' @return character and factor column names
-#' @export cat_app_inputs
+#' @export pull_cat_cols
 #'
 #' @importFrom purrr compact list_c set_names
 #'
 #' @examples
 #' require(palmerpenguins)
 #' require(dplyr)
-#' cat_app_inputs(palmerpenguins::penguins)
-#' cat_app_inputs(dplyr::starwars)
-cat_app_inputs <- function(df) {
-  bins <- binary_app_inputs(df = df)
-  facets <- facet_app_inputs(df = df)
+#' pull_cat_cols(palmerpenguins::penguins)
+#' pull_cat_cols(dplyr::starwars)
+pull_cat_cols <- function(df) {
+  bins <- pull_binary_cols(df = df)
+  facets <- pull_facet_cols(df = df)
   # assemble
   all_bins_facets_list <- list(bins, facets)
   # reduce
@@ -86,14 +86,14 @@ cat_app_inputs <- function(df) {
 #' @param df a `data.frame` or `tibble`
 #'
 #' @return named vector of binary column names
-#' @export binary_app_inputs
+#' @export pull_binary_cols
 #'
 #' @examples
 #' require(palmerpenguins)
 #' require(dplyr)
-#' binary_app_inputs(palmerpenguins::penguins)
-#' binary_app_inputs(dplyr::starwars)
-binary_app_inputs <- function(df) {
+#' pull_binary_cols(palmerpenguins::penguins)
+#' pull_binary_cols(dplyr::starwars)
+pull_binary_cols <- function(df) {
   # logical
   log_bins <- get_col_types(df, "log") |>
     make_binary_vec("log")
@@ -127,27 +127,27 @@ binary_app_inputs <- function(df) {
 #'
 #'
 #' @return a vector of factor or character column names with < 6 unique levels
-#' @export facet_app_inputs
+#' @export pull_facet_cols
 #'
 #' @importFrom purrr compact list_c
 #'
 #' @examples
 #' require(dplyr)
 #' require(NHANES)
-#' facet_app_inputs(df = dplyr::starwars)
-#' facet_app_inputs(df = NHANES::NHANES)
+#' pull_facet_cols(df = dplyr::starwars)
+#' pull_facet_cols(df = NHANES::NHANES)
 #'
 #' str(dplyr::select(
 #'   dplyr::starwars,
-#'   dplyr::all_of(facet_app_inputs(df = dplyr::starwars))
+#'   dplyr::all_of(pull_facet_cols(df = dplyr::starwars))
 #' ))
 #' str(dplyr::select(
 #'   NHANES::NHANES,
-#'   dplyr::all_of(facet_app_inputs(df = NHANES::NHANES))
+#'   dplyr::all_of(pull_facet_cols(df = NHANES::NHANES))
 #' ))
-facet_app_inputs <- function(df) {
+pull_facet_cols <- function(df) {
   # get bins
-  bins <- binary_app_inputs(df)
+  bins <- pull_binary_cols(df)
   # character
   chr_facets <- get_col_types(df, "chr") |> make_facet_vec("chr")
   # factors

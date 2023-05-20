@@ -26,27 +26,27 @@ demoInputsApp <- function(data) {
           inputId = "x",
           label = "X variable",
           choices = c(
-            num_app_inputs(df = app_data)
+            pull_numeric_cols(df = app_data)
           ),
-          selected = num_app_inputs(df = app_data)[1]
+          selected = pull_numeric_cols(df = app_data)[1]
         ),
         shiny::selectInput(
           inputId = "y",
           label = "Y variable:",
-          choices = num_app_inputs(df = app_data),
-          selected = num_app_inputs(df = app_data)[2]
+          choices = pull_numeric_cols(df = app_data),
+          selected = pull_numeric_cols(df = app_data)[2]
         ),
         shiny::selectInput(
           inputId = "color",
           label = "Color variable:",
-          choices = binary_app_inputs(df = app_data),
-          selected = binary_app_inputs(df = app_data)[1]
+          choices = pull_binary_cols(df = app_data),
+          selected = pull_binary_cols(df = app_data)[1]
         ),
         shiny::selectInput(
           inputId = "facet",
           label = "Facet variable:",
-          choices = facet_app_inputs(df = app_data),
-          selected = facet_app_inputs(df = app_data)[1]
+          choices = pull_facet_cols(df = app_data),
+          selected = pull_facet_cols(df = app_data)[1]
         )
       ),
       shiny::mainPanel(

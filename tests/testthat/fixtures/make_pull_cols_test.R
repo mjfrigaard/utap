@@ -1,4 +1,4 @@
-app_inputs_test <- tibble::tibble(
+pull_cols_test <- tibble::tibble(
   # logical binary
   log_bin_na = bin_maker(
     type = "log",
@@ -91,6 +91,6 @@ app_inputs_test <- tibble::tibble(
 )
 
 # export to tests/testthat/fixtures/
-saveRDS(app_inputs_test,
-  file = "tests/testthat/fixtures/app_inputs_test.rds"
+saveRDS(pull_cols_test,
+  file = "tests/testthat/fixtures/pull_cols_test.rds"
 )

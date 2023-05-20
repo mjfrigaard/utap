@@ -1,7 +1,7 @@
-testthat::test_that("binary_app_inputs() works", {
-  app_inputs_test <- readRDS(testthat::test_path("fixtures", "app_inputs_test.rds"))
+testthat::test_that("pull_binary_cols() works", {
+  app_inputs_test <- readRDS(testthat::test_path("fixtures", "pull_cols_test.rds"))
   expect_equal(
-    object = binary_app_inputs(app_inputs_test),
+    object = pull_binary_cols(app_inputs_test),
     expected =
       c(
         log_bin_na = "log_bin_na",
