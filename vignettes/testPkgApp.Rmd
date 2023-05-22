@@ -1,8 +1,8 @@
 ---
-title: "unitTestAppPkg"
+title: "utap"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{unitTestAppPkg}
+  %\VignetteIndexEntry{utap}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -16,5 +16,5 @@ knitr::opts_chunk$set(
 ```
 
 ```{r setup}
-library(unitTestAppPkg)
+library(utap)
 ```

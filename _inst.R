@@ -22,12 +22,12 @@
 "reprex", "rex", "rhino", "rhub", "rlang", "rmarkdown", "roxygen2",
 "rprojroot", "rstudioapi", "Rttf2pt1", "rversions", "rvest",
 "sass", "scales", "selectr", "sessioninfo", "shiny", "shinytest",
-"shinytest2", "showimage", "sloop", "sourcetools", "stringi",
+"shinytest2", "showimage", 'skimr', "sloop", "sourcetools", "stringi",
 "stringr", "styler", "survival", "svglite", "sys", "systemfonts",
 "testthat", "textshaping", "tibble", "tidyr", "timechange", "tinytex",
 "urlchecker", "usethis", "utf8", "uuid", "vctrs", "vdiffr", "viridisLite",
 "waldo", "webdriver", "webshot", "websocket", "whisker", "whoami",
-"withr", "xfun", "xml2", "xmlparsedata", "xopen", "xtable", "yaml",
+"withr", "xfun", "xml2", "xmlparsedata", "xopen", "xtable", "yaml", "zeallot",
 "zip")
 
 # install.packages("Matrix")

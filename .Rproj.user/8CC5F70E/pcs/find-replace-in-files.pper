@@ -1,6 +1,6 @@
 {
     "dialog-state": {
-        "query": "facet_app_inputs",
+        "query": "unitTestAppPkg",
         "path": "",
         "regex": false,
         "caseSensitive": true,
@@ -9,7 +9,7 @@
         "useGitGrep": true,
         "excludeGitIgnore": true,
         "excludeFilePatterns": [],
-        "resultsCount": 23,
+        "resultsCount": 20,
         "errorCount": 0,
         "replaceErrors": "",
         "projectRelative": true

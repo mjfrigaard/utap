@@ -1,13 +1,13 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# `unitTestAppPkg`
+# `utap`
 
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of `unitTestAppPkg` is to demonstrate how to perform unit tests for
-shiny utility functions with [`testthat`](https://testthat.r-lib.org/).
+The goal of `utap` is to demonstrate how to perform unit tests for shiny
+utility functions with [`testthat`](https://testthat.r-lib.org/).
 
 ## Installation
 
@@ -19,14 +19,14 @@ it’s contents).
 # Unit tests
 
     #> tests/testthat/
-    #> ├── test-pull_binary_cols.R
-    #> ├── test-pull_cat_cols.R
     #> ├── test-check_binary_vec.R
     #> ├── test-check_facet_vec.R
-    #> ├── test-pull_facet_cols.R
     #> ├── test-get_col_types.R
     #> ├── test-make_binary_vec.R
     #> ├── test-make_facet_vec.R
+    #> ├── test-pull_binary_cols.R
+    #> ├── test-pull_cat_cols.R
+    #> ├── test-pull_facet_cols.R
     #> └── test-pull_numeric_cols.R
 
 # Unit test results
@@ -34,7 +34,7 @@ it’s contents).
 ``` bash
 ==> devtools::test()
 
-ℹ Testing unitTestAppPkg
+ℹ Testing utap
 ✔ | F W S  OK | Context
 ✔ |         1 | pull_binary_cols [0.1s]      
 ✔ |         1 | pull_cat_cols                   
