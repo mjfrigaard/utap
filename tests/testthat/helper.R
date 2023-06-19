@@ -269,7 +269,7 @@ col_maker <- function(col_type, size, ..., missing) {
     missing = missing,
     ...)
 
-  col_nms <- janitor::make_clean_names(col_type)
+  col_nms <- paste0(janitor::make_clean_names(col_type), "_var")
 
   cols_tbl_list <- purrr::map(
     .x = cols_list,
