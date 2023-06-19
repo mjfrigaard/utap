@@ -106,7 +106,7 @@ fct_maker <- function(size, lvls = size/2, ord = FALSE, missing = FALSE) {
     lvls <- size - 1
   }
   if (isTRUE(missing)) {
-    levs <- paste0("level ", as.integer(1:lvls))
+    levs <- paste0("group ", as.integer(1:lvls))
     nas <- rep(c(levs, NA_character_), length.out = size)
     chr_raw <- as.vector(c(nas), mode = "character")
     fct_vec <- factor(chr_raw,
@@ -114,7 +114,7 @@ fct_maker <- function(size, lvls = size/2, ord = FALSE, missing = FALSE) {
       ordered = FALSE
     )
   } else {
-    levs <- paste0("level ", as.integer(1:lvls))
+    levs <- paste0("group ", as.integer(1:lvls))
     chr_raw <- rep(levs, length.out = size)
     ord_levels <- sort(unique(chr_raw))
     fct_vec <- factor(chr_raw, levels = ord_levels, ordered = FALSE)
