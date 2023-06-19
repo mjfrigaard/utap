@@ -70,7 +70,7 @@ dbl_maker <- function(size, missing = FALSE) {
 # dbl_maker(10)
 # dbl_maker(10, TRUE)
 
-chr_maker <- function(size, lvls, missing = FALSE) {
+chr_maker <- function(size, lvls = size/2, missing = FALSE) {
   if (size < lvls) {
     lvls <- size - 1
   }
@@ -101,7 +101,7 @@ chr_maker <- function(size, lvls, missing = FALSE) {
 # chr_maker(size = 3, lvls = 3, TRUE)
 # chr_maker(size = 10, lvls = 6, TRUE)
 
-fct_maker <- function(size, lvls, ord = FALSE, missing = FALSE) {
+fct_maker <- function(size, lvls = size/2, ord = FALSE, missing = FALSE) {
   if (size < lvls) {
     lvls <- size - 1
   }
@@ -122,11 +122,12 @@ fct_maker <- function(size, lvls, ord = FALSE, missing = FALSE) {
   return(fct_vec)
 }
 # fct_maker(size = 5, lvls = 6, missing = TRUE)
+fct_maker(size = 5, missing = TRUE)
 # fct_maker(size = 10, lvls = 5, missing = FALSE)
-# fct_maker(size = 10, lvls = 5, missing = TRUE)
+fct_maker(size = 10, lvls = 9, missing = TRUE)
 # fct_maker(size = 10, lvls = 5, missing = FALSE)
 
-ord_maker <- function(size, lvls, missing = FALSE) {
+ord_maker <- function(size, lvls = size/2, missing = FALSE) {
   if (size < lvls) {
     lvls <- size - 1
   }
@@ -148,6 +149,7 @@ ord_maker <- function(size, lvls, missing = FALSE) {
 }
 # ord_maker(size = 5, lvls = 6, missing = TRUE)
 # ord_maker(size = 10, lvls = 5, missing = FALSE)
+ord_maker(size = 10, missing = FALSE)
 # ord_maker(size = 10, lvls = 5, missing = TRUE)
 # ord_maker(size = 10, lvls = 5, missing = FALSE)
 
@@ -283,7 +285,13 @@ col_maker <- function(col_type, size, ..., missing) {
 
 }
 
-# col_maker(col_type = c("log", "log", "dbl", "dbl", "fct", "chr", "chr"),
-#   size = 6, missing = FALSE, lvls = 4)
+col_maker(col_type = c("log", "log", "dbl", "dbl", "fct", "ord", "chr"),
+  size = 6, missing = FALSE)
+col_maker(col_type = c("log", "log", "dbl", "dbl", "fct", "ord", "chr"),
+  size = 10, missing = TRUE, lvls = 4)
+col_maker(col_type = c("log", "log", "dbl", "dbl", "fct", "ord", "chr"),
+  size = 10, missing = TRUE, lvls = 2)
+col_maker(col_type = c("log", "log", "dbl", "dbl", "fct", "ord", "chr"),
+  size = 6, missing = FALSE)
 
 
