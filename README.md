@@ -21,7 +21,7 @@ it’s contents).
     #> tests/testthat/
     #> ├── test-check_binary_vec.R
     #> ├── test-check_facet_vec.R
-    #> ├── test-get_col_types.R
+    #> ├── test-get_column_class.R
     #> ├── test-make_binary_vec.R
     #> ├── test-make_facet_vec.R
     #> ├── test-pull_binary_cols.R
@@ -41,7 +41,7 @@ it’s contents).
 ✔ |        25 | check_binary_vec [0.1s]         
 ✔ |        16 | check_facet_vec                 
 ✔ |         1 | pull_facet_cols                
-✔ |        16 | get_col_types [0.1s]            
+✔ |        16 | get_column_class [0.1s]            
 ✔ |         5 | make_binary_vec                  
 ✔ |         7 | make_facet_vec                   
 ✔ |         1 | pull_numeric_cols                   

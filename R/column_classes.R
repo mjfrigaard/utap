@@ -58,14 +58,14 @@ select_column_class <- function(df, class) {
   }
 }
 
-#' Get column class
+#' Get column types
 #'
 #' @description
-#' Return column in data by class
+#' Return column in data by types
 #'
 #' @param df a `data.frame` or `tibble`
 #' @param return_tbl logical, return tibble (`TRUE`) or named vector (`FALSE`)
-#' @param class type of column to return
+#' @param type type of column to return
 #'  One of:
 #'   * `"log"`: logical
 #'   * `"dbl"`: double
@@ -75,8 +75,8 @@ select_column_class <- function(df, class) {
 #'   * `"ord"`: factor (ordered)
 #'   * `"list"`: list
 #'
-#' @return named vector or `tibble` of columns matching the `class` (empty vector or
-#' `tibble` if no columns of specified class exist)
+#' @return named vector or `tibble` of columns matching the `type` (empty vector or
+#' `tibble` if no columns of specified type exist)
 #'
 #' @export get_column_class
 #'

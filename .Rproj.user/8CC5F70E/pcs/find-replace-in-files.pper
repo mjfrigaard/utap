@@ -1,6 +1,6 @@
 {
     "dialog-state": {
-        "query": "unitTestAppPkg",
+        "query": "get_col_class",
         "path": "",
         "regex": false,
         "caseSensitive": true,
@@ -9,7 +9,7 @@
         "useGitGrep": true,
         "excludeGitIgnore": true,
         "excludeFilePatterns": [],
-        "resultsCount": 20,
+        "resultsCount": 126,
         "errorCount": 0,
         "replaceErrors": "",
         "projectRelative": true

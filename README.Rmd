@@ -44,7 +44,7 @@ fs::dir_tree("tests/testthat/", regexp = "^tests/testthat/test-")
 ✔ |        25 | check_binary_vec [0.1s]         
 ✔ |        16 | check_facet_vec                 
 ✔ |         1 | pull_facet_cols                
-✔ |        16 | get_col_types [0.1s]            
+✔ |        16 | get_column_class [0.1s]            
 ✔ |         5 | make_binary_vec                  
 ✔ |         7 | make_facet_vec                   
 ✔ |         1 | pull_numeric_cols                   
