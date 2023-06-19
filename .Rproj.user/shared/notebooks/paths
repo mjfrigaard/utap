@@ -1,6 +1,5 @@
 /Users/mjfrigaard/Library/CloudStorage/Dropbox/My Mac (Martins-MacBook-Pro-2.local)/Downloads/bootstrap.css="5B89FE08"
 /Users/mjfrigaard/projects/apps/utap/DESCRIPTION="BECAC102"
-/Users/mjfrigaard/projects/apps/utap/R/get_col_types.R="3F90B180"
 /Users/mjfrigaard/projects/apps/utap/R/pull_binary_cols.R="E91BA7D5"
 /Users/mjfrigaard/projects/apps/utap/R/pull_cat_cols.R="7AAE3AC2"
 /Users/mjfrigaard/projects/apps/utap/R/pull_facet_cols.R="C476C3A6"
@@ -14,4 +13,5 @@
 /Users/mjfrigaard/projects/apps/utap/tests/testthat/fixtures/make_testdata_col_class.R="A413F76B"
 /Users/mjfrigaard/projects/apps/utap/tests/testthat/helper.R="CA2AD235"
 /Users/mjfrigaard/projects/apps/utap/tests/testthat/test-get_column_class.R="3D756C4A"
+/Users/mjfrigaard/projects/apps/utap/tests/testthat/test-select_column_class.R="F0C0FDCA"
 /Users/mjfrigaard/projects/blogs/drafts/test-shiny-p3/_stash.qmd="C7F0C5CE"

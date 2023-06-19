@@ -22,31 +22,40 @@
 #' @importFrom dplyr select where
 #' @importFrom tibble as_tibble tibble
 #' @importFrom glue glue
+#' @importFrom purrr map list_cbind
 #'
 #' @examples
 #' require(dplyr)
-#' require(tidyr)
-#' select_column_class(dplyr::starwars, class = "chr")
-#' select_column_class(dplyr::starwars, class = "list")
-#' select_column_class(tidyr::fish_encounters, class = "chr")
+#' select_column_class(df = dplyr::starwars, class = "chr")
+#' select_column_class(df = dplyr::starwars, class = c("chr", "list"))
+#' select_column_class(df = mtcars, class = "chr")
+#' select_column_class(df = mtcars, class = c("chr", "list"))
 select_column_class <- function(df, class) {
-  if (class %nin% c("log", "int", "dbl", "chr", "fct", "ord", "list")) {
+
+  col_class <- function(df, class) {
+    switch(class,
+      log = dplyr::select(tibble::as_tibble(df), dplyr::where(is.logical)),
+      int = dplyr::select(tibble::as_tibble(df), dplyr::where(is.integer)),
+      dbl = dplyr::select(tibble::as_tibble(df), dplyr::where(is.double)),
+      chr = dplyr::select(tibble::as_tibble(df), dplyr::where(is.character)),
+      fct = dplyr::select(tibble::as_tibble(df), dplyr::where(is.factor)),
+      ord = dplyr::select(tibble::as_tibble(df), dplyr::where(is.ordered)),
+      list = dplyr::select(tibble::as_tibble(df), dplyr::where(is.list))
+    )
+  }
+
+  cl <- unique(class)
+  cl_check <- cl %nin% c("log", "int", "dbl", "chr", "fct", "ord", "list")
+  if (any(cl_check)) {
     cli::cli_abort("Invalid `class` argument. Must be one of:\n
           'log', 'int', 'dbl', 'chr', 'fct', 'ord', 'list'")
   }
 
-  df_cols <- switch(class,
-    log = dplyr::select(tibble::as_tibble(df), dplyr::where(is.logical)),
-    int = dplyr::select(tibble::as_tibble(df), dplyr::where(is.integer)),
-    dbl = dplyr::select(tibble::as_tibble(df), dplyr::where(is.double)),
-    chr = dplyr::select(tibble::as_tibble(df), dplyr::where(is.character)),
-    fct = dplyr::select(tibble::as_tibble(df), dplyr::where(is.factor)),
-    ord = dplyr::select(tibble::as_tibble(df), dplyr::where(is.ordered)),
-    list = dplyr::select(tibble::as_tibble(df), dplyr::where(is.list))
-  )
+  col_list <- purrr::map(.x = class, .f = col_class, df = df)
+
+  df_cols <- purrr::list_cbind(col_list, size = nrow(df))
 
   if (ncol(df_cols) < 1 || nrow(df_cols) < 1) {
-    # cli::cli_alert_info(glue::glue("No {class} columns"))
     df_cols <- structure(list(),
       class = c("tbl_df", "tbl", "data.frame"),
       row.names = integer(0),

@@ -105,44 +105,59 @@ fct_maker <- function(size, lvls, ord = FALSE, missing = FALSE) {
   if (size < lvls) {
     lvls <- size - 1
   }
-  if (isTRUE(missing) & isTRUE(ord)) {
+  if (isTRUE(missing)) {
     levs <- paste0("level ", as.integer(1:lvls))
     nas <- rep(c(levs, NA_character_), length.out = size)
     chr_raw <- as.vector(c(nas), mode = "character")
     fct_vec <- factor(chr_raw,
       levels = unique(sort(chr_raw)),
-      ordered = TRUE
+      ordered = FALSE
     )
-  } else if (isFALSE(missing) & isTRUE(ord)) {
+  } else {
     levs <- paste0("level ", as.integer(1:lvls))
     chr_raw <- rep(levs, length.out = size)
     ord_levels <- sort(unique(chr_raw))
-    fct_vec <- factor(chr_raw, levels = ord_levels, ordered = TRUE)
-  } else if (isTRUE(missing) & isFALSE(ord)) {
-    levs <- paste0("group ", as.integer(1:lvls))
-    nas <- rep(c(levs, NA_character_), length.out = 10)
-    chr_raw <- as.vector(c(nas), mode = "character")
-    fct_vec <- factor(chr_raw, levels = unique(sort(chr_raw)))
-  } else {
-    levs <- paste0("group ", as.integer(1:lvls))
-    chr_raw <- rep(levs, length.out = size)
-    fct_levels <- unique(chr_raw)
-    fct_vec <- factor(chr_raw, levels = fct_levels)
+    fct_vec <- factor(chr_raw, levels = ord_levels, ordered = FALSE)
   }
   return(fct_vec)
 }
-# fct_maker(size = 5, lvls = 6, ord = TRUE, missing = TRUE)
-# fct_maker(size = 10, lvls = 5, ord = TRUE, missing = FALSE)
-# fct_maker(size = 10, lvls = 5, ord = FALSE, missing = TRUE)
-# fct_maker(size = 10, lvls = 5, ord = FALSE, missing = FALSE)
+# fct_maker(size = 5, lvls = 6, missing = TRUE)
+# fct_maker(size = 10, lvls = 5, missing = FALSE)
+# fct_maker(size = 10, lvls = 5, missing = TRUE)
+# fct_maker(size = 10, lvls = 5, missing = FALSE)
 
-bin_maker <- function(type, size, missing = FALSE) {
+ord_maker <- function(size, lvls, missing = FALSE) {
+  if (size < lvls) {
+    lvls <- size - 1
+  }
+  if (isTRUE(missing)) {
+    levs <- paste0("level ", as.integer(1:lvls))
+    nas <- rep(c(levs, NA_character_), length.out = size)
+    chr_raw <- as.vector(c(nas), mode = "character")
+    ord_vec <- factor(chr_raw,
+      levels = unique(sort(chr_raw)),
+      ordered = TRUE
+    )
+  } else {
+    levs <- paste0("level ", as.integer(1:lvls))
+    chr_raw <- rep(levs, length.out = size)
+    ord_levels <- sort(unique(chr_raw))
+    ord_vec <- factor(chr_raw, levels = ord_levels, ordered = TRUE)
+  }
+  return(ord_vec)
+}
+# ord_maker(size = 5, lvls = 6, missing = TRUE)
+# ord_maker(size = 10, lvls = 5, missing = FALSE)
+# ord_maker(size = 10, lvls = 5, missing = TRUE)
+# ord_maker(size = 10, lvls = 5, missing = FALSE)
+
+bin_maker <- function(bin_type, size, missing = FALSE) {
   if (size < 3) {
     size <- 3
     cli::cli_alert_info("size must be >= 3")
   }
   if (isTRUE(missing)) {
-    switch(type,
+    switch(bin_type,
       log = rep(x = c(TRUE, FALSE, NA), length.out = size),
       int = rep(x = c(0L, 1L, NA_integer_), length.out = size),
       chr = rep(
@@ -176,7 +191,7 @@ bin_maker <- function(type, size, missing = FALSE) {
       )
     )
   } else {
-    switch(type,
+    switch(bin_type,
       log = rep(x = c(TRUE, FALSE), length.out = size),
       int = rep(x = c(0L, 1L), length.out = size),
       chr = rep(x = c("item:A", "item:B"), length.out = size),
@@ -215,15 +230,15 @@ bin_maker <- function(type, size, missing = FALSE) {
 # bin_maker(type = "ord", size = 10)
 # bin_maker(type = "ord", size = 10, missing = TRUE)
 
-facet_maker <- function(type, size, lvls, missing = FALSE) {
+facet_maker <- function(facet_type, size, lvls, missing = FALSE) {
   if (isTRUE(missing)) {
-    switch(type,
+    switch(facet_type,
       chr = chr_maker(size = size, lvls = lvls, missing = TRUE),
       fct = fct_maker(size = size, lvls = lvls, missing = TRUE),
       ord = fct_maker(size = size, lvls = lvls, ord = TRUE, missing = TRUE)
     )
   } else {
-    switch(type,
+    switch(facet_type,
       chr = chr_maker(size = size, lvls = lvls, missing = FALSE),
       fct = fct_maker(size = size, lvls = lvls, missing = FALSE),
       ord = fct_maker(size = size, lvls = lvls, ord = TRUE, missing = FALSE)
@@ -233,3 +248,42 @@ facet_maker <- function(type, size, lvls, missing = FALSE) {
 # facet_maker(type = "chr", size = 10, lvls = 4, missing = TRUE)
 # facet_maker(type = "fct", size = 10, lvls = 4, missing = TRUE)
 # facet_maker(type = "ord", size = 6, lvls = 5, missing = FALSE)
+col_maker <- function(col_type, size, ..., missing) {
+
+  make_cols <- function(col_type, size, ..., missing) {
+    switch(col_type,
+     log = log_maker(size = size, missing = missing),
+     int = int_maker(size = size, missing = missing),
+     dbl = dbl_maker(size = size, missing = missing),
+     chr = chr_maker(size = size, missing = missing, ...),
+     fct = fct_maker(size = size, missing = missing, ...),
+     ord = ord_maker(size = size, missing = missing, ...))
+    }
+
+  cols_list <- purrr::map(
+    .x = col_type,
+    .f = make_cols,
+    size = size,
+    missing = missing,
+    ...)
+
+  col_nms <- janitor::make_clean_names(col_type)
+
+  cols_tbl_list <- purrr::map(
+    .x = cols_list,
+    .f = tibble::as_tibble)
+
+  cols_tbl <- purrr::list_cbind(cols_tbl_list, size = size) |>
+                  suppressMessages() |>
+                  suppressWarnings()
+
+  cols_tbl <- purrr::set_names(cols_tbl, col_nms)
+
+  return(cols_tbl)
+
+}
+
+# col_maker(col_type = c("log", "log", "dbl", "dbl", "fct", "chr", "chr"),
+#   size = 6, missing = FALSE, lvls = 4)
+
+
