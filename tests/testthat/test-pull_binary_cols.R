@@ -129,10 +129,19 @@ test_that("check_binary_vec factor works", {
     expected = FALSE)
 })
 
-
 test_that("make_binary_vec() works", {
-  binary_vec_test <-
-    readRDS(testthat::test_path("fixtures", "binary_vec_test.rds"))
+  binary_vec_test <- tibble::tibble(
+    log = bin_maker(bin_type = "log", size = 3, missing = FALSE),
+    log_na = bin_maker(bin_type = "log", size = 3, missing = TRUE),
+    int = bin_maker(bin_type = "int", size = 3, missing = FALSE),
+    int_na = bin_maker(bin_type = "int", size = 3, missing = TRUE),
+    chr = bin_maker(bin_type = "chr", size = 3, missing = FALSE),
+    chr_na = bin_maker(bin_type = "chr", size = 3, missing = TRUE),
+    fct = bin_maker(bin_type = "fct", size = 3, missing = FALSE),
+    fct_na = bin_maker(bin_type = "fct", size = 3, missing = TRUE),
+    ord = bin_maker(bin_type = "ord", size = 3, missing = FALSE),
+    ord_na = bin_maker(bin_type = "ord", size = 3, missing = TRUE)
+  )
   # test logical
   expect_equal(
     object = select(binary_vec_test, where(is.logical)) |>
@@ -142,7 +151,7 @@ test_that("make_binary_vec() works", {
   # test integer
   expect_equal(
     object = select(binary_vec_test, where(is.integer)) |>
-      make_binary_vec(type = "log"),
+      make_binary_vec(type = "int"),
     expected = purrr::set_names(c("int", "int_na"))
   )
   # test character
@@ -170,17 +179,13 @@ test_that("make_binary_vec() works", {
 testthat::test_that("pull_binary_cols() works", {
   app_inputs_test <-
     readRDS(testthat::test_path("fixtures", "pull_cols_test.rds"))
-
   expect_equal(
     object = pull_binary_cols(app_inputs_test),
-    expected =
-      c(
-        log_bin_na = "log_bin_na",
-        log_bin = "log_bin",
-        int_bin_na = "int_bin_na",
-        int_bin = "int_bin",
-        chr_bin_na = "chr_bin_na",
-        chr_bin = "chr_bin"
-      )
+    expected = c(log_bin_na = "log_bin_na",
+                 log_bin = "log_bin",
+                 int_bin_na = "int_bin_na",
+                 int_bin = "int_bin",
+                 chr_bin_na = "chr_bin_na",
+                 chr_bin = "chr_bin")
   )
 })

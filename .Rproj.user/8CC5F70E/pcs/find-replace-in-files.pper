@@ -1,6 +1,6 @@
 {
     "dialog-state": {
-        "query": "dbl_col",
+        "query": "< 6",
         "path": "",
         "regex": false,
         "caseSensitive": true,
@@ -9,7 +9,7 @@
         "useGitGrep": true,
         "excludeGitIgnore": true,
         "excludeFilePatterns": [],
-        "resultsCount": 1,
+        "resultsCount": 6,
         "errorCount": 0,
         "replaceErrors": "",
         "projectRelative": true

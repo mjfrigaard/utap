@@ -12,7 +12,7 @@ check_facet_vec(x, type)
 \item{type}{type of column to return.}
 }
 \value{
-TRUE/FALSE if facet variable (< 6 levels)
+TRUE/FALSE if facet variable (< 5 levels)
 }
 \description{
 Facet checks (helper)

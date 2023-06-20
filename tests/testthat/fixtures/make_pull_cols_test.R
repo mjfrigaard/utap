@@ -1,5 +1,18 @@
 pull_cols_test <- tibble::tibble(
-  # logical binary
+
+  # double ----
+  dbl_var_na = dbl_maker(10, missing = TRUE),
+  dbl_var = dbl_maker(size = 10),
+  # integer ----
+  int_var_na = int_maker(10, missing = TRUE),
+  int_var = int_maker(size = 10),
+  # character
+  chr_var_na = chr_maker(
+    size = 10, missing = TRUE
+  ),
+  chr_var = chr_maker(size = 10),
+
+  # logical binary ----
   log_bin_na = bin_maker(
     bin_type = "log",
     size = 10, missing = TRUE
@@ -9,7 +22,7 @@ pull_cols_test <- tibble::tibble(
     size = 10, missing = FALSE
   ),
 
-  # integer binary
+  # integer binary ----
   int_bin_na = bin_maker(
     bin_type = "int",
     size = 10, missing = TRUE
@@ -19,7 +32,7 @@ pull_cols_test <- tibble::tibble(
     size = 10, missing = FALSE
   ),
 
-  # character binary
+  # character binary ----
   chr_bin_na = bin_maker(
     bin_type = "chr",
     size = 10, missing = TRUE
@@ -33,60 +46,50 @@ pull_cols_test <- tibble::tibble(
     lvls = 1, missing = TRUE
   ),
 
-  # double
-  dbl_var_na = dbl_maker(10, missing = TRUE),
-  dbl_var = dbl_maker(size = 10),
-  # integer
-  int_var_na = int_maker(10, missing = TRUE),
-  int_var = int_maker(size = 10),
-  # character
-  chr6_var = chr_maker(
-    size = 10,
-    lvls = 6, missing = TRUE
-  ),
-  chr7_var_na = chr_maker(size = 10, lvls = 7),
+  # 5-level ----
   # factor
-  fct6_var_na = fct_maker(
+  fct5_var_na = fct_maker(
     size = 10,
-    lvls = 6, missing = TRUE
+    lvls = 5, missing = TRUE
   ),
-  fct7_var = fct_maker(size = 10, lvls = 7),
+  fct5_var = fct_maker(size = 10, lvls = 5),
   # ordered
-  ord6_var_na = ord_maker(
-    size = 10, lvls = 6,
+  ord5_var_na = ord_maker(
+    size = 10, lvls = 5,
     missing = TRUE
   ),
-  ord7_var = ord_maker(
+  ord5_var = ord_maker(
     size = 10,
-    lvls = 7
+    lvls = 5
   ),
 
+  # 4-level ----
   # character facets
-  chr_facet5 = facet_maker(
+  chr_facet4 = facet_maker(
     facet_type = "chr", size = 10,
-    lvls = 5, missing = FALSE
+    lvls = 4, missing = FALSE
   ),
-  chr_facet5_na = facet_maker(
+  chr_facet4_na = facet_maker(
     facet_type = "chr", size = 10,
-    lvls = 5, missing = TRUE
+    lvls = 4, missing = TRUE
   ),
   # factor facets
-  fct_facet5 = facet_maker(
+  fct_facet4 = facet_maker(
     facet_type = "fct", size = 10,
-    lvls = 5, missing = FALSE
+    lvls = 4, missing = FALSE
   ),
-  fct_facet5_na = facet_maker(
+  fct_facet4_na = facet_maker(
     facet_type = "fct", size = 10,
-    lvls = 5, missing = TRUE
+    lvls = 4, missing = TRUE
   ),
   # ordered facets
-  ord_facet5 = facet_maker(
+  ord_facet4 = facet_maker(
     facet_type = "ord", size = 10,
-    lvls = 5, missing = FALSE
+    lvls = 4, missing = FALSE
   ),
-  ord_facet5_na = facet_maker(
+  ord_facet4_na = facet_maker(
     facet_type = "ord", size = 10,
-    lvls = 5, missing = TRUE
+    lvls = 4, missing = TRUE
   )
 )
 

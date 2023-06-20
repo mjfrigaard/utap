@@ -3,7 +3,7 @@
 #' @param x a vector
 #' @param type type of column to return.
 #'
-#' @return TRUE/FALSE if facet variable (< 6 levels)
+#' @return TRUE/FALSE if facet variable (< 5 levels)
 #' @export check_facet_vec
 #'
 #' @examples
@@ -14,10 +14,10 @@
 #' levels(NHANES::NHANES$MaritalStatus)
 check_facet_vec <- function(x, type) {
   check_chr_facet <- function(x) {
-    length(unique(na.omit(x))) <= 5
+    length(unique(na.omit(x))) <= 4
   }
   check_fct_facet <- function(x) {
-    length(unique(na.omit(x))) <= 5
+    length(unique(na.omit(x))) <= 4
   }
   switch(type,
     chr = check_chr_facet(x),
@@ -31,7 +31,7 @@ check_facet_vec <- function(x, type) {
 #' @param df  a `data.frame` or `tibble`
 #' @param type type of column to return
 #'
-#' @return vector of facet columns (< 6 levels)
+#' @return vector of facet columns (< 5 levels)
 #' @export make_facet_vec
 #'
 #' @importFrom purrr set_names map_vec
@@ -48,7 +48,6 @@ check_facet_vec <- function(x, type) {
 #' facets
 make_facet_vec <- function(df, type) {
   if (ncol(df) < 1) {
-    cli::cli_alert_info(glue::glue("No {type} facet columns!"))
     return(purrr::set_names(vector(mode = "character")))
   } else {
     nms <- names(df)
@@ -60,7 +59,6 @@ make_facet_vec <- function(df, type) {
       type = type
     )
     if (sum(facet_set) < 1) {
-      cli::cli_alert_info(glue::glue("No {type} facet values!"))
       facets <- purrr::set_names(vector(mode = "character"))
     } else {
       facets <- purrr::set_names(dm_nms[facet_set])
@@ -81,7 +79,7 @@ make_facet_vec <- function(df, type) {
 #'
 #'
 #' @return a named character vector of factor or character column names with
-#' < 6 unique levels
+#' < 5 unique levels
 #' @export pull_facet_cols
 #'
 #' @importFrom purrr compact list_c

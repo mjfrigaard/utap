@@ -11,7 +11,7 @@ pull_facet_cols(df)
 }
 \value{
 a named character vector of factor or character column names with
-< 6 unique levels
+< 5 unique levels
 }
 \description{
 Facet app inputs

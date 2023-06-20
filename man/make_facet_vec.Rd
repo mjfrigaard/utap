@@ -12,7 +12,7 @@ make_facet_vec(df, type)
 \item{type}{type of column to return}
 }
 \value{
-vector of facet columns (< 6 levels)
+vector of facet columns (< 5 levels)
 }
 \description{
 Create vector of facet columns by type (helper)
