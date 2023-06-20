@@ -81,7 +81,7 @@ make_binary_vec <- function(df, type) {
 #'
 #' @param df a `data.frame` or `tibble`
 #'
-#' @return named vector of binary column names
+#' @return a named character vector of binary column names
 #' @export pull_binary_cols
 #'
 #' @examples

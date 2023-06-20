@@ -1,19 +1,19 @@
 facet_vec_test <- tibble::tibble(
   # character facets
-  facet_maker(type = "chr", size = 10, lvls = 5, missing = FALSE),
-  facet_maker(type = "chr", size = 10, lvls = 5, missing = TRUE),
-  facet_maker(type = "chr", size = 10, lvls = 6, missing = FALSE),
-  facet_maker(type = "chr", size = 10, lvls = 6, missing = TRUE),
+  facet_maker(facet_type = "chr", size = 10, lvls = 5, missing = FALSE),
+  facet_maker(facet_type = "chr", size = 10, lvls = 5, missing = TRUE),
+  facet_maker(facet_type = "chr", size = 10, lvls = 6, missing = FALSE),
+  facet_maker(facet_type = "chr", size = 10, lvls = 6, missing = TRUE),
   # factor facets
-  facet_maker(type = "fct", size = 10, lvls = 5, missing = FALSE),
-  facet_maker(type = "fct", size = 10, lvls = 5, missing = TRUE),
-  facet_maker(type = "fct", size = 10, lvls = 6, missing = FALSE),
-  facet_maker(type = "fct", size = 10, lvls = 6, missing = TRUE),
+  facet_maker(facet_type = "fct", size = 10, lvls = 5, missing = FALSE),
+  facet_maker(facet_type = "fct", size = 10, lvls = 5, missing = TRUE),
+  facet_maker(facet_type = "fct", size = 10, lvls = 6, missing = FALSE),
+  facet_maker(facet_type = "fct", size = 10, lvls = 6, missing = TRUE),
   # ordered facets
-  facet_maker(type = "ord", size = 10, lvls = 5, missing = FALSE),
-  facet_maker(type = "ord", size = 10, lvls = 5, missing = TRUE),
-  facet_maker(type = "ord", size = 10, lvls = 6, missing = FALSE),
-  facet_maker(type = "ord", size = 10, lvls = 6, missing = TRUE)
+  facet_maker(facet_type = "ord", size = 10, lvls = 5, missing = FALSE),
+  facet_maker(facet_type = "ord", size = 10, lvls = 5, missing = TRUE),
+  facet_maker(facet_type = "ord", size = 10, lvls = 6, missing = FALSE),
+  facet_maker(facet_type = "ord", size = 10, lvls = 6, missing = TRUE)
 ) |>
   purrr::set_names(c(
     "chr5", "chr5_na", "chr6", "chr6_na",

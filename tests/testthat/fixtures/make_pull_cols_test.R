@@ -1,31 +1,31 @@
 pull_cols_test <- tibble::tibble(
   # logical binary
   log_bin_na = bin_maker(
-    type = "log",
+    bin_type = "log",
     size = 10, missing = TRUE
   ),
   log_bin = bin_maker(
-    type = "log",
+    bin_type = "log",
     size = 10, missing = FALSE
   ),
 
   # integer binary
   int_bin_na = bin_maker(
-    type = "int",
+    bin_type = "int",
     size = 10, missing = TRUE
   ),
   int_bin = bin_maker(
-    type = "int",
+    bin_type = "int",
     size = 10, missing = FALSE
   ),
 
   # character binary
   chr_bin_na = bin_maker(
-    type = "chr",
+    bin_type = "chr",
     size = 10, missing = TRUE
   ),
   chr_bin = bin_maker(
-    type = "chr",
+    bin_type = "chr",
     size = 10, missing = FALSE
   ),
   chr_bin2_na = chr_maker(
@@ -52,40 +52,40 @@ pull_cols_test <- tibble::tibble(
   ),
   fct7_var = fct_maker(size = 10, lvls = 7),
   # ordered
-  ord6_var_na = fct_maker(
+  ord6_var_na = ord_maker(
     size = 10, lvls = 6,
-    ord = TRUE, missing = TRUE
+    missing = TRUE
   ),
-  ord7_var = fct_maker(
+  ord7_var = ord_maker(
     size = 10,
-    lvls = 7, ord = TRUE
+    lvls = 7
   ),
 
   # character facets
   chr_facet5 = facet_maker(
-    type = "chr", size = 10,
+    facet_type = "chr", size = 10,
     lvls = 5, missing = FALSE
   ),
   chr_facet5_na = facet_maker(
-    type = "chr", size = 10,
+    facet_type = "chr", size = 10,
     lvls = 5, missing = TRUE
   ),
   # factor facets
   fct_facet5 = facet_maker(
-    type = "fct", size = 10,
+    facet_type = "fct", size = 10,
     lvls = 5, missing = FALSE
   ),
   fct_facet5_na = facet_maker(
-    type = "fct", size = 10,
+    facet_type = "fct", size = 10,
     lvls = 5, missing = TRUE
   ),
   # ordered facets
   ord_facet5 = facet_maker(
-    type = "ord", size = 10,
+    facet_type = "ord", size = 10,
     lvls = 5, missing = FALSE
   ),
   ord_facet5_na = facet_maker(
-    type = "ord", size = 10,
+    facet_type = "ord", size = 10,
     lvls = 5, missing = TRUE
   )
 )

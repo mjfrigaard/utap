@@ -2,7 +2,7 @@
 #'
 #' @param df a `data.frame` or `tibble`
 #'
-#' @return character and factor column names
+#' @return a named character vector of character and factor column names
 #' @export pull_cat_cols
 #'
 #' @importFrom purrr compact list_c set_names
@@ -21,7 +21,6 @@ pull_cat_cols <- function(df) {
   bins_facets_list <- purrr::compact(all_bins_facets_list)
   # vector
   bins_facets <- purrr::list_c(bins_facets_list)
-  # remove these
   # characters
   chrs <- get_column_class(df = df, class = "chr", return_tbl = FALSE)
   # factors
@@ -32,9 +31,12 @@ pull_cat_cols <- function(df) {
   chrs_fcts_list <- purrr::compact(all_chrs_fcts_list)
   # vector
   chrs_fcts <- purrr::list_c(chrs_fcts_list)
-  # reduce
-  cats_nms <- chrs_fcts[chrs_fcts %nin% bins_facets]
-  # name
-  cats <- purrr::set_names(cats_nms)
-  return(cats)
+  cat_nms <- chrs_fcts[chrs_fcts %nin% bins_facets]
+  if (is.null(cat_nms)) {
+    NULL
+  } else {
+    # name
+    cats <- purrr::set_names(cat_nms)
+    return(cats)
+  }
 }

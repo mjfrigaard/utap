@@ -10,7 +10,7 @@ pull_binary_cols(df)
 \item{df}{a \code{data.frame} or \code{tibble}}
 }
 \value{
-named vector of binary column names
+a named character vector of binary column names
 }
 \description{
 Binary app inputs

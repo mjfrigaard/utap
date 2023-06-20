@@ -10,7 +10,7 @@ pull_cat_cols(df)
 \item{df}{a \code{data.frame} or \code{tibble}}
 }
 \value{
-character and factor column names
+a named character vector of character and factor column names
 }
 \description{
 Categorical app inputs

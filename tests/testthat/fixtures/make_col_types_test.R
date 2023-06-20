@@ -9,11 +9,8 @@ col_types_test <- tibble::tibble(
   chr_var = chr_maker(size = 10, lvls = 4),
   fct_na = fct_maker(size = 10, lvls = 5, missing = TRUE),
   fct_var = fct_maker(size = 10, lvls = 5),
-  ord_na = fct_maker(
-    size = 10, lvls = 5,
-    ord = TRUE, missing = TRUE
-  ),
-  ord_fct = fct_maker(size = 10, lvls = 5, ord = TRUE)
+  ord_na = ord_maker(size = 10, lvls = 5, missing = TRUE),
+  ord_fct = ord_maker(size = 10, lvls = 5)
 )
 # export to tests/testthat/fixtures/
 saveRDS(col_types_test,

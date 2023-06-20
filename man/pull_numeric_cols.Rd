@@ -10,7 +10,7 @@ pull_numeric_cols(df)
 \item{df}{a \code{data.frame} or \code{tibble}}
 }
 \value{
-integer and double column names
+a named character vector of integer and double column names
 }
 \description{
 Numeric app inputs

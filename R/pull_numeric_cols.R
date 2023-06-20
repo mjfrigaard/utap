@@ -2,7 +2,7 @@
 #'
 #' @param df a `data.frame` or `tibble`
 #'
-#' @return integer and double column names
+#' @return a named character vector of integer and double column names
 #' @export pull_numeric_cols
 #'
 #' @importFrom purrr compact list_c set_names
@@ -27,13 +27,18 @@ pull_numeric_cols <- function(df) {
   ints <- get_column_class(df = df, class = "int", return_tbl = FALSE)
   # assemble
   all_dbls_ints_list <- list(dbls, ints)
-  # reduce
+  # # reduce
   dbls_ints_list <- purrr::compact(all_dbls_ints_list)
-  # vector
+  # # vector
   dbls_ints <- purrr::list_c(dbls_ints_list)
   # reduce
   nums_nms <- dbls_ints[dbls_ints %nin% bins_facets]
-  # name
-  nums <- purrr::set_names(nums_nms)
-  return(nums)
+  if (is.null(nums_nms)) {
+    return(nums_nms)
+  } else {
+    # name
+    nums <- purrr::set_names(nums_nms)
+    return(nums)
+  }
 }
+

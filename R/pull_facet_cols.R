@@ -48,7 +48,7 @@ check_facet_vec <- function(x, type) {
 #' facets
 make_facet_vec <- function(df, type) {
   if (ncol(df) < 1) {
-    # cli::cli_alert_info(glue::glue("No {type} facet columns!"))
+    cli::cli_alert_info(glue::glue("No {type} facet columns!"))
     return(purrr::set_names(vector(mode = "character")))
   } else {
     nms <- names(df)
@@ -60,10 +60,9 @@ make_facet_vec <- function(df, type) {
       type = type
     )
     if (sum(facet_set) < 1) {
-      # cli::cli_alert_info(glue::glue("No {type} facet values!"))
+      cli::cli_alert_info(glue::glue("No {type} facet values!"))
       facets <- purrr::set_names(vector(mode = "character"))
     } else {
-      # cli::cli_alert_success(glue::glue("{type} facet values!"))
       facets <- purrr::set_names(dm_nms[facet_set])
     }
   }
@@ -81,7 +80,8 @@ make_facet_vec <- function(df, type) {
 #' @param df a `data.frame` or `tibble`
 #'
 #'
-#' @return a vector of factor or character column names with < 6 unique levels
+#' @return a named character vector of factor or character column names with
+#' < 6 unique levels
 #' @export pull_facet_cols
 #'
 #' @importFrom purrr compact list_c

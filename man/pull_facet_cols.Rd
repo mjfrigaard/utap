@@ -10,7 +10,8 @@ pull_facet_cols(df)
 \item{df}{a \code{data.frame} or \code{tibble}}
 }
 \value{
-a vector of factor or character column names with < 6 unique levels
+a named character vector of factor or character column names with
+< 6 unique levels
 }
 \description{
 Facet app inputs

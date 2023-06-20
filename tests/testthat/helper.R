@@ -101,17 +101,14 @@ chr_maker <- function(size, lvls = size/2, missing = FALSE) {
 # chr_maker(size = 3, lvls = 3, TRUE)
 # chr_maker(size = 10, lvls = 6, TRUE)
 
-fct_maker <- function(size, lvls = size/2, ord = FALSE, missing = FALSE) {
-  if (size < lvls) {
-    lvls <- size - 1
-  }
+fct_maker <- function(size, lvls = size/2, missing = FALSE) {
   if (isTRUE(missing)) {
     levs <- paste0("group ", as.integer(1:lvls))
     nas <- rep(c(levs, NA_character_), length.out = size)
     chr_raw <- as.vector(c(nas), mode = "character")
     fct_vec <- factor(chr_raw,
       levels = unique(sort(chr_raw)),
-      ordered = FALSE
+      ordered = FALSE,
     )
   } else {
     levs <- paste0("group ", as.integer(1:lvls))
@@ -128,9 +125,6 @@ fct_maker(size = 10, lvls = 9, missing = TRUE)
 # fct_maker(size = 10, lvls = 5, missing = FALSE)
 
 ord_maker <- function(size, lvls = size/2, missing = FALSE) {
-  if (size < lvls) {
-    lvls <- size - 1
-  }
   if (isTRUE(missing)) {
     levs <- paste0("level ", as.integer(1:lvls))
     nas <- rep(c(levs, NA_character_), length.out = size)
@@ -237,13 +231,13 @@ facet_maker <- function(facet_type, size, lvls, missing = FALSE) {
     switch(facet_type,
       chr = chr_maker(size = size, lvls = lvls, missing = TRUE),
       fct = fct_maker(size = size, lvls = lvls, missing = TRUE),
-      ord = fct_maker(size = size, lvls = lvls, ord = TRUE, missing = TRUE)
+      ord = ord_maker(size = size, lvls = lvls, missing = TRUE)
     )
   } else {
     switch(facet_type,
       chr = chr_maker(size = size, lvls = lvls, missing = FALSE),
       fct = fct_maker(size = size, lvls = lvls, missing = FALSE),
-      ord = fct_maker(size = size, lvls = lvls, ord = TRUE, missing = FALSE)
+      ord = ord_maker(size = size, lvls = lvls,  missing = FALSE)
     )
   }
 }
