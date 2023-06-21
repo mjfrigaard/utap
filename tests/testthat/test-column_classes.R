@@ -117,14 +117,13 @@ testthat::test_that("select_column_class() return zero columns", {
 
 testthat::test_that("get_column_class() logical", {
   # test logical class
-  log_test <- col_maker(
+  testthat::expect_equal(
+    object = get_column_class(
+      df = col_maker(
         col_type = c("log", "int", "dbl", "chr"),
           size = 6,
           missing = FALSE,
-          lvls = 4)
-  testthat::expect_equal(
-    object = get_column_class(
-      df = log_test,
+          lvls = 4),
       class = "log") |>
       unlist() |>
       is.logical(),
@@ -133,7 +132,11 @@ testthat::test_that("get_column_class() logical", {
   # test logical names
   testthat::expect_equal(
     object = get_column_class(
-      df = log_test,
+      df = col_maker(
+        col_type = c("log", "int", "dbl", "chr"),
+          size = 6,
+          missing = FALSE,
+          lvls = 4),
      class = "log",
       return_tbl = FALSE
     ),
