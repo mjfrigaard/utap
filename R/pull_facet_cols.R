@@ -67,6 +67,7 @@ make_facet_vec <- function(df, type) {
   return(facets)
 }
 
+
 #' Facet app inputs
 #'
 #' @section Variables to use for facets:
@@ -102,9 +103,15 @@ pull_facet_cols <- function(df) {
   # get bins
   bins <- pull_binary_cols(df)
   # character
-  chr_facets <- get_column_class(df, "chr") |> make_facet_vec("chr")
+  chr_facets <- get_column_class(df = df,
+                  class = "chr",
+                  return_tbl = TRUE) |>
+                make_facet_vec(type = "chr")
   # factors
-  fct_facets <- get_column_class(df, "fct") |> make_facet_vec("fct")
+  fct_facets <- get_column_class(df = df,
+                                 class = "fct",
+                                 return_tbl = TRUE) |>
+                make_facet_vec(type = "fct")
   # assemble
   all_facets_list <- list(chr_facets, fct_facets)
   # reduce

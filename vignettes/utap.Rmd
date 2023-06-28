@@ -7,14 +7,136 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r, include = FALSE}
+```{r setup, include = FALSE}
 knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>",
-  eval = FALSE
+  collapse = FALSE,
+  comment = "\t",
+  eval = TRUE
+)
+source("../tests/testthat/helper.R")
+```
+
+```{r pkgs, message=FALSE, warning=FALSE}
+library(utap)
+library(lobstr)
+```
+
+## Function tree
+
+The `lobstr` package provides the abstract syntax tree function, which I like to use for creating function trees. For example, below is the tree for `select_column_class()`:
+
+```{r}
+lobstr::ast(
+    select_column_class(
+        col_class() # nested (not defined in roxygen2)
+      )
 )
 ```
 
-```{r setup}
-library(utap)
+This function can be demonstrated using data with some of the test helpers in `tests/testthat/helper.R`
+
+```{r test_data}
+test_data <- tibble::tibble(
+    list_var = list(fct_vec = fct_maker(size = 3), 
+                    ord_vec = ord_maker(size = 3),
+                    chr_vec = chr_maker(size = 3),
+                    log_vec = log_maker(size = 3),
+                    int_vec = int_maker(size = 3),
+                    dbl_vec = dbl_maker(size = 3)),
+    log_var = log_maker(size = 6, missing = TRUE),
+    int_var = int_maker(size = 6, missing = TRUE),
+    dbl_var = dbl_maker(size = 6, missing = TRUE),
+    facet_var = facet_maker(facet_type = "fct", 
+                            lvls = 4, missing = TRUE, 
+                            size = 6),
+    bin_var = bin_maker(bin_type = "log", 
+                        missing = TRUE, size = 6))
+test_data
 ```
+
+### select_column_class()
+
+```{r}
+select_column_class(
+  df = test_data, 
+  class = "log")
+
+select_column_class(
+  df = test_data, 
+  class = c("int", "list"))
+```
+
+
+### get_column_class()
+
+`select_column_class()` is called from within `get_column_class()`, which is a wrapper function that includes the `return_tbl` argument for returning the columns as a named vector. 
+
+```{r}
+lobstr::ast(
+  get_column_class(
+    select_column_class(
+      col_class() # nested (not defined in roxygen2)
+      )
+    )
+)
+```
+
+```{r}
+get_column_class(
+  df = test_data, 
+  class = c("int", "dbl"),
+  return_tbl = TRUE)
+
+get_column_class(
+  df = test_data, 
+  class = c("int", "dbl"),
+  return_tbl = FALSE)
+```
+
+
+### pull_[type]_cols()
+
+All of the `pull_[type]_cols()` functions use the `get_column_class()` to return the initial set of column names. 
+
+```{r}
+lobstr::ast(
+    get_column_class(
+      select_column_class(col_class()),
+    pull_binary_cols(),
+    pull_facet_cols(),
+    pull_cat_cols(),
+    pull_numeric_cols())
+  )
+```
+
+### pull_binary_cols()
+
+```{r}
+lobstr::ast(
+    pull_binary_cols(check_binary_vec(
+                          check_log_binary(),
+                          check_int_binary(),
+                          check_fct_binary()),
+                     make_binary_vec()))
+```
+
+```{r}
+pull_binary_cols(df = test_data)
+```
+
+
+### pull_facet_cols()
+
+```{r}
+lobstr::ast(
+    pull_facet_cols(check_facet_vec(
+                          check_chr_facet(), 
+                          check_fct_facet()),
+                      make_facet_vec())
+)
+```
+
+```{r}
+pull_facet_cols(df = test_data)
+```
+

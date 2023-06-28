@@ -24,6 +24,15 @@ The goal of `utap` is to demonstrate how to perform unit tests for shiny utility
 
 You don't want to install this package, but you might want to download it as an example (or read through [this post](https://mjfrigaard.github.io/posts/test-shiny-p1/) to learn about it's contents).
 
+# R files
+
+```{r}
+#| echo: false
+fs::dir_tree("R/")
+```
+
+
+
 # Unit tests 
 
 ```{r}
@@ -39,20 +48,17 @@ fs::dir_tree("tests/testthat/", regexp = "^tests/testthat/test-")
 
 ℹ Testing utap
 ✔ | F W S  OK | Context
-✔ |         1 | pull_binary_cols [0.1s]      
-✔ |         1 | pull_cat_cols                   
-✔ |        25 | check_binary_vec [0.1s]         
-✔ |        16 | check_facet_vec                 
-✔ |         1 | pull_facet_cols                
-✔ |        16 | get_column_class [0.1s]            
-✔ |         5 | make_binary_vec                  
-✔ |         7 | make_facet_vec                   
-✔ |         1 | pull_numeric_cols                   
+✔ |        25 | column_classes                     
+✔ |        29 | pull_binary_cols                   
+✔ |         4 | pull_cat_cols                      
+✔ |        20 | pull_facet_cols                    
+✔ |         5 | pull_numeric_cols                  
+✔ |         3 | utils                              
 
-══ Results ════════════════════════════════════════════
-Duration: 0.8 s
+══ Results ════════════════════════════════════════
+Duration: 1.8 s
 
-[ FAIL 0 | WARN 0 | SKIP 0 | PASS 73 ]
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 86 ]
 ```
 
 

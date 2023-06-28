@@ -16,18 +16,26 @@ it as an example (or read through [this
 post](https://mjfrigaard.github.io/posts/test-shiny-p1/) to learn about
 it’s contents).
 
+# R files
+
+    #> R/
+    #> ├── column_classes.R
+    #> ├── pull_binary_cols.R
+    #> ├── pull_cat_cols.R
+    #> ├── pull_facet_cols.R
+    #> ├── pull_numeric_cols.R
+    #> ├── utap-package.R
+    #> └── utils.R
+
 # Unit tests
 
     #> tests/testthat/
-    #> ├── test-check_binary_vec.R
-    #> ├── test-check_facet_vec.R
-    #> ├── test-get_column_class.R
-    #> ├── test-make_binary_vec.R
-    #> ├── test-make_facet_vec.R
+    #> ├── test-column_classes.R
     #> ├── test-pull_binary_cols.R
     #> ├── test-pull_cat_cols.R
     #> ├── test-pull_facet_cols.R
-    #> └── test-pull_numeric_cols.R
+    #> ├── test-pull_numeric_cols.R
+    #> └── test-utils.R
 
 # Unit test results
 
@@ -36,18 +44,15 @@ it’s contents).
 
 ℹ Testing utap
 ✔ | F W S  OK | Context
-✔ |         1 | pull_binary_cols [0.1s]      
-✔ |         1 | pull_cat_cols                   
-✔ |        25 | check_binary_vec [0.1s]         
-✔ |        16 | check_facet_vec                 
-✔ |         1 | pull_facet_cols                
-✔ |        16 | get_column_class [0.1s]            
-✔ |         5 | make_binary_vec                  
-✔ |         7 | make_facet_vec                   
-✔ |         1 | pull_numeric_cols                   
+✔ |        25 | column_classes                     
+✔ |        29 | pull_binary_cols                   
+✔ |         4 | pull_cat_cols                      
+✔ |        20 | pull_facet_cols                    
+✔ |         5 | pull_numeric_cols                  
+✔ |         3 | utils                              
 
-══ Results ════════════════════════════════════════════
-Duration: 0.8 s
+══ Results ════════════════════════════════════════
+Duration: 1.8 s
 
-[ FAIL 0 | WARN 0 | SKIP 0 | PASS 73 ]
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 86 ]
 ```
