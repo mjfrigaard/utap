@@ -4,5 +4,6 @@
 # roxygen namespace tags. Modify with care!
 ## usethis namespace: start
 #' @import palmerpenguins
+#' @import janitor
 ## usethis namespace: end
 NULL

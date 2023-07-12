@@ -25,7 +25,7 @@
 "shinytest2", "showimage", 'skimr', "sloop", "sourcetools", "stringi",
 "stringr", "styler", "survival", "svglite", "sys", "systemfonts",
 "testthat", "textshaping", "tibble", "tidyr", "timechange", "tinytex",
-"urlchecker", "usethis", "utf8", "uuid", "vctrs", "vdiffr", "viridisLite",
+"urlchecker", "usethis", "utf8", "uuid", "vctrs", "viridisLite",
 "waldo", "webdriver", "webshot", "websocket", "whisker", "whoami",
 "withr", "xfun", "xml2", "xmlparsedata", "xopen", "xtable", "yaml",
 "zip")

@@ -25,6 +25,6 @@ Imports:
     shiny,
     stringr,
     testthat,
-    vdiffr,
+    janitor,
     palmerpenguins
 URL: https://mjfrigaard.github.io/utap/

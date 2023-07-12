@@ -1,3 +1,22 @@
+options(repos = "https://cran.rstudio.com/")
+install.packages("remotes")
+remotes::install_github("sfirke/janitor", force = TRUE, quiet = TRUE)
+library(janitor)
+
+
+# remotes::install_github("tidyverse/purrr", force = TRUE, quiet = TRUE)
+library(purrr)
+
+# remotes::install_github("tidyverse/stringr", force = TRUE, quiet = TRUE)
+library(stringr)
+
+# remotes::install_github("tidyverse/dplyr", force = TRUE, quiet = TRUE)
+library(dplyr)
+
+# remotes::install_github("tidyverse/tidyr", force = TRUE, quiet = TRUE)
+library(tidyr)
+
+
 log_maker <- function(size, missing = FALSE) {
   if (size <= 2 & isTRUE(missing)) {
     as.vector(c(TRUE, NA), mode = "logical")

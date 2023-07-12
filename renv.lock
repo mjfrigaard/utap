@@ -323,9 +323,14 @@
     },
     "dplyr": {
       "Package": "dplyr",
-      "Version": "1.1.2",
-      "Source": "Repository",
-      "Repository": "CRAN",
+      "Version": "1.1.2.9000",
+      "Source": "GitHub",
+      "RemoteType": "github",
+      "RemoteHost": "api.github.com",
+      "RemoteRepo": "dplyr",
+      "RemoteUsername": "tidyverse",
+      "RemoteRef": "HEAD",
+      "RemoteSha": "16b472fb2afc50a87502c2b4ed803e2f5f82b9d6",
       "Requirements": [
         "R",
         "R6",
@@ -342,7 +347,7 @@
         "utils",
         "vctrs"
       ],
-      "Hash": "dea6970ff715ca541c387de363ff405e"
+      "Hash": "a5ef9a7e7ff6c73eae9064a7c403d42a"
     },
     "ellipsis": {
       "Package": "ellipsis",
@@ -573,9 +578,14 @@
     },
     "janitor": {
       "Package": "janitor",
-      "Version": "2.2.0",
-      "Source": "Repository",
-      "Repository": "CRAN",
+      "Version": "2.2.0.9000",
+      "Source": "GitHub",
+      "RemoteType": "github",
+      "RemoteHost": "api.github.com",
+      "RemoteRepo": "janitor",
+      "RemoteUsername": "sfirke",
+      "RemoteRef": "HEAD",
+      "RemoteSha": "73759417f2d06ed25a541503b4207fa6f881f261",
       "Requirements": [
         "R",
         "dplyr",
@@ -591,7 +601,7 @@
         "tidyr",
         "tidyselect"
       ],
-      "Hash": "5baae149f1082f466df9d1442ba7aa65"
+      "Hash": "ff884543c7d31725a3c4fac96fb3690c"
     },
     "jquerylib": {
       "Package": "jquerylib",
@@ -943,9 +953,14 @@
     },
     "purrr": {
       "Package": "purrr",
-      "Version": "1.0.1",
-      "Source": "Repository",
-      "Repository": "CRAN",
+      "Version": "1.0.1.9000",
+      "Source": "GitHub",
+      "RemoteType": "github",
+      "RemoteHost": "api.github.com",
+      "RemoteRepo": "purrr",
+      "RemoteUsername": "tidyverse",
+      "RemoteRef": "HEAD",
+      "RemoteSha": "fd5a7320e37f7301c2dcc1668d032ee0d35acc9c",
       "Requirements": [
         "R",
         "cli",
@@ -954,7 +969,7 @@
         "rlang",
         "vctrs"
       ],
-      "Hash": "d71c815267c640f17ddbf7f16144b4bb"
+      "Hash": "78d6f55f20dd9e15ad11e67f82f548c9"
     },
     "ragg": {
       "Package": "ragg",
@@ -986,6 +1001,20 @@
         "tibble"
       ],
       "Hash": "76c9e04c712a05848ae7a23d2f170a40"
+    },
+    "remotes": {
+      "Package": "remotes",
+      "Version": "2.4.2",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R",
+        "methods",
+        "stats",
+        "tools",
+        "utils"
+      ],
+      "Hash": "227045be9aee47e6dda9bb38ac870d67"
     },
     "renv": {
       "Package": "renv",
@@ -1171,9 +1200,14 @@
     },
     "stringr": {
       "Package": "stringr",
-      "Version": "1.5.0",
-      "Source": "Repository",
-      "Repository": "CRAN",
+      "Version": "1.5.0.9000",
+      "Source": "GitHub",
+      "RemoteType": "github",
+      "RemoteHost": "api.github.com",
+      "RemoteRepo": "stringr",
+      "RemoteUsername": "tidyverse",
+      "RemoteRef": "HEAD",
+      "RemoteSha": "65b218ebe0aec09c47f489d2e04760101ea3119d",
       "Requirements": [
         "R",
         "cli",
@@ -1184,7 +1218,7 @@
         "stringi",
         "vctrs"
       ],
-      "Hash": "671a4d384ae9d32fc47a14e98bfa3dc8"
+      "Hash": "bba211f0199c9e170171b5f383a6b310"
     },
     "sys": {
       "Package": "sys",
@@ -1348,25 +1382,6 @@
         "rlang"
       ],
       "Hash": "d0ef2856b83dc33ea6e255caf6229ee2"
-    },
-    "vdiffr": {
-      "Package": "vdiffr",
-      "Version": "1.0.5",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Requirements": [
-        "R",
-        "cpp11",
-        "diffobj",
-        "glue",
-        "grDevices",
-        "htmltools",
-        "lifecycle",
-        "rlang",
-        "testthat",
-        "xml2"
-      ],
-      "Hash": "a342911017b3dda92fe73596887a02a7"
     },
     "viridisLite": {
       "Package": "viridisLite",
