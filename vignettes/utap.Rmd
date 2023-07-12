@@ -1,6 +1,8 @@
 ---
 title: "utap"
-output: rmarkdown::html_vignette
+output: 
+  rmarkdown::html_vignette:
+    df_print: kable
 vignette: >
   %\VignetteIndexEntry{utap}
   %\VignetteEngine{knitr::rmarkdown}
@@ -26,6 +28,8 @@ library(lobstr)
 The `lobstr` package provides the abstract syntax tree function, which I like to use for creating function trees. For example, below is the tree for `select_column_class()`:
 
 ```{r}
+#| eval: false
+#| echo: true
 lobstr::ast(
     select_column_class(
         col_class() # nested (not defined in roxygen2)
@@ -33,9 +37,19 @@ lobstr::ast(
 )
 ```
 
+```{verbatim}
+#| eval: false
+#| echo: true
+█─select_column_class 
+└─█─col_class
+```
+
+
 This function can be demonstrated using data with some of the test helpers in `tests/testthat/helper.R`
 
 ```{r test_data}
+#| eval: true
+#| echo: true
 test_data <- tibble::tibble(
     list_var = list(fct_vec = fct_maker(size = 3), 
                     ord_vec = ord_maker(size = 3),
@@ -51,8 +65,20 @@ test_data <- tibble::tibble(
                             size = 6),
     bin_var = bin_maker(bin_type = "log", 
                         missing = TRUE, size = 6))
+```
+
+```{r}
+#| eval: false
+#| echo: true
 test_data
 ```
+
+```{r}
+#| eval: true
+#| echo: false
+knitr::kable(test_data)
+```
+
 
 ### select_column_class()
 
@@ -72,6 +98,8 @@ select_column_class(
 `select_column_class()` is called from within `get_column_class()`, which is a wrapper function that includes the `return_tbl` argument for returning the columns as a named vector. 
 
 ```{r}
+#| eval: false
+#| echo: true
 lobstr::ast(
   get_column_class(
     select_column_class(
@@ -79,6 +107,14 @@ lobstr::ast(
       )
     )
 )
+```
+
+```{verbatim}
+#| eval: false
+#| echo: true
+█─get_column_class 
+└─█─select_column_class 
+  └─█─col_class 
 ```
 
 ```{r}
@@ -99,6 +135,8 @@ get_column_class(
 All of the `pull_[type]_cols()` functions use the `get_column_class()` to return the initial set of column names. 
 
 ```{r}
+#| eval: false
+#| echo: true
 lobstr::ast(
     get_column_class(
       select_column_class(col_class()),
@@ -109,15 +147,41 @@ lobstr::ast(
   )
 ```
 
+```{verbatim}
+#| eval: false
+#| echo: true
+█─get_column_class 
+├─█─select_column_class 
+│ └─█─col_class 
+├─█─pull_binary_cols 
+├─█─pull_facet_cols 
+├─█─pull_cat_cols 
+└─█─pull_numeric_cols
+```
+
+
 ### pull_binary_cols()
 
 ```{r}
+#| eval: false
+#| echo: true
 lobstr::ast(
     pull_binary_cols(check_binary_vec(
                           check_log_binary(),
                           check_int_binary(),
                           check_fct_binary()),
                      make_binary_vec()))
+```
+
+```{verbatim}
+#| eval: false
+#| echo: true
+█─pull_binary_cols 
+├─█─check_binary_vec 
+│ ├─█─check_log_binary 
+│ ├─█─check_int_binary 
+│ └─█─check_fct_binary 
+└─█─make_binary_vec 
 ```
 
 ```{r}
@@ -128,12 +192,24 @@ pull_binary_cols(df = test_data)
 ### pull_facet_cols()
 
 ```{r}
+#| eval: false
+#| echo: true
 lobstr::ast(
     pull_facet_cols(check_facet_vec(
                           check_chr_facet(), 
                           check_fct_facet()),
                       make_facet_vec())
 )
+```
+
+```{verbatim}
+#| eval: false
+#| echo: true
+█─pull_facet_cols 
+├─█─check_facet_vec 
+│ ├─█─check_chr_facet 
+│ └─█─check_fct_facet 
+└─█─make_facet_vec 
 ```
 
 ```{r}

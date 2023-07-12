@@ -25,3 +25,4 @@ Imports:
     stringr,
     testthat,
     vdiffr
+URL: https://mjfrigaard.github.io/utap/

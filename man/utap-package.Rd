@@ -8,4 +8,11 @@
 \description{
 This shiny app was developed as a package using devtools and usethis.
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://mjfrigaard.github.io/utap/}
+}
+
+}
 \keyword{internal}
