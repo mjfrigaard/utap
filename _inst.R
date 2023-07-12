@@ -30,6 +30,8 @@
 "withr", "xfun", "xml2", "xmlparsedata", "xopen", "xtable", "yaml",
 "zip")
 
+install.packages(pkgs)
+
 # install.packages("Matrix")
 # https://cran.r-project.org/web/packages/Matrix/index.html
 

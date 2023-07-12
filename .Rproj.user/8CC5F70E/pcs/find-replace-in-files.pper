@@ -1,6 +1,6 @@
 {
     "dialog-state": {
-        "query": "zeallot",
+        "query": "janitor",
         "path": "",
         "regex": false,
         "caseSensitive": true,
@@ -9,7 +9,7 @@
         "useGitGrep": true,
         "excludeGitIgnore": true,
         "excludeFilePatterns": [],
-        "resultsCount": 3,
+        "resultsCount": 4,
         "errorCount": 0,
         "replaceErrors": "",
         "projectRelative": true
