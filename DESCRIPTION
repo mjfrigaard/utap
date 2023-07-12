@@ -26,5 +26,6 @@ Imports:
     stringr,
     testthat,
     janitor,
-    palmerpenguins
+    palmerpenguins,
+    lobstr
 URL: https://mjfrigaard.github.io/utap/

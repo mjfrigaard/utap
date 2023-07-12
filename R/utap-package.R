@@ -5,5 +5,6 @@
 ## usethis namespace: start
 #' @import palmerpenguins
 #' @import janitor
+#' @import lobstr
 ## usethis namespace: end
 NULL
