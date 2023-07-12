@@ -83,6 +83,8 @@ knitr::kable(test_data)
 ### select_column_class()
 
 ```{r}
+#| eval: false
+#| echo: true
 select_column_class(
   df = test_data, 
   class = "log")
@@ -90,6 +92,24 @@ select_column_class(
 select_column_class(
   df = test_data, 
   class = c("int", "list"))
+```
+
+
+
+```{r}
+#| eval: true
+#| echo: false
+select_column_class(
+  df = test_data, 
+  class = "log") |> knitr::kable()
+```
+
+```{r}
+#| eval: true
+#| echo: false
+select_column_class(
+  df = test_data, 
+  class = c("int", "list")) |> knitr::kable()
 ```
 
 
@@ -118,6 +138,8 @@ lobstr::ast(
 ```
 
 ```{r}
+#| eval: false
+#| echo: true
 get_column_class(
   df = test_data, 
   class = c("int", "dbl"),
@@ -127,6 +149,25 @@ get_column_class(
   df = test_data, 
   class = c("int", "dbl"),
   return_tbl = FALSE)
+```
+
+```{r}
+#| eval: true
+#| echo: false
+get_column_class(
+  df = test_data, 
+  class = c("int", "dbl"),
+  return_tbl = TRUE) |> 
+  knitr::kable()
+```
+
+```{r}
+#| eval: true
+#| echo: false
+get_column_class(
+  df = test_data, 
+  class = c("int", "dbl"),
+  return_tbl = FALSE) 
 ```
 
 

@@ -1,6 +1,6 @@
 {
     "dialog-state": {
-        "query": "< 6",
+        "query": "palmerpenguins",
         "path": "",
         "regex": false,
         "caseSensitive": true,
@@ -9,7 +9,7 @@
         "useGitGrep": true,
         "excludeGitIgnore": true,
         "excludeFilePatterns": [],
-        "resultsCount": 6,
+        "resultsCount": 29,
         "errorCount": 0,
         "replaceErrors": "",
         "projectRelative": true
