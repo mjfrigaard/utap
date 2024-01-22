@@ -1,6 +1,6 @@
 {
     "dialog-state": {
-        "query": "vdiffr",
+        "query": "get_column_class",
         "path": "",
         "regex": false,
         "caseSensitive": true,
@@ -9,7 +9,7 @@
         "useGitGrep": true,
         "excludeGitIgnore": true,
         "excludeFilePatterns": [],
-        "resultsCount": 3,
+        "resultsCount": 136,
         "errorCount": 0,
         "replaceErrors": "",
         "projectRelative": true

@@ -3,8 +3,6 @@
 # The following block is used by usethis to automatically manage
 # roxygen namespace tags. Modify with care!
 ## usethis namespace: start
-#' @import palmerpenguins
-#' @import janitor
-#' @import lobstr
+#' @import shiny
 ## usethis namespace: end
 NULL

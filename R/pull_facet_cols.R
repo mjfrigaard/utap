@@ -103,12 +103,12 @@ pull_facet_cols <- function(df) {
   # get bins
   bins <- pull_binary_cols(df)
   # character
-  chr_facets <- get_column_class(df = df,
+  chr_facets <- select_by_class(df = df,
                   class = "chr",
                   return_tbl = TRUE) |>
                 make_facet_vec(type = "chr")
   # factors
-  fct_facets <- get_column_class(df = df,
+  fct_facets <- select_by_class(df = df,
                                  class = "fct",
                                  return_tbl = TRUE) |>
                 make_facet_vec(type = "fct")

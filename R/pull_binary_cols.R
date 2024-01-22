@@ -91,16 +91,16 @@ make_binary_vec <- function(df, type) {
 #' pull_binary_cols(dplyr::starwars)
 pull_binary_cols <- function(df) {
   # logical
-  log_bins <- get_column_class(df, "log") |>
+  log_bins <- select_by_class(df, "log") |>
     make_binary_vec("log")
   # integer
-  int_bins <- get_column_class(df, "int") |>
+  int_bins <- select_by_class(df, "int") |>
     make_binary_vec("int")
   # character
-  chr_bins <- get_column_class(df, "chr") |>
+  chr_bins <- select_by_class(df, "chr") |>
     make_binary_vec("chr")
   # factors
-  fct_bins <- get_column_class(df, "fct") |>
+  fct_bins <- select_by_class(df, "fct") |>
     make_binary_vec("fct")
   # assemble
   all_bins <- list(log_bins, int_bins, chr_bins, fct_bins)

@@ -1,9 +1,15 @@
-options(repos = "https://cran.rstudio.com/")
-
-# log_maker(2)
-# log_maker(2, TRUE)
-# log_maker(3)
-# log_maker(3, TRUE)
+#' Logical column maker
+#'
+#' @param size how many rows?
+#' @param missing logical, include missing?
+#'
+#' @export
+#'
+#' @examples
+#' log_maker(2)
+#' log_maker(2, TRUE)
+#' log_maker(3)
+#' log_maker(3, TRUE)
 log_maker <- function(size, missing = FALSE) {
   if (size <= 2 & isTRUE(missing)) {
     as.vector(c(TRUE, NA), mode = "logical")
@@ -16,13 +22,20 @@ log_maker <- function(size, missing = FALSE) {
   }
 }
 
-
-# int_maker(2)
-# int_maker(2, TRUE)
-# int_maker(3)
-# int_maker(3, TRUE)
-# int_maker(5, TRUE)
-# int_maker(10, TRUE)
+#' Integer column maker
+#'
+#' @param size how many rows?
+#' @param missing logical, include missing?
+#'
+#' @export
+#'
+#' @examples
+#' int_maker(2)
+#' int_maker(2, TRUE)
+#' int_maker(3)
+#' int_maker(3, TRUE)
+#' int_maker(5, TRUE)
+#' int_maker(10, TRUE)
 int_maker <- function(size, missing = FALSE) {
   if (size < 3 & isTRUE(missing)) {
     int_raw <- c(as.integer(exp(size)), NA_real_)
@@ -45,12 +58,20 @@ int_maker <- function(size, missing = FALSE) {
   }
 }
 
-# dbl_maker(2)
-# dbl_maker(2, TRUE)
-# dbl_maker(3)
-# dbl_maker(3, TRUE)
-# dbl_maker(10)
-# dbl_maker(10, TRUE)
+#' Double column maker
+#'
+#' @param size how many rows?
+#' @param missing logical, include missing?
+#'
+#' @export
+#'
+#' @examples
+#' dbl_maker(2)
+#' dbl_maker(2, TRUE)
+#' dbl_maker(3)
+#' dbl_maker(3, TRUE)
+#' dbl_maker(10)
+#' dbl_maker(10, TRUE)
 dbl_maker <- function(size, missing = FALSE) {
   if (size < 3 & isTRUE(missing)) {
     dbl_raw <- c(as.double(log(size)), NA_real_)
@@ -73,12 +94,21 @@ dbl_maker <- function(size, missing = FALSE) {
   }
 }
 
-# chr_maker(size = 2, lvls = 2, TRUE)
-# chr_maker(size = 2, lvls = 1, TRUE)
-# chr_maker(size = 3, lvls = 3, FALSE)
-# chr_maker(size = 3, lvls = 3, TRUE)
-# chr_maker(size = 10, lvls = 6, TRUE)
-chr_maker <- function(size, lvls = size/2, missing = FALSE) {
+#' Character column maker
+#'
+#' @param size how many rows?
+#' @param lvls how many levels?
+#' @param missing logical, include missing?
+#'
+#' @export
+#'
+#' @examples
+#' chr_maker(size = 2, lvls = 2, TRUE)
+#' chr_maker(size = 2, lvls = 1, TRUE)
+#' chr_maker(size = 3, lvls = 3, FALSE)
+#' chr_maker(size = 3, lvls = 3, TRUE)
+#' chr_maker(size = 10, lvls = 6, TRUE)
+chr_maker <- function(size, lvls = size / 2, missing = FALSE) {
   if (size < lvls) {
     lvls <- size - 1
   }
@@ -104,13 +134,21 @@ chr_maker <- function(size, lvls = size/2, missing = FALSE) {
   return(chr_vec)
 }
 
-
-# fct_maker(size = 5, lvls = 6, missing = TRUE)
-# fct_maker(size = 5, missing = TRUE)
-# fct_maker(size = 10, lvls = 9, missing = TRUE)
-# fct_maker(size = 10, lvls = 5, missing = FALSE)
-# fct_maker(size = 10, lvls = 5, missing = FALSE)
-fct_maker <- function(size, lvls = size/2, missing = FALSE) {
+#' Factor column maker
+#'
+#' @param size how many rows?
+#' @param lvls how many levels?
+#' @param missing logical, include missing?
+#'
+#' @export
+#'
+#' @examples
+#' fct_maker(size = 5, lvls = 6, missing = TRUE)
+#' fct_maker(size = 5, missing = TRUE)
+#' fct_maker(size = 10, lvls = 9, missing = TRUE)
+#' fct_maker(size = 10, lvls = 5, missing = FALSE)
+#' fct_maker(size = 10, lvls = 5, missing = FALSE)
+fct_maker <- function(size, lvls = size / 2, missing = FALSE) {
   if (isTRUE(missing)) {
     levs <- paste0("group ", as.integer(1:lvls))
     nas <- rep(c(levs, NA_character_), length.out = size)
@@ -128,13 +166,21 @@ fct_maker <- function(size, lvls = size/2, missing = FALSE) {
   return(fct_vec)
 }
 
-
-# ord_maker(size = 5, lvls = 6, missing = TRUE)
-# ord_maker(size = 10, lvls = 5, missing = FALSE)
-# ord_maker(size = 10, missing = FALSE)
-# ord_maker(size = 10, lvls = 5, missing = TRUE)
-# ord_maker(size = 10, lvls = 5, missing = FALSE)
-ord_maker <- function(size, lvls = size/2, missing = FALSE) {
+#' Ordered factor column maker
+#'
+#' @param size how many rows?
+#' @param lvls how many levels?
+#' @param missing logical, include missing?
+#'
+#' @export
+#'
+#' @examples
+#' ord_maker(size = 5, lvls = 6, missing = TRUE)
+#' ord_maker(size = 10, lvls = 5, missing = FALSE)
+#' ord_maker(size = 10, missing = FALSE)
+#' ord_maker(size = 10, lvls = 5, missing = TRUE)
+#' ord_maker(size = 10, lvls = 5, missing = FALSE)
+ord_maker <- function(size, lvls = size / 2, missing = FALSE) {
   if (isTRUE(missing)) {
     levs <- paste0("level ", as.integer(1:lvls))
     nas <- rep(c(levs, NA_character_), length.out = size)
@@ -152,18 +198,25 @@ ord_maker <- function(size, lvls = size/2, missing = FALSE) {
   return(ord_vec)
 }
 
-
-
-# bin_maker(type = "log", size = 2)
-# bin_maker(type = "log", size = 2, missing = TRUE)
-# bin_maker(type = "int", size = 10)
-# bin_maker(type = "int", size = 10, missing = TRUE)
-# bin_maker(type = "chr", size = 10)
-# bin_maker(type = "chr", size = 10, missing = TRUE)
-# bin_maker(type = "fct", size = 10)
-# bin_maker(type = "fct", size = 10, missing = TRUE)
-# bin_maker(type = "ord", size = 10)
-# bin_maker(type = "ord", size = 10, missing = TRUE)
+#' Binary column maker
+#'
+#' @param bin_type binary column type
+#' @param size how many rows?
+#' @param missing logical, include missing?
+#'
+#' @export
+#'
+#' @examples
+#' bin_maker(type = "log", size = 2)
+#' bin_maker(type = "log", size = 2, missing = TRUE)
+#' bin_maker(type = "int", size = 10)
+#' bin_maker(type = "int", size = 10, missing = TRUE)
+#' bin_maker(type = "chr", size = 10)
+#' bin_maker(type = "chr", size = 10, missing = TRUE)
+#' bin_maker(type = "fct", size = 10)
+#' bin_maker(type = "fct", size = 10, missing = TRUE)
+#' bin_maker(type = "ord", size = 10)
+#' bin_maker(type = "ord", size = 10, missing = TRUE)
 bin_maker <- function(bin_type, size, missing = FALSE) {
   if (size < 3) {
     size <- 3
@@ -233,6 +286,16 @@ bin_maker <- function(bin_type, size, missing = FALSE) {
   }
 }
 
+#' Facet column maker
+#'
+#' @param facet_type facet column type
+#' @param size how many rows?
+#' @param lvls how many levels?
+#' @param missing logical, include missing?
+#'
+#' @export
+#'
+#' @examples
 #' facet_maker(type = "chr", size = 10, lvls = 4, missing = TRUE)
 #' facet_maker(type = "fct", size = 10, lvls = 4, missing = TRUE)
 #' facet_maker(type = "ord", size = 6, lvls = 5, missing = FALSE)
@@ -247,20 +310,30 @@ facet_maker <- function(facet_type, size, lvls, missing = FALSE) {
     switch(facet_type,
       chr = chr_maker(size = size, lvls = lvls, missing = FALSE),
       fct = fct_maker(size = size, lvls = lvls, missing = FALSE),
-      ord = ord_maker(size = size, lvls = lvls,  missing = FALSE)
+      ord = ord_maker(size = size, lvls = lvls, missing = FALSE)
     )
   }
 }
 
-# col_maker(col_type = c("log", "log", "dbl", "dbl", "fct", "ord", "chr"),
-#   size = 6, missing = FALSE)
-# col_maker(col_type = c("log", "log", "dbl", "dbl", "fct", "ord", "chr"),
-#   size = 10, missing = TRUE, lvls = 4)
-# col_maker(col_type = c("log", "log", "dbl", "dbl", "fct", "ord", "chr"),
-#   size = 10, missing = TRUE, lvls = 2)
-# col_maker(col_type = c("log", "log", "dbl", "dbl", "fct", "ord", "chr"),
-#   size = 6, missing = FALSE)
-col_maker <- function(col_type, size, missing, ...) {
+#' Column maker
+#'
+#' @param col_types column type
+#' @param size how many rows?
+#' @param missing logical, include missing?
+#' @param ... additional arguments passed to `_maker` functions
+#'
+#' @export
+#'
+#' @examples
+#' col_maker(col_types = c("log", "log", "dbl", "dbl", "fct", "ord", "chr"),
+#'   size = 6, missing = FALSE)
+#' col_maker(col_types = c("log", "log", "dbl", "dbl", "fct", "ord", "chr"),
+#'   size = 10, missing = TRUE, lvls = 4)
+#' col_maker(col_types = c("log", "log", "dbl", "dbl", "fct", "ord", "chr"),
+#'   size = 10, missing = TRUE, lvls = 2)
+#' col_maker(col_types = c("log", "log", "dbl", "dbl", "fct", "ord", "chr"),
+#'   size = 6, missing = FALSE)
+col_maker <- function(col_types, size, missing, ...) {
   make_cols <- function(col_type, size, missing, ...) {
     switch(col_type,
       log = log_maker(size = size, missing = missing),
@@ -273,14 +346,14 @@ col_maker <- function(col_type, size, missing, ...) {
   }
 
   cols_list <- purrr::map(
-    .x = col_type,
+    .x = col_types,
     .f = make_cols,
     size = size,
     missing = missing,
     ...
   )
 
-  col_nms <- paste0(janitor::make_clean_names(col_type), "_var")
+  col_nms <- paste0(janitor::make_clean_names(col_types), "_var")
 
   cols_tbl_list <- purrr::map(
     .x = cols_list,
@@ -295,7 +368,3 @@ col_maker <- function(col_type, size, missing, ...) {
 
   return(cols_tbl)
 }
-
-
-
-

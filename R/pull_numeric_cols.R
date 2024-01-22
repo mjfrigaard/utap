@@ -22,9 +22,9 @@ pull_numeric_cols <- function(df) {
   # vector
   bins_facets <- purrr::list_c(bins_facets_list)
   # vector of doubles
-  dbls <- get_column_class(df = df, class = "dbl", return_tbl = FALSE)
+  dbls <- select_by_class(df = df, class = "dbl", return_tbl = FALSE)
   # vector of integers
-  ints <- get_column_class(df = df, class = "int", return_tbl = FALSE)
+  ints <- select_by_class(df = df, class = "int", return_tbl = FALSE)
   # assemble
   all_dbls_ints_list <- list(dbls, ints)
   # # reduce

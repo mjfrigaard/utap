@@ -2,6 +2,8 @@
 #'
 #' @export
 #'
+#' @rdname nin
+#'
 #' @examples
 #' 1 %nin% 1:10
 #' "A" %nin% 1:10

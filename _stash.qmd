@@ -344,7 +344,7 @@ Coming up with names for functions can be challenging (all the good names are ta
 
 I'll need to split up the work for my `pull_[type]_cols()` functions into four separate '*units of work*' and *end results*: 
 
-1. `get_column_class()`:  
+1. `select_by_class()`:  
     a.    **Work**: identify columns by `type`      
     b.   **End result**: return `data.frame`/`tibble` or named vector of columns by `type`
   
@@ -363,7 +363,7 @@ I'll need to split up the work for my `pull_[type]_cols()` functions into four s
 As a final step, I like to sketch out a pipeline if I'm developing a series of functions that are designed to work together: 
 
 ``` r
-get_column_class() |> # extract columns types from data.frame/tibble
+select_by_class() |> # extract columns types from data.frame/tibble
   purrr::map_vec(
     .f = make_binary_vec(check_binary_vec) # iterate binary/facet checks
          # or make_facet_vec(check_facet_vec)
@@ -381,13 +381,13 @@ Let's start with function #1!
 
 Let's take a look at what the step 1 function is supposed to do:
 
-1. `get_column_class()`:  
+1. `select_by_class()`:  
     a.    **Work**: identify columns by `type`      
     b.   **End result**: return `data.frame`/`tibble` or named vector of columns by `type`
 
-My first step it to create a test file with `usethis::use_test("get_column_class")`.
+My first step it to create a test file with `usethis::use_test("select_by_class")`.
 
-After creating the test script in `tests/testthat/`, I'll want to include some test data to make sure `get_column_class()` is identifying the correct columns. 
+After creating the test script in `tests/testthat/`, I'll want to include some test data to make sure `select_by_class()` is identifying the correct columns. 
 
 Sometimes unit tests require specific test data. To reduce copying and pasting, I'll write a function to generate the data I need to testing and store these functions the  `helpers.R`. 
 
@@ -474,7 +474,7 @@ I've chosen the column names in `col_types_test` to make testing easier:
 ### Write initial test 
 
 
-The *unit of work* for the first function is to identify columns by type (`get_column_class()`). 
+The *unit of work* for the first function is to identify columns by type (`select_by_class()`). 
 
 I'll add `testthat::test_that()` to my test file and start writing a test for the `logical` columns.
 
@@ -484,32 +484,32 @@ I'll add `testthat::test_that()` to my test file and start writing a test for th
 #| code-summary: create col_type_log object
 #| eval: false
 #| code-fold: show
-  testthat::test_that("get_column_class() logical", {
+  testthat::test_that("select_by_class() logical", {
     col_types_test <- readRDS(test_path("fixtures", 
                                            "col_types_test.rds"))
   })
 ```
     
-2. Then I'll use `expect_equal()` to test the `class()` and `names()` outputs from `get_column_class()`:
+2. Then I'll use `expect_equal()` to test the `class()` and `names()` outputs from `select_by_class()`:
     
 ```{r}
 #| code-summary: test class() and names()
 #| eval: false
 #| code-fold: show
-  testthat::test_that("get_column_class() logical", {
+  testthat::test_that("select_by_class() logical", {
     # data
   col_types_test <- readRDS(
                         testthat::test_path("fixtures",
                                             "col_types_test.rds"))
   # test logical class
-  col_types_class <- class(get_column_class(df = col_types_test, 
+  col_types_class <- class(select_by_class(df = col_types_test, 
                                             type = "log"))
   testthat::expect_equal(
     object = col_types_class,
     expected = c("tbl_df", "tbl", "data.frame")
   )
   # test logical names
-  col_types_names <- names(get_column_class(df = col_types_test, 
+  col_types_names <- names(select_by_class(df = col_types_test, 
                                             type = "log"))
   testthat::expect_equal(
     object = col_types_names,
@@ -519,7 +519,7 @@ I'll add `testthat::test_that()` to my test file and start writing a test for th
 ```
 
 
-The template above can be repeated for each column type. The complete test file is located [here on GitHub](https://github.com/mjfrigaard/utap/blob/main/tests/testthat/test-get_column_class.R).
+The template above can be repeated for each column type. The complete test file is located [here on GitHub](https://github.com/mjfrigaard/utap/blob/main/tests/testthat/test-select_by_class.R).
 
 :::: {.callout-tip collapse='true'}
 
@@ -558,7 +558,7 @@ All data in `fixtures/` are loaded when I run `devtools::load_all()`
 ```{r}
 #| eval: false
 #| code-fold: false
-testthat::test_that("get_column_class() logical", {
+testthat::test_that("select_by_class() logical", {
   col_types_test <- readRDS(test_path("fixtures", 
                                          "test_data.rds"))
 })
@@ -574,15 +574,15 @@ See examples of [helpers.R](https://github.com/mjfrigaard/utap/blob/main/tests/t
 ::: 
 ::::
 
-Now I'm ready to write the `get_column_class()` function. I know I'll be using `switch()` to toggle the function's purpose by the `type` argument.
+Now I'm ready to write the `select_by_class()` function. I know I'll be using `switch()` to toggle the function's purpose by the `type` argument.
 
 I'll also add some control flow to abort if the `type` argument is invalid, and to return an empty `tibble` if no columns match the `type` (and provide and alert).
 
 ```{r}
-#| code-summary: get_column_class() attempt 1
+#| code-summary: select_by_class() attempt 1
 #| eval: true
 #| code-fold: show
-get_column_class <- function(df, type) {
+select_by_class <- function(df, type) {
   if (type %nin% c("log", "int", "chr", "fct", "list")) {
     cli::cli_abort("Invalid type argument")
   }
@@ -608,7 +608,7 @@ get_column_class <- function(df, type) {
 ```
 
 
-I'll remove the info alert when `get_column_class()` passes all it's tests--but it helps me in the development process (see how it works below):
+I'll remove the info alert when `select_by_class()` passes all it's tests--but it helps me in the development process (see how it works below):
   
 ```{r}
 #| eval: true
@@ -628,14 +628,14 @@ select_column_class(odd_cols, type = "int")
 
 ### Run test file
 
-At this point, I have quite a few tests in `test-get_column_class.R`, but they all have the same basic structure. I want to run all of them at once and debug as-needed. 
+At this point, I have quite a few tests in `test-select_by_class.R`, but they all have the same basic structure. I want to run all of them at once and debug as-needed. 
 This is referred to as 'Mezzo-iteration', 
 
 > [**Mezzo-iteration:**](https://r-pkgs.org/testing-basics.html#run-tests) As one file’s-worth of functions and their associated tests start to shape up, you will want to execute the entire file of associated tests, perhaps with `testthat::test_file()`:
 
 
 ``` r
-testthat::test_file(path = "tests/testthat/test-get_column_class.R")
+testthat::test_file(path = "tests/testthat/test-select_by_class.R")
 ```
 
 ```{verbatim}
@@ -643,22 +643,22 @@ testthat::test_file(path = "tests/testthat/test-get_column_class.R")
 #| code-fold: false
 [ FAIL 1 | WARN 0 | SKIP 0 | PASS 5 ]
 
-── Error (test-get_column_class.R:52:5): get_column_class() works ─────
-Error in `get_column_class(col_types_test, type = "dbl")`: Invalid type argument
+── Error (test-select_by_class.R:52:5): select_by_class() works ─────
+Error in `select_by_class(col_types_test, type = "dbl")`: Invalid type argument
 Backtrace:
- 1. get_column_class(col_types_test, type = "dbl")
-      at test-get_column_class.R:52:4
+ 1. select_by_class(col_types_test, type = "dbl")
+      at test-select_by_class.R:52:4
 
 [ FAIL 1 | WARN 0 | SKIP 0 | PASS 5 ]
 ```
 
-I have a test failure on the `double` columns. Can you see it? I forgot to add `"dbl"` to the `switch()` function *and* control flow at the top of `get_column_class()`. I'll rewrite `get_column_class()` below, load, document, install and rebuild the package, then run the test again. 
+I have a test failure on the `double` columns. Can you see it? I forgot to add `"dbl"` to the `switch()` function *and* control flow at the top of `select_by_class()`. I'll rewrite `select_by_class()` below, load, document, install and rebuild the package, then run the test again. 
 
 ```{r}
 #| eval: true
 #| code-fold: show
-#| code-summary: get_column_class() attempt 2
-get_column_class <- function(df, type) {
+#| code-summary: select_by_class() attempt 2
+select_by_class <- function(df, type) {
 
   if (type %nin% c("log", "int", "dbl", "chr", "fct", "list")) {
     cli::cli_abort("No columns of that type...")
@@ -723,7 +723,7 @@ library(utap)
 Re-run test file:
 
 ``` r
-testthat::test_file(path = "tests/testthat/test-get_column_class.R")
+testthat::test_file(path = "tests/testthat/test-select_by_class.R")
 ```
 
 ```{verbatim}
@@ -743,7 +743,7 @@ It's a good idea to include tests for any breaking error messages in your functi
 #| eval: true
 #| code-fold: show
 #| code-summary: improved error message
-get_column_class <- function(df, type) {
+select_by_class <- function(df, type) {
 
   if (type %nin% c("log", "int", "dbl", "chr", "fct", "list")) {
     cli::cli_abort("Invalid `type` argument. Must be one of:\n
@@ -776,29 +776,29 @@ get_column_class <- function(df, type) {
 #| eval: true
 #| code-fold: false 
 #| error: true
-get_column_class(odd_cols, type = "array")
+select_by_class(odd_cols, type = "array")
 ```
 
-The test for this error uses `testthat::expect_error()`, and the `object` is the `get_column_class()` with an invalid `type` argument. 
+The test for this error uses `testthat::expect_error()`, and the `object` is the `select_by_class()` with an invalid `type` argument. 
 
 ```{r}
 #| eval: false
 #| code-fold: show 
 #| code-summary: type error test
   # test error type
-  testthat::test_that("get_column_class() type error", {    t
+  testthat::test_that("select_by_class() type error", {    t
     col_types_test <- readRDS(test_path("fixtures",
                                           "col_types_test.rds"))
     # test type error
     testthat::expect_error(
-      object = get_column_class(col_types_test, type = "array")
+      object = select_by_class(col_types_test, type = "array")
     )
   })
 ```
 
-I can add this test in the `test-get_column_class.R` file (it's fine to have multiple tests in the same test file).
+I can add this test in the `test-select_by_class.R` file (it's fine to have multiple tests in the same test file).
 
-As a final step, I'll rename the `get_column_class()` to `select_column_class()`:
+As a final step, I'll rename the `select_by_class()` to `select_column_class()`:
 
 ```{r}
 #| eval: true
@@ -831,14 +831,14 @@ select_column_class <- function(df, type) {
 }
 ```
 
-Then I'll wrap `select_column_class()` with `get_column_class()` and add a `return_tbl` argument to toggle between return objects (`tibble` or a named vector).
+Then I'll wrap `select_column_class()` with `select_by_class()` and add a `return_tbl` argument to toggle between return objects (`tibble` or a named vector).
 
 ```{r}
 #| eval: true
 #| code-fold: show 
-#| code-summary: get_column_class()
-# get_column_class ----
-get_column_class <- function(df, type, return_tbl = TRUE) {
+#| code-summary: select_by_class()
+# select_by_class ----
+select_by_class <- function(df, type, return_tbl = TRUE) {
   if (isFALSE(return_tbl)) {
     col_types_df <- select_column_class(df, type = type)
     nms <- names(col_types_df)
@@ -861,18 +861,18 @@ In my test file, I'll use `purrr::set_names()` to change the `expected` return v
 # select_column_class
 # test logical names
 testthat::expect_equal(
-  object = get_column_class(df = col_types_test,
+  object = select_by_class(df = col_types_test,
                          type = "log",
                          return_tbl = FALSE),
   expected = purrr::set_names(c("log_na", "log_var"))
 )
 ```
 
-*View the full test file [here](https://github.com/mjfrigaard/utap/blob/main/tests/testthat/test-get_column_class.R)*
+*View the full test file [here](https://github.com/mjfrigaard/utap/blob/main/tests/testthat/test-select_by_class.R)*
 
 ### Step 1 test results  
 
-When I started adding tests to the `test-get_column_class.R` file, I ran the tests using `testthat::test_file()`. As I get closer to a semi-final draft of the function, I switch to `devtools::test()` (which runs all the tests in the `tests/testthat/` folder):
+When I started adding tests to the `test-select_by_class.R` file, I ran the tests using `testthat::test_file()`. As I get closer to a semi-final draft of the function, I switch to `devtools::test()` (which runs all the tests in the `tests/testthat/` folder):
 
 ```{r}
 #| eval: false
@@ -895,7 +895,7 @@ This is referred to as 'Macro-iteration',
 ℹ Testing utap
 ✔ | F W S  OK | Context
 ✔ |         1 | pull_binary_cols
-✔ |        16 | get_column_class [0.2s]
+✔ |        16 | select_by_class [0.2s]
 
 ══ Results ═══════════════════
 Duration: 0.3 s
@@ -949,7 +949,7 @@ I'll follow the naming conventions I described above for these functions and cal
 
 ### Check binary columns
 
-The `check_binary_vec()` function will check each column type (i.e., numeric, binary, or facet) returned from `get_column_class()`, and return a vector of column names. 
+The `check_binary_vec()` function will check each column type (i.e., numeric, binary, or facet) returned from `select_by_class()`, and return a vector of column names. 
 
 An example test for this function is below. *Note that `check_binary_vec()` and `check_facet_vec()` ingest vectors and return vectors*:
 
@@ -1152,7 +1152,7 @@ devtools::test()
 ✔ |         1 | pull_binary_cols      
 ✔ |        25 | check_binary_vec [0.2s]
 ✔ |        16 | check_facet_vec     
-✔ |        16 | get_column_class [0.2s]
+✔ |        16 | select_by_class [0.2s]
 
 ══ Results ═════════════════════════════════════════════════
 Duration: 0.5 s
@@ -1166,15 +1166,15 @@ I'm getting quite a few passing tests--let's move onto step number 3!
 
 Let's recap what steps #1 and #2 are doing: 
 
-1. `get_column_class()`: ingest a `data.frame`/`tibble` and return colunms by type (as `tibble` or named vector)
+1. `select_by_class()`: ingest a `data.frame`/`tibble` and return colunms by type (as `tibble` or named vector)
 
     ``` r
-    get_column_class(df = <data>, 
+    select_by_class(df = <data>, 
                   type = <type>, 
                   return_tbl = TRUE)
     ```
 
-2. `check_binary_vec()`/`check_facet_vec()`: check the columns passed from `get_column_class()` for binary or facet variables: 
+2. `check_binary_vec()`/`check_facet_vec()`: check the columns passed from `select_by_class()` for binary or facet variables: 
 
     ``` r
     check_binary/facet_vec(x = <vector>, 
@@ -1247,7 +1247,7 @@ test_that("make_binary_vec() logical works", {
 })
 ```
 
-I could've use the `get_column_class()` function to collect the logical columns for `make_binary_vec()`, but if the test failed, it would be harder to debug (and tests for that function belong in their own separate file).
+I could've use the `select_by_class()` function to collect the logical columns for `make_binary_vec()`, but if the test failed, it would be harder to debug (and tests for that function belong in their own separate file).
 
 You can view the full set of tests [here.](https://github.com/mjfrigaard/utap/blob/main/tests/testthat/test-make_binary_vec.R)
 
@@ -1286,13 +1286,13 @@ make_binary_vec <- function(df, type) {
 }
 ```
 
-The first consideration is protecting me from the `get_column_class()` function returning an empty `tibble`. The second consideration is protecting me from the `df` having zero columns match the `type` argument.
+The first consideration is protecting me from the `select_by_class()` function returning an empty `tibble`. The second consideration is protecting me from the `df` having zero columns match the `type` argument.
 
 #### Using messages 
 
 While I'm developing `make_binary_vec()`, I'll use the `cli::cli_alert_success()` and `glue::glue()` functions to let me know which behavior `make_binary_vec()` is performing: 
 
--   If the `df` returned from `get_column_class()` has zero columns:
+-   If the `df` returned from `select_by_class()` has zero columns:
   
     ```{r}
     #| eval: false
@@ -1376,7 +1376,7 @@ The results from `devtools::test()` are below.
 ✔ |         1 | pull_binary_cols          
 ✔ |        25 | check_binary_vec [0.2s]    
 ✔ |        16 | check_facet_vec [0.1s]     
-✔ |        16 | get_column_class [0.2s]       
+✔ |        16 | select_by_class [0.2s]       
 ✔ |         5 | make_binary_vec            
 
 ══ Results ═══════════════════════════════════════════════
@@ -1523,7 +1523,7 @@ I've reorganized the output to list the tests chronologically.
 ℹ Testing utap
 ✔ | F W S  OK | Context
 ✔ |         1 | pull_binary_cols
-✔ |        16 | get_column_class [0.2s]
+✔ |        16 | select_by_class [0.2s]
 ✔ |        25 | check_binary_vec [0.2s]
 ✔ |        16 | check_facet_vec
 ✔ |         5 | make_binary_vec
@@ -1646,13 +1646,13 @@ If I've created steps 1-3 correctly, the `pull_binary_cols()` function *should* 
 #| code-summary: pull_binary_cols()
 pull_binary_cols <- function(df) {
   # logical
-  log_bins <- get_column_class(df, "log") |> make_binary_vec("log")
+  log_bins <- select_by_class(df, "log") |> make_binary_vec("log")
   # integer
-  int_bins <- get_column_class(df, "int") |> make_binary_vec("int")
+  int_bins <- select_by_class(df, "int") |> make_binary_vec("int")
   # character
-  chr_bins <- get_column_class(df, "chr") |> make_binary_vec("chr")
+  chr_bins <- select_by_class(df, "chr") |> make_binary_vec("chr")
   # factors
-  fct_bins <- get_column_class(df, "fct") |> make_binary_vec("fct")
+  fct_bins <- select_by_class(df, "fct") |> make_binary_vec("fct")
   # assemble
   all_bins <- list(log_bins, int_bins, chr_bins, fct_bins)
   # reduce
@@ -1702,9 +1702,9 @@ testthat::test_that("pull_facet_cols() works", {
 #| code-summary: pull_facet_cols()
 pull_facet_cols <- function(df) {
   # character
-  chr_facets <- get_column_class(df, "chr") |> make_facet_vec("chr")
+  chr_facets <- select_by_class(df, "chr") |> make_facet_vec("chr")
   # factors
-  fct_facets <- get_column_class(df, "fct") |> make_facet_vec("fct")
+  fct_facets <- select_by_class(df, "fct") |> make_facet_vec("fct")
   # assemble
   all_facets <- list(chr_facets, fct_facets)
   # reduce
@@ -1730,7 +1730,7 @@ I'll run these tests using `devtools::test()`:
 ✔ |        25 | check_binary_vec [0.2s]    
 ✔ |        16 | check_facet_vec            
 ✔ |         1 | pull_facet_cols           
-✔ |        16 | get_column_class [0.2s]       
+✔ |        16 | select_by_class [0.2s]       
 ✔ |         5 | make_binary_vec            
 ✔ |         7 | make_facet_vec             
 
@@ -1793,7 +1793,7 @@ With these two tests written, I can move onto the functions.
 
 In `pull_numeric_cols()`, `pull_binary_cols()` and `pull_facet_cols()` can identify the binary and facet columns. The outputs are combined  with `purrr::compact()` and `purrr::list_c()` into a named vector (`bins_facets`). 
 
-For the numeric columns, `get_column_class()` will return the double and integer columns and combine them into `dbls_ints` (using the same methods as `bins_facets`)
+For the numeric columns, `select_by_class()` will return the double and integer columns and combine them into `dbls_ints` (using the same methods as `bins_facets`)
 
 The final (important) step involves removing `bin_facets` from `dbls_ints` using the [`%nin%`](https://github.com/mjfrigaard/utap/blob/5f1c408d41fa89cd87533d0eb93bbbd247b664cc/R/utils.R#L8) function.  
 
@@ -1811,9 +1811,9 @@ pull_numeric_cols <- function(df) {
     # vector
     bins_facets <- purrr::list_c(bins_facets_list)
     # vector of doubles
-    dbls <- get_column_class(df = df, type = 'dbl', return_tbl = FALSE)
+    dbls <- select_by_class(df = df, type = 'dbl', return_tbl = FALSE)
     # vector of integers
-    ints <- get_column_class(df = df, type = 'int', return_tbl = FALSE)
+    ints <- select_by_class(df = df, type = 'int', return_tbl = FALSE)
     # assemble
     all_dbls_ints_list <- list(dbls, ints)
     # reduce
@@ -1830,7 +1830,7 @@ pull_numeric_cols <- function(df) {
 
 #### Write pull_cat_cols()
 
-`pull_cat_cols()` is almost identical to `pull_numeric_cols()`, but uses `get_column_class()` to get the character and factor columns from the input data. 
+`pull_cat_cols()` is almost identical to `pull_numeric_cols()`, but uses `select_by_class()` to get the character and factor columns from the input data. 
 
 ```{r}
 #| eval: false
@@ -1847,9 +1847,9 @@ pull_cat_cols <- function(df) {
   bins_facets <- purrr::list_c(bins_facets_list)
   # remove these
   # characters
-  chrs <- get_column_class(df = df, type = 'chr', return_tbl = FALSE)
+  chrs <- select_by_class(df = df, type = 'chr', return_tbl = FALSE)
   # factors
-  fcts <- get_column_class(df = df, type = 'fct', return_tbl = FALSE)
+  fcts <- select_by_class(df = df, type = 'fct', return_tbl = FALSE)
   # assemble
   all_chrs_fcts_list <- list(chrs, fcts)
   # reduce
@@ -1878,7 +1878,7 @@ I'll run `devtools::test()` a final time to see if these new tests & functions p
 ✔ |        25 | check_binary_vec [0.2s]       
 ✔ |        16 | check_facet_vec [0.1s]        
 ✔ |         1 | pull_facet_cols              
-✔ |        16 | get_column_class [0.2s]          
+✔ |        16 | select_by_class [0.2s]          
 ✔ |         5 | make_binary_vec   
 ✔ |         7 | make_facet_vec  
 ✔ |         1 | pull_numeric_cols
@@ -2135,20 +2135,20 @@ This post covered unit tests for a set of shiny utility functions. I found using
 
 The `R/` folder now contains the following functions (accompanied by their unit tests in the `tests/testthat/` folder: 
 
-1. `get_column_class.R`: contains `select_column_class()` and it's wrapper, `get_column_class()` for identifying column types from an input `data.frame`/`tibble`
+1. `select_by_class.R`: contains `select_column_class()` and it's wrapper, `select_by_class()` for identifying column types from an input `data.frame`/`tibble`
 
     ```{verbatim}
     R/
-     └── get_column_class.R
+     └── select_by_class.R
          - select_column_class()
-         - get_column_class()
+         - select_by_class()
  
     tests/testthat/
-     └── test-get_column_class.R
+     └── test-select_by_class.R
     ```
     
     a. `select_column_class()` returns tibble of columns by `type` (i.e., logical, integer, double, character, factor, etc.)
-    b. `get_column_class()` returns either a `tibble` (`return_tbl = TRUE`) or a named vector (`return_tbl = FALSE`) of columns by `type`
+    b. `select_by_class()` returns either a `tibble` (`return_tbl = TRUE`) or a named vector (`return_tbl = FALSE`) of columns by `type`
 
 2. `check_input_vectors.R`:  contains `check_binary_vec()` and `check_facet_vec()`, which are wrappers around the individual `check_` functions identifying each column type. 
         
@@ -2173,7 +2173,7 @@ The `R/` folder now contains the following functions (accompanied by their unit 
     b. `check_facet_vec()` identifies facet columns (having <= 5 unique values):    
         i. `check_chr_facet()` and `check_fct_facet()`
 
-3. `make_input_vectors.R`: iterates the `check_` functions over the columns returned from the `get_column_class()` function
+3. `make_input_vectors.R`: iterates the `check_` functions over the columns returned from the `select_by_class()` function
 
     ```{verbatim}
     R/
@@ -2230,7 +2230,7 @@ The following files in the `R/` folder weren't tested, but serve other important
          - `%nin%`
     ```
     
-    - The `%nin%` function is used in `get_column_class()`, `pull_facet_cols()`, and `pull_numeric_cols()`.
+    - The `%nin%` function is used in `select_by_class()`, `pull_facet_cols()`, and `pull_numeric_cols()`.
     
 ***...confirming your tests...***
 
