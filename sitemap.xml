@@ -22,25 +22,49 @@
     <loc>https://mjfrigaard.github.io/utap/index.html</loc>
   </url>
   <url>
+    <loc>https://mjfrigaard.github.io/utap/reference/bin_maker.html</loc>
+  </url>
+  <url>
     <loc>https://mjfrigaard.github.io/utap/reference/check_binary_vec.html</loc>
   </url>
   <url>
     <loc>https://mjfrigaard.github.io/utap/reference/check_facet_vec.html</loc>
   </url>
   <url>
-    <loc>https://mjfrigaard.github.io/utap/reference/get_column_class.html</loc>
+    <loc>https://mjfrigaard.github.io/utap/reference/chr_maker.html</loc>
   </url>
   <url>
-    <loc>https://mjfrigaard.github.io/utap/reference/grapes-nin-grapes.html</loc>
+    <loc>https://mjfrigaard.github.io/utap/reference/col_maker.html</loc>
+  </url>
+  <url>
+    <loc>https://mjfrigaard.github.io/utap/reference/dbl_maker.html</loc>
+  </url>
+  <url>
+    <loc>https://mjfrigaard.github.io/utap/reference/facet_maker.html</loc>
+  </url>
+  <url>
+    <loc>https://mjfrigaard.github.io/utap/reference/fct_maker.html</loc>
   </url>
   <url>
     <loc>https://mjfrigaard.github.io/utap/reference/index.html</loc>
+  </url>
+  <url>
+    <loc>https://mjfrigaard.github.io/utap/reference/int_maker.html</loc>
+  </url>
+  <url>
+    <loc>https://mjfrigaard.github.io/utap/reference/log_maker.html</loc>
   </url>
   <url>
     <loc>https://mjfrigaard.github.io/utap/reference/make_binary_vec.html</loc>
   </url>
   <url>
     <loc>https://mjfrigaard.github.io/utap/reference/make_facet_vec.html</loc>
+  </url>
+  <url>
+    <loc>https://mjfrigaard.github.io/utap/reference/nin.html</loc>
+  </url>
+  <url>
+    <loc>https://mjfrigaard.github.io/utap/reference/ord_maker.html</loc>
   </url>
   <url>
     <loc>https://mjfrigaard.github.io/utap/reference/pull_binary_cols.html</loc>
@@ -55,7 +79,7 @@
     <loc>https://mjfrigaard.github.io/utap/reference/pull_numeric_cols.html</loc>
   </url>
   <url>
-    <loc>https://mjfrigaard.github.io/utap/reference/select_column_class.html</loc>
+    <loc>https://mjfrigaard.github.io/utap/reference/select_by_class.html</loc>
   </url>
   <url>
     <loc>https://mjfrigaard.github.io/utap/reference/utap-package.html</loc>
