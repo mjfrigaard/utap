@@ -68,11 +68,17 @@ select_by_class <- function(df, class, return_tbl = TRUE) {
   }
 
   if (isFALSE(return_tbl)) {
+
     col_types_df <- select_column_class(df, class = class)
     nms <- names(col_types_df)
     col_types <- purrr::set_names(nms)
+
   } else {
+
     col_types <- select_column_class(df, class = class)
+
   }
+
   return(col_types)
+
 }

@@ -1,92 +1,82 @@
-test_that("select_column_class() is.tibble/is.data.frame works", {
+test_that("select_by_class() is.tibble/is.data.frame works", {
   # check tibble
-  testthat::expect_s3_class(
+  expect_s3_class(
     object =
-      select_column_class(
+      select_by_class(
         df = col_maker(col_type = c("log", "int", "dbl", "chr"),
-                                  size = 6, missing = FALSE),
-        class = "log"),
-    class = c("tbl_df", "tbl", "data.frame"))
+                       size = 6, missing = FALSE),
+        class = "log"
+      ),
+    class = c("tbl_df", "tbl", "data.frame")
+  )
 })
 
-test_that("select_column_class() class works", {
-  # testdata_col_class <- readRDS(testthat::test_path("fixtures",
+test_that("select_by_class() class works", {
+  # testdata_col_class <- readRDS(test_path("fixtures",
   #                                                   "testdata_col_class.rds"))
   testdata_col_class <- col_maker(col_type = c("log", "int", "dbl", "chr",
                                                "fct", "ord"),
                                                 size = 3,
                                                 missing = FALSE)
-  # check logical
-  testthat::expect_equal(
+  # check logical ----
+  expect_equal(
     object =
-      select_column_class(
-        df = testdata_col_class,
-        class = "log") |>
+      select_by_class(df = testdata_col_class,class = "log") |>
           lapply(is.logical) |> unlist() |> unique(),
     expected = TRUE)
-  # check integer
-  testthat::expect_equal(
+  # check integer ----
+  expect_equal(
     object =
-      select_column_class(
-        df = testdata_col_class,
-        class = "int") |>
+      select_by_class(df = testdata_col_class, class = "int") |>
           lapply(is.integer) |> unlist() |> unique(),
     expected = TRUE)
-  # check double
-  testthat::expect_equal(
+  # check double ----
+  expect_equal(
     object =
-      select_column_class(
-        df = testdata_col_class,
-        class = "dbl") |>
+      select_by_class(df = testdata_col_class, class = "dbl") |>
           lapply(is.double) |> unlist() |> unique(),
     expected = TRUE)
-  # check character
-  testthat::expect_equal(
+  # check character ----
+  expect_equal(
     object =
-      select_column_class(
-        df = testdata_col_class,
-        class = "chr") |>
-          lapply(is.character) |> unlist() |> unique(),
+      select_by_class(df = testdata_col_class, class = "chr") |>
+          lapply(is.character) |>
+          unlist() |>
+          unique(),
     expected = TRUE)
-  # check factor
-  testthat::expect_equal(
+  # check factor ----
+  expect_equal(
     object =
-      select_column_class(
-        df = testdata_col_class,
-        class = "fct") |>
+      select_by_class(df = testdata_col_class, class = "fct") |>
           lapply(is.factor) |> unlist() |> unique(),
     expected = TRUE)
-  # check factor (ordered)
-  testthat::expect_equal(
+  # check factor (ordered) ----
+  expect_equal(
     object =
-      select_column_class(
-        df = testdata_col_class,
-        class = "ord") |>
+      select_by_class(df = testdata_col_class, class = "ord") |>
           lapply(is.ordered) |> unlist() |> unique(),
     expected = TRUE)
-  # check list
+  # check list ----
   testdata_col_class <- tibble::tibble(
-    list_var = list(fct_maker(size = 3), ord_maker(size = 3)),
+    list_var = list(fct_maker(size = 3),
+                    ord_maker(size = 3)),
     log_var = log_maker(size = 2),
     int_var = int_maker(size = 2),
     dbl_var = dbl_maker(size = 2),
-    chr_var = chr_maker(size = 2)
-  )
-  testthat::expect_equal(
+    chr_var = chr_maker(size = 2))
+  expect_equal(
     object =
-      select_column_class(
-        df = testdata_col_class,
-        class = "list") |>
+      select_by_class(df = testdata_col_class, class = "list") |>
           lapply(is.list) |> unlist() |> unique(),
     expected = TRUE)
 
 })
 
-# test error type
-testthat::test_that("select_column_class() type error", {
+# test error type ----
+test_that("select_by_class() type error", {
   # test type error
-  testthat::expect_error(
-    object = select_column_class(
+  expect_error(
+    object = select_by_class(
       df = col_maker(col_type = c("log", "int",
                                   "dbl", "chr",
                                   "fct", "ord"),
@@ -95,19 +85,19 @@ testthat::test_that("select_column_class() type error", {
       class = "array"))
 })
 
-# test empty table
-testthat::test_that("select_column_class() return zero columns", {
+# test empty table ----
+test_that("select_by_class() return zero columns", {
   # test class of empty tibble
-  testthat::expect_s3_class(
-    object = select_column_class(
+  expect_s3_class(
+    object = select_by_class(
       df = col_maker(col_type = c("int", "dbl"),
                                   size = 6,
                                   missing = FALSE),
       class = "log"),
     class = c("tbl_df", "tbl", "data.frame"))
   # test rows of empty tibble
-  testthat::expect_equal(
-    object = ncol(select_column_class(
+  expect_equal(
+    object = ncol(select_by_class(
       df = col_maker(col_type = c("int", "dbl"),
                                   size = 6,
                                   missing = FALSE),
@@ -115,9 +105,9 @@ testthat::test_that("select_column_class() return zero columns", {
     expected = 0L)
 })
 
-testthat::test_that("select_by_class() logical", {
-  # test logical class
-  testthat::expect_equal(
+test_that("select_by_class() logical", {
+  # test logical class ----
+  expect_equal(
     object = select_by_class(
       df = col_maker(
         col_type = c("log", "int", "dbl", "chr"),
@@ -129,8 +119,8 @@ testthat::test_that("select_by_class() logical", {
       is.logical(),
     expected = TRUE
   )
-  # test logical names
-  testthat::expect_equal(
+  ## test logical names ----
+  expect_equal(
     object = select_by_class(
       df = col_maker(
         col_type = c("log", "int", "dbl", "chr"),
@@ -144,14 +134,14 @@ testthat::test_that("select_by_class() logical", {
   )
 })
 
-testthat::test_that("select_by_class() integer", {
+test_that("select_by_class() integer", {
   int_test <- col_maker(
         col_type = c("log", "int", "dbl", "chr"),
           size = 6,
           missing = FALSE,
           lvls = 4)
-  # test integer class
-  testthat::expect_equal(
+  # test integer class ----
+  expect_equal(
     object = select_by_class(
       df = int_test,
       class = "int") |>
@@ -159,8 +149,8 @@ testthat::test_that("select_by_class() integer", {
       is.integer(),
     expected = TRUE
   )
-  # test integer names
-  testthat::expect_equal(
+  ## test integer names ----
+  expect_equal(
     object = select_by_class(
       df = int_test,
      class = "int",
@@ -170,14 +160,14 @@ testthat::test_that("select_by_class() integer", {
   )
 })
 
-testthat::test_that("select_by_class() double", {
+test_that("select_by_class() double", {
   int_test <- col_maker(
         col_type = c("log", "int", "dbl", "chr"),
           size = 6,
           missing = FALSE,
           lvls = 4)
-  # test integer class
-  testthat::expect_equal(
+  # test double class ----
+  expect_equal(
     object = select_by_class(
       df = int_test,
       class = "dbl") |>
@@ -185,8 +175,8 @@ testthat::test_that("select_by_class() double", {
       is.double(),
     expected = TRUE
   )
-  # test integer names
-  testthat::expect_equal(
+  ## test double names ----
+  expect_equal(
     object = select_by_class(
       df = int_test,
      class = "dbl",
@@ -196,14 +186,14 @@ testthat::test_that("select_by_class() double", {
   )
 })
 
-testthat::test_that("select_by_class() character", {
+test_that("select_by_class() character", {
   chr_test <- col_maker(
         col_type = c("log", "int", "dbl", "chr"),
           size = 6,
           missing = FALSE,
           lvls = 4)
-  # test integer class
-  testthat::expect_equal(
+  # test character class ----
+  expect_equal(
     object = select_by_class(
       df = chr_test,
       class = "chr") |>
@@ -211,8 +201,8 @@ testthat::test_that("select_by_class() character", {
       is.character(),
     expected = TRUE
   )
-  # test integer names
-  testthat::expect_equal(
+  ## test character names ----
+  expect_equal(
     object = select_by_class(
       df = chr_test,
      class = "chr",
@@ -222,14 +212,14 @@ testthat::test_that("select_by_class() character", {
   )
 })
 
-testthat::test_that("select_by_class() factor", {
+test_that("select_by_class() factor", {
   fct_test <- col_maker(
         col_type = c("int", "chr", "fct"),
           size = 6,
           missing = FALSE,
           lvls = 4)
-  # test integer class
-  testthat::expect_equal(
+  # test factor class ----
+  expect_equal(
     object = select_by_class(
       df = fct_test,
       class = "fct") |>
@@ -237,8 +227,8 @@ testthat::test_that("select_by_class() factor", {
       is.factor(),
     expected = TRUE
   )
-  # test integer names
-  testthat::expect_equal(
+  ## test factor names ----
+  expect_equal(
     object = select_by_class(
       df = fct_test,
      class = "fct",
@@ -248,14 +238,14 @@ testthat::test_that("select_by_class() factor", {
   )
 })
 
-testthat::test_that("select_by_class() ordered", {
+test_that("select_by_class() ordered", {
   ord_test <- col_maker(
         col_type = c("int", "chr", "fct", "ord"),
           size = 6,
           missing = FALSE,
           lvls = 4)
-  # test integer class
-  testthat::expect_equal(
+  # test ordered class ----
+  expect_equal(
     object = select_by_class(
       df = ord_test,
       class = "ord") |>
@@ -263,8 +253,8 @@ testthat::test_that("select_by_class() ordered", {
       is.ordered(),
     expected = TRUE
   )
-  # test integer names
-  testthat::expect_equal(
+  ## test integer names ----
+  expect_equal(
     object = select_by_class(
       df = ord_test,
      class = "ord",
@@ -274,14 +264,14 @@ testthat::test_that("select_by_class() ordered", {
   )
 })
 
-testthat::test_that("select_by_class() list", {
+test_that("select_by_class() list", {
   list_test <- tibble::tibble(
     list_var = list(fct_maker(size = 3), ord_maker(size = 3)),
     int = int_maker(size = 2),
     chr = chr_maker(size = 2)
     )
-  # test list class
-  testthat::expect_equal(
+  # test list class ----
+  expect_equal(
     object = select_by_class(
       df = list_test,
       class = "list") |>
@@ -289,8 +279,8 @@ testthat::test_that("select_by_class() list", {
       is.list(),
     expected = TRUE
   )
-  # test integer names
-  testthat::expect_equal(
+  ## test list names ----
+  expect_equal(
     object = select_by_class(
       df = list_test,
      class = "list",

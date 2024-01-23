@@ -19,40 +19,41 @@ it’s contents).
 # R files
 
     #> R/
-    #> ├── column_classes.R
+    #> ├── nin.R
     #> ├── pull_binary_cols.R
     #> ├── pull_cat_cols.R
     #> ├── pull_facet_cols.R
     #> ├── pull_numeric_cols.R
-    #> ├── utap-package.R
-    #> └── utils.R
+    #> ├── select_by_class.R
+    #> ├── testtthat.R
+    #> └── utap-package.R
 
 # Unit tests
 
     #> tests/testthat/
-    #> ├── test-column_classes.R
     #> ├── test-pull_binary_cols.R
     #> ├── test-pull_cat_cols.R
     #> ├── test-pull_facet_cols.R
     #> ├── test-pull_numeric_cols.R
+    #> ├── test-select_by_class.R
     #> └── test-utils.R
 
 # Unit test results
 
-``` bash
+``` default
 ==> devtools::test()
 
 ℹ Testing utap
-✔ | F W S  OK | Context
-✔ |        25 | column_classes                     
-✔ |        29 | pull_binary_cols                   
-✔ |         4 | pull_cat_cols                      
-✔ |        20 | pull_facet_cols                    
-✔ |         5 | pull_numeric_cols                  
-✔ |         3 | utils                              
+✔ | F W  S  OK | Context
+✔ |         29 | pull_binary_cols
+✔ |          4 | pull_cat_cols
+✔ |         20 | pull_facet_cols
+✔ |          5 | pull_numeric_cols
+✔ |         25 | select_by_class
+✔ |          3 | utils        
 
-══ Results ════════════════════════════════════════
-Duration: 1.8 s
+══ Results ═══════════════════
+Duration: 2.0 s
 
 [ FAIL 0 | WARN 0 | SKIP 0 | PASS 86 ]
 ```
